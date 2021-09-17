@@ -6,8 +6,9 @@ option java_package = "com.authzed.api.v1";
 
 import "validate/validate.proto";
 
-// Relationship specifies how a resource relates to a subject. Relationships form the data
-// for the graph over which all permissions questions are answered.
+// Relationship specifies how a resource relates to a subject. Relationships
+// form the data for the graph over which all permissions questions are
+// answered.
 message Relationship {
   // resource is the resource to which the subject is related, in some manner
   ObjectReference resource = 1 [ (validate.rules).message.required = true ];
@@ -47,7 +48,7 @@ message ObjectReference {
 
 // ZedToken is used to provide causality metadata between Write and Check
 // requests.
-// 
+//
 // See the authzed.api.v1.Consistency message for more information.
 message ZedToken {
   string token = 1 [ (validate.rules).string = {

@@ -8,34 +8,38 @@ import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
 
-// PermissionsService is used to perform permissions and relationship operations.
+// PermissionsService is used to perform permissions and relationship
+// operations.
 service PermissionsService {
-  // ReadRelationships reads a set of the relationships matching one or more filters.
+  // ReadRelationships reads a set of the relationships matching one or more
+  // filters.
   rpc ReadRelationships(ReadRelationshipsRequest)
       returns (stream ReadRelationshipsResponse) {}
 
   // WriteRelationships writes and/or deletes a set of specified relationships,
-  // with an optional set of precondition relationships that must exist before the operation can
-  // commit.
+  // with an optional set of precondition relationships that must exist before
+  // the operation can commit.
   rpc WriteRelationships(WriteRelationshipsRequest)
       returns (WriteRelationshipsResponse) {}
 
-  // DeleteRelationships deletes relationships matching one or more filters, in bulk.
+  // DeleteRelationships deletes relationships matching one or more filters, in
+  // bulk.
   rpc DeleteRelationships(DeleteRelationshipsRequest)
       returns (DeleteRelationshipsResponse) {}
 
-  // CheckPermission checks whether a subject has a particular permission or is a member of a
-  // particular relation, on a given resource.
+  // CheckPermission checks whether a subject has a particular permission or is
+  // a member of a particular relation, on a given resource.
   rpc CheckPermission(CheckPermissionRequest)
       returns (CheckPermissionResponse) {}
 
-  // ExpandPermissionTree expands the relationships reachable from a particular permission or
-  // relation of a given resource.
+  // ExpandPermissionTree expands the relationships reachable from a particular
+  // permission or relation of a given resource.
   rpc ExpandPermissionTree(ExpandPermissionTreeRequest)
       returns (ExpandPermissionTreeResponse) {}
 
-  // LookupResources returns the IDs of all resources on which the specified subject has permission
-  // or on which the specified subject is a member of the relation.
+  // LookupResources returns the IDs of all resources on which the specified
+  // subject has permission or on which the specified subject is a member of the
+  // relation.
   rpc LookupResources(LookupResourcesRequest)
       returns (stream LookupResourcesResponse) {}
 }
@@ -45,24 +49,26 @@ service PermissionsService {
 // requirements should be applied, where applicable.
 message Consistency {
   oneof requirement {
-    // minimize_latency indicates that the latency for the call should be minimized by having
-    // the system select the fastest snapshot available.
+    // minimize_latency indicates that the latency for the call should be
+    // minimized by having the system select the fastest snapshot available.
     bool minimize_latency = 1 [ (validate.rules).bool.const = true ];
 
-    // at_least_as_fresh indicates that all data used in the API call must be *at least as fresh*
-    // as that found in the ZedToken; more recent data might be used if available or faster.
+    // at_least_as_fresh indicates that all data used in the API call must be
+    // *at least as fresh* as that found in the ZedToken; more recent data might
+    // be used if available or faster.
     ZedToken at_least_as_fresh = 2;
 
-    // at_exact_snapshot indicates that all data used in the API call must be *at the given*
-    // snapshot in time; if the snapshot is no longer available, an error will be returned to
-    // the caller.
+    // at_exact_snapshot indicates that all data used in the API call must be
+    // *at the given* snapshot in time; if the snapshot is no longer available,
+    // an error will be returned to the caller.
     ZedToken at_exact_snapshot = 3;
 
-    // fully_consistent indicates that all data used in the API call *must* be at the most recent
-    // snapshot found.
+    // fully_consistent indicates that all data used in the API call *must* be
+    // at the most recent snapshot found.
     //
-    // NOTE: using this method can be *quite slow*, so unless there is a need to do
-    // so, it is recommended to use `at_least_as_fresh` with a stored ZedToken.
+    // NOTE: using this method can be *quite slow*, so unless there is a need to
+    // do so, it is recommended to use `at_least_as_fresh` with a stored
+    // ZedToken.
     bool fully_consistent = 4 [ (validate.rules).bool.const = true ];
   }
 }
@@ -99,8 +105,8 @@ message ObjectFilter {
   } ];
 }
 
-// ReadRelationshipsRequest specifies one or more filters used to read matching relationships
-// within the system.
+// ReadRelationshipsRequest specifies one or more filters used to read matching
+// relationships within the system.
 message ReadRelationshipsRequest {
   Consistency consistency = 1;
   RelationshipFilter relationship_filter = 2
@@ -156,15 +162,16 @@ message DeleteRelationshipsRequest {
 
 message DeleteRelationshipsResponse { ZedToken deleted_at = 1; }
 
-// CheckPermissionRequest issues a check on whether a subject has a permission or is a member
-// of a relation, on a specific resource.
+// CheckPermissionRequest issues a check on whether a subject has a permission
+// or is a member of a relation, on a specific resource.
 message CheckPermissionRequest {
   Consistency consistency = 1;
 
   // resource is the resource on which to check the permission or relation.
   ObjectReference resource = 2 [ (validate.rules).message.required = true ];
 
-  // permission is the name of the permission (or relation) on which to execute the check.
+  // permission is the name of the permission (or relation) on which to execute
+  // the check.
   string permission = 3 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
     max_bytes : 64,
@@ -183,28 +190,32 @@ message CheckPermissionResponse {
 
   ZedToken checked_at = 1;
 
-  // Permissionship communicates whether or not the subject has the requested permission or
-  // has a relationship with the given resource, over the given relation.
+  // Permissionship communicates whether or not the subject has the requested
+  // permission or has a relationship with the given resource, over the given
+  // relation.
   //
-  // This value will be authzed.api.v1.PERMISSIONSHIP_HAS_PERMISSION if the requested subject is a
-  // member of the computed permission set or there exists a relationship with the requested relation
-  // from the given resource to the given subject.
+  // This value will be authzed.api.v1.PERMISSIONSHIP_HAS_PERMISSION if the
+  // requested subject is a member of the computed permission set or there
+  // exists a relationship with the requested relation from the given resource
+  // to the given subject.
   Permissionship permissionship = 2;
 }
 
-// ExpandPermissionTreeRequest returns a tree representing the expansion of all relationships
-// found accessible from a permission or relation on a particular resource.
+// ExpandPermissionTreeRequest returns a tree representing the expansion of all
+// relationships found accessible from a permission or relation on a particular
+// resource.
 //
-// ExpandPermissionTreeRequest is typically used to determine the full set of subjects with
-// a permission, along with the relationships that grant said access.
+// ExpandPermissionTreeRequest is typically used to determine the full set of
+// subjects with a permission, along with the relationships that grant said
+// access.
 message ExpandPermissionTreeRequest {
   Consistency consistency = 1;
 
   // resource is the resource over which to run the expansion.
   ObjectReference resource = 2 [ (validate.rules).message.required = true ];
 
-  // permission is the name of the permission or relation over which to run the expansion for
-  // the resource.
+  // permission is the name of the permission or relation over which to run the
+  // expansion for the resource.
   string permission = 3 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
     max_bytes : 64,
@@ -214,25 +225,27 @@ message ExpandPermissionTreeRequest {
 message ExpandPermissionTreeResponse {
   ZedToken expanded_at = 1;
 
-  // tree_root is a tree structure whose leaf nodes are subjects, and intermediate
-  // nodes represent the various operations (union, intersection, exclusion) to reach
-  // those subjects.
+  // tree_root is a tree structure whose leaf nodes are subjects, and
+  // intermediate nodes represent the various operations (union, intersection,
+  // exclusion) to reach those subjects.
   PermissionRelationshipTree tree_root = 2;
 }
 
-// LookupResourcesRequest performs a lookup of all resources of a particular kind on
-// which the subject has the specified permission or the relation in which the subject exists,
-// streaming back the IDs of those resources.
+// LookupResourcesRequest performs a lookup of all resources of a particular
+// kind on which the subject has the specified permission or the relation in
+// which the subject exists, streaming back the IDs of those resources.
 message LookupResourcesRequest {
   Consistency consistency = 1;
 
-  // resource_object_type is the type of resource object for which the IDs will be returned.
+  // resource_object_type is the type of resource object for which the IDs will
+  // be returned.
   string resource_object_type = 2 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
-  // permission is the name of the permission or relation for which the subject must Check.
+  // permission is the name of the permission or relation for which the subject
+  // must Check.
   string permission = 3 [ (validate.rules).string = {
     pattern : "^[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 64,
