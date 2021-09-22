@@ -76,25 +76,15 @@ message Consistency {
 // RelationshipFilter is a collection of filters which when applied to a
 // relationship will return relationships that have exactly matching fields.
 //
-// resource_filter is required. All other fields are optional and if left
+// resource_type is required. All other fields are optional and if left
 // unspecified will not filter relationships.
 message RelationshipFilter {
-  ObjectFilter resource_filter = 1 [ (validate.rules).message.required = true ];
-
-  ObjectFilter optional_subject_filter = 2;
-}
-
-// ObjectFilter specifies a filter on either a resource or a subject.
-//
-// object_type is required and all other fields are optional, and will not
-// impose any additional requirements if left unspecified.
-message ObjectFilter {
-  string object_type = 1 [ (validate.rules).string = {
+  string resource_type = 1 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
-  string optional_object_id = 2 [ (validate.rules).string = {
+  string optional_resource_id = 2 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
@@ -103,6 +93,33 @@ message ObjectFilter {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
+
+  SubjectFilter optional_subject_filter = 4;
+}
+
+// SubjectFilter specifies a filter on the subject of a relationship.
+//
+// subject_type is required and all other fields are optional, and will not
+// impose any additional requirements if left unspecified.
+message SubjectFilter {
+  message RelationFilter {
+    string relation = 1 [ (validate.rules).string = {
+      pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+      max_bytes : 64,
+    } ];
+  }
+
+  string subject_type = 1 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    max_bytes : 128,
+  } ];
+
+  string optional_subject_id = 2 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
+
+  RelationFilter optional_relation = 3;
 }
 
 // ReadRelationshipsRequest specifies one or more filters used to read matching
