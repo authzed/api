@@ -82,13 +82,13 @@ message Consistency {
 // unspecified will not filter relationships.
 message RelationshipFilter {
   string resource_type = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
   string optional_resource_id = 2 [ (validate.rules).string = {
-    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,63})?$",
-    max_bytes : 64,
+    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,127})?$",
+    max_bytes : 128,
   } ];
 
   string optional_relation = 3 [ (validate.rules).string = {
@@ -112,13 +112,13 @@ message SubjectFilter {
   }
 
   string subject_type = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
   string optional_subject_id = 2 [ (validate.rules).string = {
-    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,63})?$",
-    max_bytes : 64,
+    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,127})?$",
+    max_bytes : 128,
   } ];
 
   RelationFilter optional_relation = 3;
@@ -268,7 +268,7 @@ message LookupResourcesRequest {
   // resource_object_type is the type of resource object for which the IDs will
   // be returned.
   string resource_object_type = 2 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
