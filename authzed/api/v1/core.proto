@@ -15,7 +15,7 @@ message Relationship {
 
   // relation is how the resource and subject are related.
   string relation = 2 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    pattern : "^[a-z][a-z0-9_]{2,62}[a-z0-9]$",
     max_bytes : 64,
   } ];
 
@@ -82,6 +82,8 @@ message RelationshipUpdate {
 // its permission relationships with other objects.
 message PermissionRelationshipTree {
   oneof tree_type {
+    option (validate.required) = true;
+
     AlgebraicSubjectSet intermediate = 1;
     DirectSubjectSet leaf = 2;
   }

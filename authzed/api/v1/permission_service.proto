@@ -49,6 +49,8 @@ service PermissionsService {
 // requirements should be applied, where applicable.
 message Consistency {
   oneof requirement {
+    option (validate.required) = true;
+
     // minimize_latency indicates that the latency for the call should be
     // minimized by having the system select the fastest snapshot available.
     bool minimize_latency = 1 [ (validate.rules).bool.const = true ];
@@ -85,7 +87,7 @@ message RelationshipFilter {
   } ];
 
   string optional_resource_id = 2 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,63})?$",
     max_bytes : 64,
   } ];
 
@@ -115,7 +117,7 @@ message SubjectFilter {
   } ];
 
   string optional_subject_id = 2 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,63})?$",
     max_bytes : 64,
   } ];
 
@@ -153,8 +155,8 @@ message Precondition {
     OPERATION_MUST_MATCH = 2;
   }
 
-  Operation operation = 1;
-  RelationshipFilter filter = 2;
+  Operation operation = 1 [ (validate.rules).enum.defined_only = true ];
+  RelationshipFilter filter = 2 [ (validate.rules).message.required = true ];
 }
 
 // WriteRelationshipsRequest contains a list of Relationship mutations that
