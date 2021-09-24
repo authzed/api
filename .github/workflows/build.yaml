@@ -30,6 +30,6 @@ jobs:
           against: "https://github.com/authzed/api.git#branch=main"
           buf_token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
       - uses: "bufbuild/buf-push-action@v0.3.0"
-        if: "github.event_name == 'push'"
+        if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
         with:
           buf_token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
