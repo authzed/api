@@ -4,6 +4,7 @@ package authzed.api.v1;
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
 option java_package = "com.authzed.api.v1";
 
+import "google/api/annotations.proto";
 import "validate/validate.proto";
 
 // SchemaService implements operations on a Permissions System's Schema.
@@ -13,10 +14,20 @@ service SchemaService {
   // Errors include:
   // - INVALID_ARGUMENT: a provided value has failed to semantically validate
   // - NOT_FOUND: no schema has been defined
-  rpc ReadSchema(ReadSchemaRequest) returns (ReadSchemaResponse) {}
+  rpc ReadSchema(ReadSchemaRequest) returns (ReadSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/schema/read"
+      body: "*"
+    };
+  }
 
   // Write overwrites the current Object Definitions for a Permissions System.
-  rpc WriteSchema(WriteSchemaRequest) returns (WriteSchemaResponse) {}
+  rpc WriteSchema(WriteSchemaRequest) returns (WriteSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/schema/write"
+      body: "*"
+    };
+  }
 }
 
 // ReadSchemaRequest returns the schema from the database.
