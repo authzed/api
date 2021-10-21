@@ -4,6 +4,7 @@ package authzed.api.v1;
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
 option java_package = "com.authzed.api.v1";
 
+import "google/api/annotations.proto";
 import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
@@ -14,34 +15,64 @@ service PermissionsService {
   // ReadRelationships reads a set of the relationships matching one or more
   // filters.
   rpc ReadRelationships(ReadRelationshipsRequest)
-      returns (stream ReadRelationshipsResponse) {}
+    returns (stream ReadRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/relationships/read"
+        body: "*"
+      };
+  }
 
   // WriteRelationships writes and/or deletes a set of specified relationships,
   // with an optional set of precondition relationships that must exist before
   // the operation can commit.
   rpc WriteRelationships(WriteRelationshipsRequest)
-      returns (WriteRelationshipsResponse) {}
+    returns (WriteRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/relationships/write"
+        body: "*"
+      };
+    }
 
   // DeleteRelationships deletes relationships matching one or more filters, in
   // bulk.
   rpc DeleteRelationships(DeleteRelationshipsRequest)
-      returns (DeleteRelationshipsResponse) {}
+    returns (DeleteRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/relationships/delete"
+        body: "*"
+      };
+    }
 
   // CheckPermission checks whether a subject has a particular permission or is
   // a member of a particular relation, on a given resource.
   rpc CheckPermission(CheckPermissionRequest)
-      returns (CheckPermissionResponse) {}
+    returns (CheckPermissionResponse) {
+      option (google.api.http) = {
+        post: "/v1/permissions/check"
+        body: "*"
+      };
+    }
 
   // ExpandPermissionTree expands the relationships reachable from a particular
   // permission or relation of a given resource.
   rpc ExpandPermissionTree(ExpandPermissionTreeRequest)
-      returns (ExpandPermissionTreeResponse) {}
+    returns (ExpandPermissionTreeResponse) {
+      option (google.api.http) = {
+        post: "/v1/permissions/expand"
+        body: "*"
+      };
+    }
 
   // LookupResources returns the IDs of all resources on which the specified
   // subject has permission or on which the specified subject is a member of the
   // relation.
   rpc LookupResources(LookupResourcesRequest)
-      returns (stream LookupResourcesResponse) {}
+    returns (stream LookupResourcesResponse) {
+      option (google.api.http) = {
+        post: "/v1/permissions/resources"
+        body: "*"
+      };
+    }
 }
 
 // Consistency will define how a request is handled by the backend.
