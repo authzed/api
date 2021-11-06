@@ -22,14 +22,15 @@ service WatchService {
 // watching mutations, and an optional start snapshot for when to start
 // watching.
 message WatchRequest {
-  repeated string object_types = 1 [
-    (validate.rules).repeated .min_items = 1,
+  repeated string optional_object_types = 1 [
+    (validate.rules).repeated .min_items = 0,
     (validate.rules).repeated .items.string = {
       pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9]/"
                 ")?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
       max_bytes : 128,
     }
   ];
+
   ZedToken optional_start_cursor = 2;
 }
 
