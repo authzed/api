@@ -2,7 +2,7 @@
 version: "v1"
 name: "buf.build/authzed/api"
 deps:
-  - "buf.build/beta/protoc-gen-validate"
+  - "buf.build/envoyproxy/protoc-gen-validate"
   - "buf.build/grpc-ecosystem/grpc-gateway"
 lint:
   ignore:
