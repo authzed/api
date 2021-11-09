@@ -39,6 +39,9 @@ message ReadSchemaRequest {
 message ReadSchemaResponse {
   // The Object Definitions that were requested.
   repeated string object_definitions = 1;
+
+  // The computed revision of the returned object definitions.
+  string computed_definitions_revision = 2;
 }
 
 // WriteSchemaRequest is the required data used to "upsert" the Schema of a
@@ -47,6 +50,11 @@ message WriteSchemaRequest {
   // The Schema containing one or more Object Definitions that will be written
   // to the Permissions System.
   string schema = 1 [ (validate.rules).string.max_bytes = 262144 ]; // 256KiB
+
+  // If specified, the existing revision of object definitions in the schema that must be present for
+  // the write to succeed. If the revision specified differs (i.e. the underlying schema has changed),
+  // the write call will fail with a FAILED_PRECONDITION error.
+  string optional_definitions_revision_precondition = 2;
 }
 
 // WriteSchemaResponse is the resulting data after having written a Schema to
@@ -54,4 +62,7 @@ message WriteSchemaRequest {
 message WriteSchemaResponse {
   // The names of the Object Definitions that were written.
   repeated string object_definitions_names = 1;
+
+  // The computed revision of the written object definitions.
+  string computed_definitions_revision = 2;
 }
