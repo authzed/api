@@ -144,8 +144,8 @@ message ExpandResponse {
 }
 
 message LookupRequest {
-  RelationReference object_relation = 1;
-  ObjectAndRelation user = 2;
+  RelationReference object_relation = 1 [ (validate.rules).message.required = true ];
+  ObjectAndRelation user = 2 [ (validate.rules).message.required = true ];
   Zookie at_revision = 3;
   string page_reference = 4;
   uint32 limit = 5;
