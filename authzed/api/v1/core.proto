@@ -27,7 +27,7 @@ message Relationship {
 // Relationship. The relation component is optional and is used for defining a
 // sub-relation on the subject, e.g. group:123#members
 message SubjectReference {
-  ObjectReference object = 1;
+  ObjectReference object = 1 [ (validate.rules).message.required = true ];
   string optional_relation = 2 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
     max_bytes : 64,
