@@ -25,7 +25,7 @@ message RelationTuple {
 
 message ObjectAndRelation {
   string namespace = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
   string object_id = 2 [ (validate.rules).string = {
@@ -33,18 +33,18 @@ message ObjectAndRelation {
     max_bytes : 128,
   } ];
   string relation = 3 [ (validate.rules).string = {
-    pattern : "^(\\.\\.\\.|[a-z][a-z0-9_]{2,62}[a-z0-9])$",
+    pattern : "^(\\.\\.\\.|[a-z][a-z0-9_]{1,62}[a-z0-9])$",
     max_bytes : 64,
   } ];
 }
 
 message RelationReference {
   string namespace = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
   string relation = 3 [ (validate.rules).string = {
-    pattern : "^(\\.\\.\\.|[a-z][a-z0-9_]{2,62}[a-z0-9])$",
+    pattern : "^(\\.\\.\\.|[a-z][a-z0-9_]{1,62}[a-z0-9])$",
     max_bytes : 64,
   } ];
 }

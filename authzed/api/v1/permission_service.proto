@@ -113,7 +113,7 @@ message Consistency {
 // unspecified will not filter relationships.
 message RelationshipFilter {
   string resource_type = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
@@ -123,7 +123,7 @@ message RelationshipFilter {
   } ];
 
   string optional_relation = 3 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
 
@@ -137,13 +137,13 @@ message RelationshipFilter {
 message SubjectFilter {
   message RelationFilter {
     string relation = 1 [ (validate.rules).string = {
-      pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+      pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
       max_bytes : 64,
     } ];
   }
 
   string subject_type = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
@@ -232,7 +232,7 @@ message CheckPermissionRequest {
   // permission is the name of the permission (or relation) on which to execute
   // the check.
   string permission = 3 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
 
@@ -276,7 +276,7 @@ message ExpandPermissionTreeRequest {
   // permission is the name of the permission or relation over which to run the
   // expansion for the resource.
   string permission = 3 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,62}[a-z0-9])?$",
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
 }
@@ -299,14 +299,14 @@ message LookupResourcesRequest {
   // resource_object_type is the type of resource object for which the IDs will
   // be returned.
   string resource_object_type = 2 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
   // permission is the name of the permission or relation for which the subject
   // must Check.
   string permission = 3 [ (validate.rules).string = {
-    pattern : "^[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 64,
   } ];
 
