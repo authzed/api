@@ -55,12 +55,12 @@ message AllowedRelation {
   message PublicWildcard {}
 
   string namespace = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{2,61}[a-z0-9]/)?[a-z][a-z0-9_]{2,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
   oneof relation_or_wildcard {
       string relation = 3 [ (validate.rules).string = {
-        pattern : "^(\\.\\.\\.|[a-z][a-z0-9_]{2,62}[a-z0-9])$",
+        pattern : "^(\\.\\.\\.|[a-z][a-z0-9_]{1,62}[a-z0-9])$",
         max_bytes : 64,
       } ];
       PublicWildcard public_wildcard = 4;
