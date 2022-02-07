@@ -8,21 +8,37 @@ import "validate/validate.proto";
 
 import "authzed/api/v0/core.proto";
 
+option deprecated = true;
+
 service ACLService {
-  rpc Read(ReadRequest) returns (ReadResponse) {}
+  rpc Read(ReadRequest) returns (ReadResponse) {
+    option deprecated = true;
+  }
 
-  rpc Write(WriteRequest) returns (WriteResponse) {}
+  rpc Write(WriteRequest) returns (WriteResponse) {
+    option deprecated = true;
+  }
 
-  rpc Check(CheckRequest) returns (CheckResponse) {}
+  rpc Check(CheckRequest) returns (CheckResponse) {
+    option deprecated = true;
+  }
 
-  rpc ContentChangeCheck(ContentChangeCheckRequest) returns (CheckResponse) {}
+  rpc ContentChangeCheck(ContentChangeCheckRequest) returns (CheckResponse) {
+    option deprecated = true;
+  }
 
-  rpc Expand(ExpandRequest) returns (ExpandResponse) {}
+  rpc Expand(ExpandRequest) returns (ExpandResponse) {
+    option deprecated = true;
+  }
 
-  rpc Lookup(LookupRequest) returns (LookupResponse) {}
+  rpc Lookup(LookupRequest) returns (LookupResponse) {
+    option deprecated = true;
+  }
 }
 
 message RelationTupleFilter {
+  option deprecated = true;
+
   enum Filter {
     UNKNOWN = 0;
     OBJECT_ID = 1;
@@ -53,6 +69,8 @@ message RelationTupleFilter {
 }
 
 message ReadRequest {
+  option deprecated = true;
+
   // A read request specifies one or multiple tuplesets and an optional zookie.
   repeated RelationTupleFilter tuplesets = 1 [
     (validate.rules).repeated .min_items = 1,
@@ -62,6 +80,8 @@ message ReadRequest {
 }
 
 message ReadResponse {
+  option deprecated = true;
+
   message Tupleset { repeated RelationTuple tuples = 1; }
 
   repeated Tupleset tuplesets = 1;
@@ -69,6 +89,8 @@ message ReadResponse {
 }
 
 message WriteRequest {
+  option deprecated = true;
+
   // Clients may modify a single relation tuple to add or remove an ACL. They
   // may also modify all tuples related to an object via a read-modify-write
   // process with optimistic concurrency control [21] that uses a read RPC
@@ -93,9 +115,15 @@ message WriteRequest {
       [ (validate.rules).repeated .items.message.required = true ];
 }
 
-message WriteResponse { Zookie revision = 1; }
+message WriteResponse {
+  option deprecated = true;
+
+  Zookie revision = 1;
+}
 
 message CheckRequest {
+  option deprecated = true;
+
   // A check request specifies a userset, represented by ⟨object#relation⟩,
   // a putative user, often represented by an authentication token, and a
   // zookie corresponding to the desired object version.
@@ -107,6 +135,8 @@ message CheckRequest {
 }
 
 message ContentChangeCheckRequest {
+  option deprecated = true;
+
   // To authorize application content modifications, our clients send a special
   // type of check request, a content-change check. A content-change check
   // request does not carry a zookie and is evaluated at the latest snapshot.
@@ -117,6 +147,8 @@ message ContentChangeCheckRequest {
 }
 
 message CheckResponse {
+  option deprecated = true;
+
   enum Membership {
     UNKNOWN = 0;
     NOT_MEMBER = 1;
@@ -128,6 +160,8 @@ message CheckResponse {
 }
 
 message ExpandRequest {
+  option deprecated = true;
+
   // The Expand API returns the effective userset given an ⟨object#relation⟩
   // pair and an optional zookie. Unlike the Read API, Expand follows indirect
   // references expressed through userset rewrite rules.
@@ -136,6 +170,8 @@ message ExpandRequest {
 }
 
 message ExpandResponse {
+  option deprecated = true;
+
   // The result is represented by a userset tree whose leaf nodes are user IDs
   // or usersets pointing to other ⟨object#relation⟩ pairs, and intermediate
   // nodes represent union, intersection, or exclusion operators.
@@ -144,6 +180,8 @@ message ExpandResponse {
 }
 
 message LookupRequest {
+  option deprecated = true;
+
   RelationReference object_relation = 1 [ (validate.rules).message.required = true ];
   ObjectAndRelation user = 2 [ (validate.rules).message.required = true ];
   Zookie at_revision = 3;
@@ -152,6 +190,8 @@ message LookupRequest {
 }
 
 message LookupResponse {
+  option deprecated = true;
+
   repeated string resolved_object_ids = 1;
   string next_page_reference = 2;
   Zookie revision = 3;
