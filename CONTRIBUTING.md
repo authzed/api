@@ -78,3 +78,10 @@ buf build && buf lint
 
 [Protobuf]: https://developers.google.com/protocol-buffers/
 [buf]: https://docs.buf.build/installation
+
+## ⚠️ Warnings ⚠️
+
+- The `version` field found in various buf YAML configuration is actually schema of the YAML of the file and is not related to the version of the definitions.
+- `buf build` and `buf generate` do entirely different things.
+   Building compiles definitions and ensures semantic validity.
+   Generate builds and then produces actual source code according to `buf.gen.yaml`.
