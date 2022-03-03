@@ -53,7 +53,7 @@ message RelationTupleFilter {
   // Setting any of these fields requires the appropriate filter type to be
   // added to the filters list as well
   string object_id = 2 [ (validate.rules).string = {
-    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_-]{0,127})?$",
+    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_|-]{0,127})?$",
     max_bytes : 128,
   } ];
 
