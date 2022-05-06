@@ -1,9 +1,9 @@
 # Authzed API
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg "Apache 2.0 License")](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![Build Status](https://github.com/authzed/api/workflows/Build/badge.svg "GitHub Actions")](https://github.com/authzed/api/actions)
-[![Mailing List](https://img.shields.io/badge/email-google%20groups-4285F4 "authzed-oss@googlegroups.com")](https://groups.google.com/g/authzed-oss)
-[![Discord Server](https://img.shields.io/discord/844600078504951838?color=7289da&logo=discord "Discord Server")](https://discord.gg/jTysUaxXzM)
+[![Docs](https://img.shields.io/badge/docs-authzed.com-%234B4B6C "Authzed Documentation")](https://docs.authzed.com)
+[![Build Status](https://github.com/authzed/api/workflows/Lint/badge.svg "GitHub Actions")](https://github.com/authzed/api/actions)
+[![Discord Server](https://img.shields.io/discord/844600078504951838?color=7289da&logo=discord "Discord Server")](https://authzed.com/discord)
 [![Twitter](https://img.shields.io/twitter/follow/authzed?color=%23179CF0&logo=twitter&style=flat-square "@authzed on Twitter")](https://twitter.com/authzed)
 
 This project contains the definitions of [Protocol Buffers] used by Authzed.
