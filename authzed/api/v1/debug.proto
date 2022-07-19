@@ -1,0 +1,70 @@
+syntax = "proto3";
+package authzed.api.v1;
+
+import "authzed/api/v1/core.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_package = "com.authzed.api.v1";
+
+// DebugInformation defines debug information returned by an API call in a footer when
+// requested with a specific debugging header.
+//
+// The specific debug information returned will depend on the type of the API call made.
+//
+// See the github.com/authzed/authzed-go project for the specific header and footer names.
+message DebugInformation {
+  // check holds debug information about a check request.
+  CheckDebugTrace check = 1;
+
+  // schema_used holds the schema used for the request.
+  string schema_used = 2;
+}
+
+// CheckDebugTrace is a recursive trace of the requests made for resolving a CheckPermission
+// API call.
+message CheckDebugTrace {
+  enum PermissionType {
+    PERMISSION_TYPE_UNSPECIFIED = 0;
+    PERMISSION_TYPE_RELATION = 1;
+    PERMISSION_TYPE_PERMISSION = 2;
+  }
+
+  enum Permissionship {
+    PERMISSIONSHIP_UNSPECIFIED = 0;
+    PERMISSIONSHIP_NO_PERMISSION = 1;
+    PERMISSIONSHIP_HAS_PERMISSION = 2;
+  }
+
+  message SubProblems {
+    repeated CheckDebugTrace traces = 1;
+  }
+
+  // resource holds the resource on which the Check was performed.
+  ObjectReference resource = 1 [ (validate.rules).message.required = true ];
+
+  // permission holds the name of the permission or relation on which the Check was performed.
+  string permission = 2;
+
+  // permission_type holds information indicating whether it was a permission or relation.
+  PermissionType permission_type = 3;
+
+  // subject holds the subject on which the Check was performed. This will be static across all calls within
+  // the same Check tree.
+  SubjectReference subject = 4 [ (validate.rules).message.required = true ];
+
+  // result holds the result of the Check call.
+  Permissionship result = 5;
+ 
+  // resolution holds information about how the problem was resolved.
+  oneof resolution {
+    option (validate.required) = true;
+
+    // was_cached_result, if true, indicates that the result was found in the cache and returned directly.
+    bool was_cached_result = 6;
+
+    // sub_problems holds the sub problems that were executed to resolve the answer to this Check. An empty list
+    // and a permissionship of PERMISSIONSHIP_HAS_PERMISSION indicates the subject was found within this relation.
+    SubProblems sub_problems = 7;
+  }
+}
