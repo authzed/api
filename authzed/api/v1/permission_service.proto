@@ -33,8 +33,9 @@ service PermissionsService {
       };
     }
 
-  // DeleteRelationships atomically bulk deletes relationships matching one or
-  // more filters. An optional set of preconditions can be provided that must
+  // DeleteRelationships atomically bulk deletes all relationships matching the
+  // provided filter. If no relationships match, none will be deleted and the
+  // operation will succeed. An optional set of preconditions can be provided that must
   // be satisfied for the operation to commit.
   rpc DeleteRelationships(DeleteRelationshipsRequest)
     returns (DeleteRelationshipsResponse) {
