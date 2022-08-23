@@ -75,6 +75,16 @@ service PermissionsService {
         body: "*"
       };
     }
+
+  // LookupSubjects returns all the subjects of a given type that
+  // have access whether via a computed permission or relation membership.
+  rpc LookupSubjects(LookupSubjectsRequest)
+    returns (stream LookupSubjectsResponse) {
+      option (google.api.http) = {
+        post: "/v1/permissions/subjects"
+        body: "*"
+      };
+    }
 }
 
 // Consistency will define how a request is handled by the backend.
@@ -321,4 +331,50 @@ message LookupResourcesRequest {
 message LookupResourcesResponse {
   ZedToken looked_up_at = 1;
   string resource_object_id = 2;
+}
+
+// LookupSubjectsRequest performs a lookup of all subjects of a particular
+// kind for which the subject has the specified permission or the relation in
+// which the subject exists, streaming back the IDs of those subjects.
+message LookupSubjectsRequest {
+  Consistency consistency = 1;
+
+  // resource is the resource for which all matching subjects for the permission
+  // or relation will be returned.
+  ObjectReference resource = 2 [ (validate.rules).message.required = true ];
+
+  // permission is the name of the permission (or relation) for which to find
+  // the subjects.
+  string permission = 3 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
+
+  // subject_object_type is the type of subject object for which the IDs will
+  // be returned.
+  string subject_object_type = 4 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
+    max_bytes : 128,
+  } ];
+
+  // optional_subject_relation is the optional relation for the subject.
+  string optional_subject_relation = 5 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
+}
+
+// LookupSubjectsResponse contains a single matching subject object ID for the
+// requested subject object type on the permission or relation.
+message LookupSubjectsResponse {
+  ZedToken looked_up_at = 1;
+
+  // subject_object_id is the Object ID of the subject found. May be a `*` if
+  // a wildcard was found.
+  string subject_object_id = 2;
+
+  // excluded_subject_ids are the Object IDs of the subjects excluded. This list
+  // will only contain object IDs if `subject_object_id` is a wildcard (`*`) and
+  // will only be populated if exclusions exist from the wildcard.
+  repeated string excluded_subject_ids = 3;
 }
