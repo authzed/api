@@ -126,4 +126,17 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_UNKNOWN_CAVEAT = 9;
+
+  // The request tries to use a subject type that was not valid for a relation.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     { "reason": "ERROR_REASON_INVALID_SUBJECT_TYPE",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "relation_name": "somerelation",
+  //         "subject_type": "user:*"
+  //       }
+  //     }
+  ERROR_REASON_INVALID_SUBJECT_TYPE = 10;
 }
