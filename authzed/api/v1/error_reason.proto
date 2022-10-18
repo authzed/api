@@ -134,9 +134,26 @@ enum ErrorReason {
   //     { "reason": "ERROR_REASON_INVALID_SUBJECT_TYPE",
   //       "domain": "authzed.com",
   //       "metadata": {
+  //         "definition_name": "somedefinition",
   //         "relation_name": "somerelation",
   //         "subject_type": "user:*"
   //       }
   //     }
   ERROR_REASON_INVALID_SUBJECT_TYPE = 10;
+
+  // The request tries to specify a caveat parameter value with the wrong type.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     { "reason": "ERROR_REASON_CAVEAT_PARAMETER_TYPE_ERROR",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "definition_name": "somedefinition",
+  //         "relation_name": "somerelation",
+  //         "caveat_name": "somecaveat",
+  //         "parameter_name": "someparameter",
+  //         "expected_type": "int",
+  //       }
+  //     }
+  ERROR_REASON_CAVEAT_PARAMETER_TYPE_ERROR = 11;
 }
