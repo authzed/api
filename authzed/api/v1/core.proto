@@ -130,7 +130,7 @@ message AlgebraicSubjectSet {
   }
 
   Operation operation = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
-  repeated PermissionRelationshipTree children = 2 [ (validate.rules).repeated .items.message.required = true ];
+  repeated PermissionRelationshipTree children = 2 [ (validate.rules).repeated.items.message.required = true ];
 }
 
 // DirectSubjectSet is a subject set which is simply a collection of subjects.
