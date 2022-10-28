@@ -94,7 +94,7 @@ message RelationshipUpdate {
     OPERATION_TOUCH = 2;
     OPERATION_DELETE = 3;
   }
-  Operation operation = 1 [ (validate.rules).enum.defined_only = true ];
+  Operation operation = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
   Relationship relationship = 2 [ (validate.rules).message.required = true ];
 }
 
@@ -129,8 +129,8 @@ message AlgebraicSubjectSet {
     OPERATION_EXCLUSION = 3;
   }
 
-  Operation operation = 1;
-  repeated PermissionRelationshipTree children = 2;
+  Operation operation = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+  repeated PermissionRelationshipTree children = 2 [ (validate.rules).repeated .items.message.required = true ];
 }
 
 // DirectSubjectSet is a subject set which is simply a collection of subjects.

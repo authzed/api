@@ -47,14 +47,14 @@ message CheckDebugTrace {
   string permission = 2;
 
   // permission_type holds information indicating whether it was a permission or relation.
-  PermissionType permission_type = 3;
+  PermissionType permission_type = 3 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   // subject holds the subject on which the Check was performed. This will be static across all calls within
   // the same Check tree.
   SubjectReference subject = 4 [ (validate.rules).message.required = true ];
 
   // result holds the result of the Check call.
-  Permissionship result = 5;
+  Permissionship result = 5 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
  
   // resolution holds information about how the problem was resolved.
   oneof resolution {
