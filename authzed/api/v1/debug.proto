@@ -3,6 +3,7 @@ package authzed.api.v1;
 
 import "authzed/api/v1/core.proto";
 import "validate/validate.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
 option java_package = "com.authzed.api.v1";
@@ -34,6 +35,7 @@ message CheckDebugTrace {
     PERMISSIONSHIP_UNSPECIFIED = 0;
     PERMISSIONSHIP_NO_PERMISSION = 1;
     PERMISSIONSHIP_HAS_PERMISSION = 2;
+    PERMISSIONSHIP_CONDITIONAL_PERMISSION = 3;
   }
 
   message SubProblems {
@@ -56,6 +58,9 @@ message CheckDebugTrace {
   // result holds the result of the Check call.
   Permissionship result = 5 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
  
+  // caveat_evaluation_info holds information about the caveat evaluated for this step of the trace.
+  CaveatEvalInfo caveat_evaluation_info = 8;
+
   // resolution holds information about how the problem was resolved.
   oneof resolution {
     option (validate.required) = true;
@@ -67,4 +72,29 @@ message CheckDebugTrace {
     // and a permissionship of PERMISSIONSHIP_HAS_PERMISSION indicates the subject was found within this relation.
     SubProblems sub_problems = 7;
   }
+}
+
+// CaveatEvalInfo holds information about a caveat expression that was evaluated.
+message CaveatEvalInfo {
+  enum Result {
+    RESULT_UNSPECIFIED = 0;
+
+    RESULT_UNEVALUATED = 1;
+
+    RESULT_FALSE = 2;
+    RESULT_TRUE = 3;
+    RESULT_MISSING_SOME_CONTEXT = 4;
+  }
+
+  // expression is the expression that was evaluated.
+  string expression = 1;
+
+  // result is the result of the evaluation.
+  Result result = 2;
+
+  // context consists of any named values that were used for evaluating the caveat expression.
+  google.protobuf.Struct context = 3;
+
+  // partial_caveat_info holds information of a partially-evaluated caveated response, if applicable.
+  PartialCaveatInfo partial_caveat_info = 4;
 }

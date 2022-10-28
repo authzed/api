@@ -135,3 +135,11 @@ message AlgebraicSubjectSet {
 
 // DirectSubjectSet is a subject set which is simply a collection of subjects.
 message DirectSubjectSet { repeated SubjectReference subjects = 1; }
+
+// PartialCaveatInfo carries information necessary for the client to take action
+// in the event a response contains a partially evaluated caveat
+message PartialCaveatInfo {
+  // missing_required_context is a list of one or more fields that were missing and prevented caveats
+  // from being fully evaluated
+  repeated string missing_required_context = 1 [(validate.rules).repeated.min_items = 1];
+}
