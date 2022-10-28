@@ -180,8 +180,8 @@ message ReadRelationshipsRequest {
 // specified relationship filter(s). A instance of this response message will
 // be streamed to the client for each relationship found.
 message ReadRelationshipsResponse {
-  ZedToken read_at = 1;
-  Relationship relationship = 2;
+  ZedToken read_at = 1 [ (validate.rules).message.required = true ];
+  Relationship relationship = 2 [ (validate.rules).message.required = true ];
 }
 
 // Precondition specifies how and the existence or absence of certain
@@ -199,7 +199,7 @@ message Precondition {
     OPERATION_MUST_MATCH = 2;
   }
 
-  Operation operation = 1 [ (validate.rules).enum.defined_only = true ];
+  Operation operation = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
   RelationshipFilter filter = 2 [ (validate.rules).message.required = true ];
 }
 
@@ -272,7 +272,7 @@ message CheckPermissionResponse {
     PERMISSIONSHIP_CONDITIONAL_PERMISSION = 3;
   }
 
-  ZedToken checked_at = 1;
+  ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
 
   // Permissionship communicates whether or not the subject has the requested
   // permission or has a relationship with the given resource, over the given
@@ -282,7 +282,7 @@ message CheckPermissionResponse {
   // requested subject is a member of the computed permission set or there
   // exists a relationship with the requested relation from the given resource
   // to the given subject.
-  Permissionship permissionship = 2;
+  Permissionship permissionship = 2 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 3 [ (validate.rules).message.required = false ];
@@ -359,7 +359,7 @@ message LookupResourcesResponse {
   string resource_object_id = 2;
 
   // permissionship indicates whether the response was partially evaluated or not
-  LookupPermissionship permissionship = 3 [ (validate.rules).enum.defined_only = true ];
+  LookupPermissionship permissionship = 3 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 4  [ (validate.rules).message.required = false ];
@@ -414,7 +414,7 @@ message LookupSubjectsResponse {
   repeated string excluded_subject_ids = 3;
 
   // permissionship indicates whether the response was partially evaluated or not
-  LookupPermissionship permissionship = 4 [ (validate.rules).enum.defined_only = true ];
+  LookupPermissionship permissionship = 4 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 5 [ (validate.rules).message.required = false ];
