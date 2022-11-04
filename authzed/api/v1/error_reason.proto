@@ -166,4 +166,32 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_CAVEAT_PARAMETER_TYPE_ERROR = 11;
+
+  // The request tries to perform two or more updates on the same relationship in the same WriteRelationships call.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_UPDATES_ON_SAME_RELATIONSHIP",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "definition_name": "somedefinition",
+  //         "relationship": "somerelationship",
+  //       }
+  //     }
+  ERROR_REASON_UPDATES_ON_SAME_RELATIONSHIP = 12;
+
+  // The request tries to write a relationship on a permission instead of a relation.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_CANNOT_UPDATE_PERMISSION",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "definition_name": "somedefinition",
+  //         "permission_name": "somerelation",
+  //       }
+  //     }
+  ERROR_REASON_CANNOT_UPDATE_PERMISSION = 13;
 }
