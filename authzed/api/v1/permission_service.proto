@@ -406,16 +406,41 @@ message LookupSubjectsResponse {
 
   // subject_object_id is the Object ID of the subject found. May be a `*` if
   // a wildcard was found.
-  string subject_object_id = 2;
+  // deprecated: use `subject`
+  string subject_object_id = 2 [deprecated = true];
 
   // excluded_subject_ids are the Object IDs of the subjects excluded. This list
   // will only contain object IDs if `subject_object_id` is a wildcard (`*`) and
   // will only be populated if exclusions exist from the wildcard.
-  repeated string excluded_subject_ids = 3;
+  // deprecated: use `excluded_subjects`
+  repeated string excluded_subject_ids = 3 [deprecated = true];
 
   // permissionship indicates whether the response was partially evaluated or not
-  LookupPermissionship permissionship = 4 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+  // deprecated: use `subject.permissionship`
+  LookupPermissionship permissionship = 4 [ deprecated = true, (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
-  PartialCaveatInfo partial_caveat_info = 5 [ (validate.rules).message.required = false ];
+  // deprecated: use `subject.partial_caveat_info`
+  PartialCaveatInfo partial_caveat_info = 5 [ deprecated = true, (validate.rules).message.required = false ];
+
+  // subject is the subject found, along with its permissionship.
+  ResolvedSubject subject = 6;
+
+  // excluded_subjects are the subjects excluded. This list
+  // will only contain subjects if `subject.subject_object_id` is a wildcard (`*`) and
+  // will only be populated if exclusions exist from the wildcard.
+  repeated ResolvedSubject excluded_subjects = 7;
+}
+
+// ResolvedSubject is a single subject resolved within LookupSubjects.
+message ResolvedSubject {
+  // subject_object_id is the Object ID of the subject found. May be a `*` if
+  // a wildcard was found.
+  string subject_object_id = 1;
+
+  // permissionship indicates whether the response was partially evaluated or not
+  LookupPermissionship permissionship = 2 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+
+  // partial_caveat_info holds information of a partially-evaluated caveated response
+  PartialCaveatInfo partial_caveat_info = 3 [ (validate.rules).message.required = false ];
 }
