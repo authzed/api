@@ -97,4 +97,7 @@ message CaveatEvalInfo {
 
   // partial_caveat_info holds information of a partially-evaluated caveated response, if applicable.
   PartialCaveatInfo partial_caveat_info = 4;
+
+  // caveat_name is the name of the caveat that was executed, if applicable.
+  string caveat_name = 5;
 }
