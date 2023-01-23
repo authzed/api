@@ -194,4 +194,17 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_CANNOT_UPDATE_PERMISSION = 13;
+
+  // The request failed to evaluate a caveat expression due to an error.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_CAVEAT_EVALUATION_ERROR",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "caveat_name": "somecaveat",
+  //       }
+  //     }
+  ERROR_REASON_CAVEAT_EVALUATION_ERROR = 14;
 }
