@@ -131,8 +131,8 @@ message RelationshipFilter {
   } ];
 
   string optional_resource_id = 2 [ (validate.rules).string = {
-    pattern : "^([a-zA-Z0-9_][a-zA-Z0-9/_|-]{0,127})?$",
-    max_bytes : 128,
+    pattern : "^([a-zA-Z0-9/_|\\-=+]{1,})?$",
+    max_bytes : 1024,
   } ];
 
   string optional_relation = 3 [ (validate.rules).string = {
@@ -161,8 +161,8 @@ message SubjectFilter {
   } ];
 
   string optional_subject_id = 2 [ (validate.rules).string = {
-    pattern : "^(([a-zA-Z0-9_][a-zA-Z0-9/_|-]{0,127})|\\*)?$",
-    max_bytes : 128,
+    pattern : "^(([a-zA-Z0-9/_|\\-=+]{1,})|\\*)?$",
+    max_bytes : 1024,
   } ];
 
   RelationFilter optional_relation = 3;
