@@ -1,14 +1,14 @@
 syntax = "proto3";
-package authzed.api.v1;
+package authzed.api.v2;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
 
 import "google/protobuf/struct.proto";
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 
-import "authzed/api/v1/core.proto";
+import "authzed/api/v2/core.proto";
 
 // PermissionsService implements a set of RPCs that perform operations on
 // relationships and permissions.
@@ -18,7 +18,7 @@ service PermissionsService {
   rpc ReadRelationships(ReadRelationshipsRequest)
     returns (stream ReadRelationshipsResponse) {
       option (google.api.http) = {
-        post: "/v1/relationships/read"
+        post: "/v2/relationships/read"
         body: "*"
       };
   }
@@ -29,7 +29,7 @@ service PermissionsService {
   rpc WriteRelationships(WriteRelationshipsRequest)
     returns (WriteRelationshipsResponse) {
       option (google.api.http) = {
-        post: "/v1/relationships/write"
+        post: "/v2/relationships/write"
         body: "*"
       };
     }
@@ -41,7 +41,7 @@ service PermissionsService {
   rpc DeleteRelationships(DeleteRelationshipsRequest)
     returns (DeleteRelationshipsResponse) {
       option (google.api.http) = {
-        post: "/v1/relationships/delete"
+        post: "/v2/relationships/delete"
         body: "*"
       };
     }
@@ -51,7 +51,7 @@ service PermissionsService {
   rpc CheckPermission(CheckPermissionRequest)
     returns (CheckPermissionResponse) {
       option (google.api.http) = {
-        post: "/v1/permissions/check"
+        post: "/v2/permissions/check"
         body: "*"
       };
     }
@@ -62,7 +62,7 @@ service PermissionsService {
   rpc ExpandPermissionTree(ExpandPermissionTreeRequest)
     returns (ExpandPermissionTreeResponse) {
       option (google.api.http) = {
-        post: "/v1/permissions/expand"
+        post: "/v2/permissions/expand"
         body: "*"
       };
     }
@@ -72,7 +72,7 @@ service PermissionsService {
   rpc LookupResources(LookupResourcesRequest)
     returns (stream LookupResourcesResponse) {
       option (google.api.http) = {
-        post: "/v1/permissions/resources"
+        post: "/v2/permissions/resources"
         body: "*"
       };
     }
@@ -82,7 +82,7 @@ service PermissionsService {
   rpc LookupSubjects(LookupSubjectsRequest)
     returns (stream LookupSubjectsResponse) {
       option (google.api.http) = {
-        post: "/v1/permissions/subjects"
+        post: "/v2/permissions/subjects"
         body: "*"
       };
     }
@@ -270,7 +270,7 @@ message CheckPermissionResponse {
   // permission or has a relationship with the given resource, over the given
   // relation.
   //
-  // This value will be authzed.api.v1.PERMISSIONSHIP_HAS_PERMISSION if the
+  // This value will be authzed.api.v2.PERMISSIONSHIP_HAS_PERMISSION if the
   // requested subject is a member of the computed permission set or there
   // exists a relationship with the requested relation from the given resource
   // to the given subject.

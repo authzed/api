@@ -1,8 +1,8 @@
 syntax = "proto3";
-package authzed.api.v1;
+package authzed.api.v2;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 

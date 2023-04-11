@@ -1,8 +1,8 @@
 syntax = "proto3";
-package authzed.api.v1;
+package authzed.api.v2;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
 
 import "google/api/annotations.proto";
 import "validate/validate.proto";
@@ -16,7 +16,7 @@ service SchemaService {
   // - NOT_FOUND: no schema has been defined
   rpc ReadSchema(ReadSchemaRequest) returns (ReadSchemaResponse) {
     option (google.api.http) = {
-      post: "/v1/schema/read"
+      post: "/v2/schema/read"
       body: "*"
     };
   }
@@ -24,7 +24,7 @@ service SchemaService {
   // Write overwrites the current Object Definitions for a Permissions System.
   rpc WriteSchema(WriteSchemaRequest) returns (WriteSchemaResponse) {
     option (google.api.http) = {
-      post: "/v1/schema/write"
+      post: "/v2/schema/write"
       body: "*"
     };
   }

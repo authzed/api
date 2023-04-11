@@ -1,12 +1,12 @@
 syntax = "proto3";
-package authzed.api.v1;
+package authzed.api.v2;
 
-import "authzed/api/v1/core.proto";
+import "authzed/api/v2/core.proto";
 import "validate/validate.proto";
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
 
 // DebugInformation defines debug information returned by an API call in a footer when
 // requested with a specific debugging header.

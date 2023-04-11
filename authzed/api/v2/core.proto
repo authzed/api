@@ -1,8 +1,8 @@
 syntax = "proto3";
-package authzed.api.v1;
+package authzed.api.v2;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
 
 import "google/protobuf/struct.proto";
 import "validate/validate.proto";
@@ -69,7 +69,7 @@ message ObjectReference {
 // ZedToken is used to provide causality metadata between Write and Check
 // requests.
 //
-// See the authzed.api.v1.Consistency message for more information.
+// See the authzed.api.v2.Consistency message for more information.
 message ZedToken {
   string token = 1 [ (validate.rules).string = {
     min_bytes : 1,

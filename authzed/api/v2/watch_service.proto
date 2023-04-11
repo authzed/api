@@ -1,18 +1,18 @@
 syntax = "proto3";
-package authzed.api.v1;
+package authzed.api.v2;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
 
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 
-import "authzed/api/v1/core.proto";
+import "authzed/api/v2/core.proto";
 
 service WatchService {
   rpc Watch(WatchRequest) returns (stream WatchResponse) {
     option (google.api.http) = {
-      post: "/v1/watch"
+      post: "/v2/watch"
       body: "*"
     };
   }
