@@ -16,7 +16,7 @@ service PermissionsService {
   // ReadRelationships reads a set of the relationships matching one or more
   // filters.
   rpc ReadRelationships(ReadRelationshipsRequest)
-    returns (stream ReadRelationshipsResponse) {
+    returns (ReadRelationshipsResponse) {
       option (google.api.http) = {
         post: "/v2/relationships/read"
         body: "*"
@@ -70,7 +70,7 @@ service PermissionsService {
   // LookupResources returns all the resources of a given type that a subject
   // can access whether via a computed permission or relation membership.
   rpc LookupResources(LookupResourcesRequest)
-    returns (stream LookupResourcesResponse) {
+    returns (LookupResourcesResponse) {
       option (google.api.http) = {
         post: "/v2/permissions/resources"
         body: "*"
@@ -80,7 +80,7 @@ service PermissionsService {
   // LookupSubjects returns all the subjects of a given type that
   // have access whether via a computed permission or relation membership.
   rpc LookupSubjects(LookupSubjectsRequest)
-    returns (stream LookupSubjectsResponse) {
+    returns (LookupSubjectsResponse) {
       option (google.api.http) = {
         post: "/v2/permissions/subjects"
         body: "*"
@@ -172,7 +172,8 @@ message SubjectFilter {
 // relationships within the system.
 message ReadRelationshipsRequest {
   Consistency consistency = 1;
-  RelationshipFilter relationship_filter = 2
+  Pagination pagination = 2;
+  RelationshipFilter relationship_filter = 3
       [ (validate.rules).message.required = true ];
 }
 
@@ -181,7 +182,8 @@ message ReadRelationshipsRequest {
 // be streamed to the client for each relationship found.
 message ReadRelationshipsResponse {
   ZedToken read_at = 1 [ (validate.rules).message.required = true ];
-  Relationship relationship = 2 [ (validate.rules).message.required = true ];
+  PageInfo page_info = 2 [ (validate.rules).message.required = true ];
+  repeated Relationship relationship = 3 [ (validate.rules).message.required = true ];
 }
 
 // Precondition specifies how and the existence or absence of certain
@@ -315,26 +317,27 @@ message ExpandPermissionTreeResponse {
 // which the subject exists, streaming back the IDs of those resources.
 message LookupResourcesRequest {
   Consistency consistency = 1;
+  Pagination pagination = 2;
 
   // resource_object_type is the type of resource object for which the IDs will
   // be returned.
-  string resource_object_type = 2 [ (validate.rules).string = {
+  string resource_object_type = 3 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
   // permission is the name of the permission or relation for which the subject
   // must Check.
-  string permission = 3 [ (validate.rules).string = {
+  string permission = 4 [ (validate.rules).string = {
     pattern : "^[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 64,
   } ];
 
   // subject is the subject with access to the resources.
-  SubjectReference subject = 4 [ (validate.rules).message.required = true ];
+  SubjectReference subject = 5 [ (validate.rules).message.required = true ];
 
   /** context consists of named values that are injected into the caveat evaluation context **/
-  google.protobuf.Struct context = 5 [ (validate.rules).message.required = false ];
+  google.protobuf.Struct context = 6 [ (validate.rules).message.required = false ];
 }
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
@@ -343,11 +346,17 @@ enum LookupPermissionship {
   LOOKUP_PERMISSIONSHIP_HAS_PERMISSION = 1;
   LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION = 2;
 }
-
-// LookupResourcesResponse contains a single matching resource object ID for the
+// LookupResourcesResponse contains all matching resources for the
 // requested object type, permission, and subject.
 message LookupResourcesResponse {
   ZedToken looked_up_at = 1;
+  PageInfo page_info = 2;
+  repeated LookupResourcesItem resources = 3;
+}
+
+// LookupResourcesItem contains one item in a LookupResourcesResponse.
+message LookupResourcesItem {
+  // resource_object_id is the object ID for the resource.
   string resource_object_id = 2;
 
   // permissionship indicates whether the response was partially evaluated or not
@@ -357,45 +366,52 @@ message LookupResourcesResponse {
   PartialCaveatInfo partial_caveat_info = 4  [ (validate.rules).message.required = false ];
 }
 
+
 // LookupSubjectsRequest performs a lookup of all subjects of a particular
 // kind for which the subject has the specified permission or the relation in
 // which the subject exists, streaming back the IDs of those subjects.
 message LookupSubjectsRequest {
   Consistency consistency = 1;
+  Pagination pagination = 2;
 
   // resource is the resource for which all matching subjects for the permission
   // or relation will be returned.
-  ObjectReference resource = 2 [ (validate.rules).message.required = true ];
+  ObjectReference resource = 3 [ (validate.rules).message.required = true ];
 
   // permission is the name of the permission (or relation) for which to find
   // the subjects.
-  string permission = 3 [ (validate.rules).string = {
+  string permission = 4 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
 
   // subject_object_type is the type of subject object for which the IDs will
   // be returned.
-  string subject_object_type = 4 [ (validate.rules).string = {
+  string subject_object_type = 5 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
   // optional_subject_relation is the optional relation for the subject.
-  string optional_subject_relation = 5 [ (validate.rules).string = {
+  string optional_subject_relation = 6 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
 
   /** context consists of named values that are injected into the caveat evaluation context **/
-  google.protobuf.Struct context = 6 [ (validate.rules).message.required = false ];
+  google.protobuf.Struct context = 7 [ (validate.rules).message.required = false ];
 }
 
 // LookupSubjectsResponse contains a single matching subject object ID for the
 // requested subject object type on the permission or relation.
 message LookupSubjectsResponse {
   ZedToken looked_up_at = 1;
+  PageInfo page_info = 2;
+  repeated LookupSubjectsResponseItem items = 3;
+}
 
+// LookupSubjectsResponseItem represents a single lookup subject response item.
+message LookupSubjectsResponseItem {
   // subject_object_id is the Object ID of the subject found. May be a `*` if
   // a wildcard was found.
   // deprecated: use `subject`

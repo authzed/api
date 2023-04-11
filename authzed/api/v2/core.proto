@@ -76,6 +76,34 @@ message ZedToken {
   } ];
 }
 
+// RequestPagniation contains the user-supplied information about from where
+// to resume the response stream.
+message Pagination {
+  // limit is the maximum number of responses the user desires from the server.
+  uint32 limit = 1 [ (validate.rules).uint64 = {
+    lte: 1000,
+    gt: 0,
+  } ];
+
+  // after is the value of a cursor from a previous call, and is optional.
+  string after = 2 [ (validate.rules).string = {
+    min_bytes : 1,
+  } ];
+}
+
+// PageInfo provides information about whether or not there are more entries
+// to be read through, and if so, which cursor to use to resume the stream.
+message PageInfo {
+  // end_cursor represents the last value returned in the paginated response.
+  string end_cursor = 1 [ (validate.rules).string = {
+    min_bytes : 1,
+  } ];
+
+  // has_next_page will be true if there are (possibly) more results in the
+  // paginated result set.
+  bool has_next_page = 2;
+}
+
 // RelationshipUpdate is used for mutating a single relationship within the
 // service.
 //
