@@ -207,4 +207,17 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_CAVEAT_EVALUATION_ERROR = 14;
+
+  // The request failed because the provided cursor was invalid in some way.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_INVALID_CURSOR",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //          ... additional keys based on the kind of cursor error ...
+  //       }
+  //     }
+  ERROR_REASON_INVALID_CURSOR = 15;
 }

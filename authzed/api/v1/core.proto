@@ -76,6 +76,16 @@ message ZedToken {
   } ];
 }
 
+// Cursor is used to provide resumption of listing between calls to APIs
+// such as LookupResources.
+message Cursor {
+  string token = 1 [ (validate.rules).string = {
+    min_bytes : 1,
+    max_bytes : 102400,
+  } ];
+}
+
+
 // RelationshipUpdate is used for mutating a single relationship within the
 // service.
 //

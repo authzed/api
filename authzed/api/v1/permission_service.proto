@@ -335,6 +335,16 @@ message LookupResourcesRequest {
 
   /** context consists of named values that are injected into the caveat evaluation context **/
   google.protobuf.Struct context = 5 [ (validate.rules).message.required = false ];
+
+  // optional_limit, if non-zero, specifies the limit on the number of resources to return
+  // before the stream is closed on the server side. By default, the stream will continue
+  // resolving resources until exhausted or the stream is closed due to the client or a
+  // network issue.
+  uint32 optional_limit = 6 [(validate.rules).uint32 = {gte:0, lte: 1000}];
+
+  // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
+  // The cursor can be found on the LookupResourcesResponse object.
+  Cursor optional_cursor = 7;
 }
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
@@ -347,7 +357,10 @@ enum LookupPermissionship {
 // LookupResourcesResponse contains a single matching resource object ID for the
 // requested object type, permission, and subject.
 message LookupResourcesResponse {
+  // looked_up_at is the ZedToken at which the resource was found.
   ZedToken looked_up_at = 1;
+
+  // resource_object_id is the object ID of the found resource.
   string resource_object_id = 2;
 
   // permissionship indicates whether the response was partially evaluated or not
@@ -355,6 +368,10 @@ message LookupResourcesResponse {
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 4  [ (validate.rules).message.required = false ];
+
+  // after_result_cursor holds a cursor that can be used to resume the LookupResources stream after this
+  // result.
+  Cursor after_result_cursor = 5;
 }
 
 // LookupSubjectsRequest performs a lookup of all subjects of a particular
