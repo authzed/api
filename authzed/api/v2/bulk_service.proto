@@ -1,0 +1,46 @@
+syntax = "proto3";
+package authzed.api.v2;
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v2";
+option java_package = "com.authzed.api.v2";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+import "authzed/api/v2/core.proto";
+
+// BulkService exposes a number of APIs that can be used for managing
+// relationships in bulk.
+service BulkService {
+
+  // BulkLoadRelationships is a faster path to writing a large number of
+  // relationships at once. It is both batched and streaming. For maximum
+  // performance, the caller should attempt to write relationships in as close
+  // to relationship sort order as possible: (resource.object_type,
+  // resource.object_id, relation, subject.object.object_type,
+  // subject.object.object_id, subject.optional_relation)
+  // 
+  // EXPERIMENTAL
+  rpc BulkLoadRelationships(stream BulkLoadRelationshipsRequest)
+    returns (BulkLoadRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v2/relationships/bulkload"
+        body: "*"
+      };
+    }
+}
+
+// BulkLoadRelationshipsRequest represents one batch of the streaming
+// BulkLoadRelationships API. The maximum size is unlimited, but optimzal size
+// should be determined by the calling client.
+message BulkLoadRelationshipsRequest {
+  repeated Relationship relationships = 1
+      [ (validate.rules).repeated .items.message.required = true ];
+}
+
+// BulkLoadRelationshipsResponse is returned on successful completion of the
+// bulk load stream, and contains the total number of relationships loaded.
+message BulkLoadRelationshipsResponse {
+  uint64 num_loaded = 1;
+}
+  
