@@ -250,9 +250,40 @@ message DeleteRelationshipsRequest {
   repeated Precondition optional_preconditions = 2
       [ (validate.rules).repeated .items.message.required =
             true ]; // To be bounded by configuration
+
+  // optional_limit, if non-zero, specifies the limit on the number of relationships to be deleted.
+  // If there are more matching relationships found to be deleted than the limit specified here,
+  // the deletion call will fail with an error to prevent partial deletion. If partial deletion
+  // is needed, specify below that partial deletion is allowed. Partial deletions can be used
+  // in a loop to delete large amounts of relationships in a *non-transactional* manner.
+  uint32 optional_limit = 3 [(validate.rules).uint32 = {gte:0, lte: 1000}];
+
+  // optional_allow_partial_deletions, if true and a limit is specified, will delete matching found
+  // relationships up to the count specified in optional_limit, and no more.
+  bool optional_allow_partial_deletions = 4;
 }
 
-message DeleteRelationshipsResponse { ZedToken deleted_at = 1; }
+message DeleteRelationshipsResponse {
+  enum DeletionProgress {
+    DELETION_PROGRESS_UNSPECIFIED = 0;
+    
+    // DELETION_PROGRESS_COMPLETE indicates that all remaining relationships matching the filter
+    // were deleted. Will be returned even if no relationships were deleted.
+    DELETION_PROGRESS_COMPLETE = 1;
+
+    // DELETION_PROGRESS_PARTIAL indicates that a subset of the relationships matching the filter
+    // were deleted. Only returned if optional_allow_partial_deletions was true, an optional_limit was
+    // specified, and there existed more relationships matching the filter than optional_limit would allow.
+    // Once all remaining relationships have been deleted, DELETION_PROGRESS_COMPLETE will be returned.
+    DELETION_PROGRESS_PARTIAL = 2;
+  }
+
+  // deleted_at is the revision at which the relationships were deleted.
+  ZedToken deleted_at = 1;
+
+  // deletion_progress is an enumeration of the possible outcomes that occurred when attempting to delete the specified relationships.
+  DeletionProgress deletion_progress = 2;
+}
 
 // CheckPermissionRequest issues a check on whether a subject has a permission
 // or is a member of a relation, on a specific resource.

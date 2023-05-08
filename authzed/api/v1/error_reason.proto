@@ -220,4 +220,19 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_INVALID_CURSOR = 15;
+
+  // The request failed because there are too many matching relationships to be
+  // deleted within a single transactional deletion call. To avoid, set
+  // `optional_allow_partial_deletions` to true on the DeleteRelationships call.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_TOO_MANY_RELATIONSHIPS_FOR_TRANSACTIONAL_DELETE",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //          ... fields for the filter ...
+  //       }
+  //     }
+  ERROR_REASON_TOO_MANY_RELATIONSHIPS_FOR_TRANSACTIONAL_DELETE = 16;
 }
