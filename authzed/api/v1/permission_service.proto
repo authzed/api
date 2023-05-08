@@ -172,16 +172,36 @@ message SubjectFilter {
 // relationships within the system.
 message ReadRelationshipsRequest {
   Consistency consistency = 1;
+
+  // relationship_filter defines the filter to be applied to the relationships
+  // to be returned.
   RelationshipFilter relationship_filter = 2
       [ (validate.rules).message.required = true ];
+
+  // optional_limit, if non-zero, specifies the limit on the number of relationships to return
+  // before the stream is closed on the server side. By default, the stream will continue
+  // resolving relationships until exhausted or the stream is closed due to the client or a
+  // network issue.
+  uint32 optional_limit = 3 [(validate.rules).uint32 = {gte:0, lte: 1000}];
+
+  // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
+  // The cursor can be found on the ReadRelationshipsResponse object.
+  Cursor optional_cursor = 4;
 }
 
 // ReadRelationshipsResponse contains a Relationship found that matches the
 // specified relationship filter(s). A instance of this response message will
 // be streamed to the client for each relationship found.
 message ReadRelationshipsResponse {
+  // read_at is the ZedToken at which the relationship was found.
   ZedToken read_at = 1 [ (validate.rules).message.required = true ];
+
+  // relationship is the found relationship.
   Relationship relationship = 2 [ (validate.rules).message.required = true ];
+
+  // after_result_cursor holds a cursor that can be used to resume the ReadRelationships stream after this
+  // result.
+  Cursor after_result_cursor = 3;
 }
 
 // Precondition specifies how and the existence or absence of certain
