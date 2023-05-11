@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
+import "authzed/api/v1/permission_service.proto";
 
 // ExperimentalService exposes a number of APIs that are currently being
 // prototyped and tested for future inclusion in the stable API.
@@ -29,6 +30,17 @@ service ExperimentalService {
         body: "*"
       };
     }
+
+  // BulkExportRelationships is the fastest path available to exporting
+  // relationships from the server. It is resumable, and will return results
+  // in an order determined by the server.
+  rpc BulkExportRelationships(BulkExportRelationshipsRequest)
+    returns (stream BulkExportRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/relationships/bulkexport"
+        body: "*"
+      };
+    }
 }
 
 // BulkLoadRelationshipsRequest represents one batch of the streaming
@@ -45,4 +57,29 @@ message BulkLoadRelationshipsRequest {
 message BulkLoadRelationshipsResponse {
   uint64 num_loaded = 1;
 }
-  
+
+// BulkExportRelationshipsRequest represents a resumable request for
+// all relationships from the server.
+message BulkExportRelationshipsRequest {
+  Consistency consistency = 1;
+
+  // optional_limit, if non-zero, specifies the limit on the number of
+  // relationships the server can return in one page. By default, the server
+  // will pick a page size, and the server is free to choose a smaller size
+  // at will.
+  uint32 optional_limit = 2 [(validate.rules).uint32 = {gte:0, lte: 10000}];
+
+  // optional_cursor, if specified, indicates the cursor after which results
+  // should resume being returned. The cursor can be found on the
+  // BulkExportRelationshipsResponse object.
+  Cursor optional_cursor = 3;
+}
+
+// BulkExportRelationshipsResponse is one page in a stream of relationship
+// groups that meet the criteria specified by the originating request. The
+// server will continue to stream back relationship groups as quickly as it can
+// until all relationships have been transmitted back.
+message BulkExportRelationshipsResponse {
+  Cursor after_result_cursor  = 1;
+  repeated Relationship relationships = 2;
+}
