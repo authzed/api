@@ -303,7 +303,7 @@ message CheckPermissionRequest {
   // subject is the subject that will be checked for the permission or relation.
   SubjectReference subject = 4 [ (validate.rules).message.required = true ];
 
-  /** context consists of named values that are injected into the caveat evaluation context **/
+  // context consists of named values that are injected into the caveat evaluation context
   google.protobuf.Struct context = 5 [ (validate.rules).message.required = false ];
 }
 
@@ -384,7 +384,7 @@ message LookupResourcesRequest {
   // subject is the subject with access to the resources.
   SubjectReference subject = 4 [ (validate.rules).message.required = true ];
 
-  /** context consists of named values that are injected into the caveat evaluation context **/
+  // context consists of named values that are injected into the caveat evaluation context
   google.protobuf.Struct context = 5 [ (validate.rules).message.required = false ];
 
   // optional_limit, if non-zero, specifies the limit on the number of resources to return
@@ -455,7 +455,7 @@ message LookupSubjectsRequest {
     max_bytes : 64,
   } ];
 
-  /** context consists of named values that are injected into the caveat evaluation context **/
+  // context consists of named values that are injected into the caveat evaluation context
   google.protobuf.Struct context = 6 [ (validate.rules).message.required = false ];
 }
 
