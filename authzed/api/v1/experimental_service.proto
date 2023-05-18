@@ -14,7 +14,7 @@ import "authzed/api/v1/permission_service.proto";
 // prototyped and tested for future inclusion in the stable API.
 service ExperimentalService {
 
-  // BulkLoadRelationships is a faster path to writing a large number of
+  // BulkImportRelationships is a faster path to writing a large number of
   // relationships at once. It is both batched and streaming. For maximum
   // performance, the caller should attempt to write relationships in as close
   // to relationship sort order as possible: (resource.object_type,
@@ -23,10 +23,10 @@ service ExperimentalService {
   // 
   // EXPERIMENTAL
   // https://github.com/authzed/spicedb/issues/1303
-  rpc BulkLoadRelationships(stream BulkLoadRelationshipsRequest)
-    returns (BulkLoadRelationshipsResponse) {
+  rpc BulkImportRelationships(stream BulkImportRelationshipsRequest)
+    returns (BulkImportRelationshipsResponse) {
       option (google.api.http) = {
-        post: "/v1/experimental/relationships/bulkload"
+        post: "/v1/experimental/relationships/bulkimport"
         body: "*"
       };
     }
@@ -43,18 +43,18 @@ service ExperimentalService {
     }
 }
 
-// BulkLoadRelationshipsRequest represents one batch of the streaming
-// BulkLoadRelationships API. The maximum size is only limited by the backing
+// BulkImportRelationshipsRequest represents one batch of the streaming
+// BulkImportRelationships API. The maximum size is only limited by the backing
 // datastore, and optimal size should be determined by the calling client
 // experimentally.
-message BulkLoadRelationshipsRequest {
+message BulkImportRelationshipsRequest {
   repeated Relationship relationships = 1
       [ (validate.rules).repeated .items.message.required = true ];
 }
 
-// BulkLoadRelationshipsResponse is returned on successful completion of the
+// BulkImportRelationshipsResponse is returned on successful completion of the
 // bulk load stream, and contains the total number of relationships loaded.
-message BulkLoadRelationshipsResponse {
+message BulkImportRelationshipsResponse {
   uint64 num_loaded = 1;
 }
 
