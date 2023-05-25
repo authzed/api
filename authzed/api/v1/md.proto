@@ -1,0 +1,68 @@
+syntax = "proto3";
+package authzed.api.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_package = "com.authzed.api.v1";
+
+extend google.protobuf.EnumValueOptions {
+  optional string string_name = 90001;
+}
+
+// RequestMetadataKey contains the string values used as keys in grpc requests
+// Metadata headers.
+enum RequestMetadataKey {
+  REQUEST_METADATA_KEY_UNSPECIFIED = 0;
+
+  // Version, if specified in a request header, asks SpiceDB to return its
+  // server version in the response header (if supported).
+  REQUEST_METADATA_KEY_VERSION = 1 [
+    (string_name) = "io.spicedb.requestversion"
+  ];
+
+  // Debug, if specified in a request header, asks SpiceDB to return debug
+  // information for the API call (if applicable and supported).
+  REQUEST_METADATA_KEY_DEBUG = 2 [
+    (string_name) = "io.spicedb.requestdebuginfo"
+  ];
+
+  // Overlap key is the optional key used to specify which requests should
+  // overlap in CockroachDB transactions.
+  REQUEST_METADATA_KEY_OVERLAP_KEY = 3 [
+    (string_name) = "io.spicedb.requestoverlapkey"
+  ];
+}
+
+// ResponseMetadataKey contains the string values used as keys in grpc response
+// Metadata headers.
+enum ResponseMetadataKey {
+  RESPONSE_METADATA_KEY_UNSPECIFIED = 0;
+
+  // Request ID is a unique value given to each request.
+  RESPONSE_METADATA_KEY_REQUEST_ID = 1 [
+    (string_name) = "io.spicedb.respmeta.requestid"
+  ];
+
+  // Server version returns the version of SpiceDB that is serving the request.
+  RESPONSE_METADATA_KEY_SERVER_VERSION = 2 [
+    (string_name) = "io.spicedb.debug.version"
+  ];
+
+  // Dispatched operations count is a count of how many subproblems were
+  // dispatched to another SpiceDB node.
+  RESPONSE_METADATA_KEY_DISPATCHED_OPERATIONS_COUNT = 3 [
+    (string_name) = "io.spicedb.respmeta.dispatchedoperationscount"
+  ];
+
+  // Cached operations count is a count of how many subproblems were
+  // not dispatched to another SpiceDB node because the result was cached.
+  RESPONSE_METADATA_KEY_CACHED_OPERATIONS_COUNT = 4 [
+    (string_name) = "io.spicedb.respmeta.cachedoperationscount"
+  ];
+
+  // Debug info includes additional details about how the request was resolved.
+  RESPONSE_METADATA_KEY_DEBUG_INFO = 5 [
+    (string_name) = "io.spicedb.respmeta.debuginfo"
+  ];
+}
