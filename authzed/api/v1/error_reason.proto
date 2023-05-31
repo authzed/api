@@ -235,4 +235,20 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_TOO_MANY_RELATIONSHIPS_FOR_TRANSACTIONAL_DELETE = 16;
+
+  // The request failed because the client attempted to write a relationship
+  // with a context that exceeded the configured server limit.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {
+  //       "reason": "ERROR_REASON_MAX_RELATIONSHIP_CONTEXT_SIZE",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "relationship":     "relationship_exceeding_the_limit",
+  //         "max_allowed_size": "server_max_allowed_context_size",
+  //         "context_size":     "actual_relationship_context_size" ,
+  //       }
+  //     }
+  ERROR_REASON_MAX_RELATIONSHIP_CONTEXT_SIZE = 17;
 }
