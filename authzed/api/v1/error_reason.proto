@@ -268,4 +268,21 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_ATTEMPT_TO_RECREATE_RELATIONSHIP = 18;
+
+  // The request failed because it caused the maximum depth allowed to be
+  // exceeded. This typically indicates that there is a circular data traversal
+  // somewhere in the schema, but can also be raised if the data traversal is simply
+  // too deep.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {
+  //       "reason": "ERROR_REASON_MAXIMUM_DEPTH_EXCEEDED",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "maximum_depth_allowed": "50",
+  //         ... additional fields based on request type ...
+  //       }
+  //     }
+  ERROR_REASON_MAXIMUM_DEPTH_EXCEEDED = 19;
 }
