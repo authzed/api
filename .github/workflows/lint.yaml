@@ -31,3 +31,4 @@ jobs:
         if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
         with:
           buf_token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
+          draft: true
