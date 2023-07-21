@@ -6,6 +6,8 @@ option java_package = "com.authzed.api.v1";
 
 import "google/api/annotations.proto";
 import "validate/validate.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/status.proto";
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
@@ -41,6 +43,75 @@ service ExperimentalService {
         body: "*"
       };
     }
+
+
+  rpc StreamingBulkCheckPermission(StreamingBulkCheckPermissionRequest)
+      returns (stream StreamingBulkCheckPermissionResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/streamingbulkcheckpermission"
+      body: "*"
+    };
+  }
+
+  rpc BulkCheckPermission(BulkCheckPermissionRequest)
+      returns (BulkCheckPermissionResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/bulkcheckpermission"
+      body: "*"
+    };
+  }
+}
+
+message StreamingBulkCheckPermissionRequest {
+  Consistency consistency = 1;
+
+  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message BulkCheckPermissionRequest {
+  Consistency consistency = 1;
+
+  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message BulkCheckPermissionRequestItem {
+  ObjectReference resource = 1 [ (validate.rules).message.required = true ];
+
+  string permission = 2 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
+
+  SubjectReference subject = 3 [ (validate.rules).message.required = true ];
+
+  google.protobuf.Struct context = 4 [ (validate.rules).message.required = false ];
+}
+
+message BulkCheckPermissionResponse {
+  ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
+
+  repeated BulkCheckPermissionPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message StreamingBulkCheckPermissionResponse {
+  ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
+
+  repeated BulkCheckPermissionPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message BulkCheckPermissionPair {
+  BulkCheckPermissionRequestItem request = 1;
+  oneof response {
+    BulkCheckPermissionResponseItem item = 2;
+    google.rpc.Status error = 3;
+  }
+}
+
+message BulkCheckPermissionResponseItem {
+
+  CheckPermissionResponse.Permissionship permissionship = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+
+  PartialCaveatInfo partial_caveat_info = 2 [ (validate.rules).message.required = false ];
 }
 
 // BulkImportRelationshipsRequest represents one batch of the streaming
