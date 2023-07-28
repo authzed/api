@@ -55,7 +55,7 @@ message SubjectReference {
 // ObjectReference is used to refer to a specific object in the system.
 message ObjectReference {
   string object_type = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)?[a-z][a-z0-9_]{1,62}[a-z0-9]$",
+    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
   string object_id = 2 [ (validate.rules).string = {
