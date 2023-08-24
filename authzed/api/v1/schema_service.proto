@@ -50,7 +50,7 @@ message ReadSchemaResponse {
 message WriteSchemaRequest {
   // The Schema containing one or more Object Definitions that will be written
   // to the Permissions System.
-  string schema = 1 [ (validate.rules).string.max_bytes = 262144 ]; // 256KiB
+  string schema = 1 [ (validate.rules).string.max_bytes = 4194304 ]; // 4MiB
 }
 
 // WriteSchemaResponse is the resulting data after having written a Schema to
