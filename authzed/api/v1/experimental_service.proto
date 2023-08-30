@@ -44,15 +44,6 @@ service ExperimentalService {
       };
     }
 
-
-  rpc StreamingBulkCheckPermission(StreamingBulkCheckPermissionRequest)
-      returns (stream StreamingBulkCheckPermissionResponse) {
-    option (google.api.http) = {
-      post: "/v1/experimental/permissions/streamingbulkcheckpermission"
-      body: "*"
-    };
-  }
-
   rpc BulkCheckPermission(BulkCheckPermissionRequest)
       returns (BulkCheckPermissionResponse) {
     option (google.api.http) = {
@@ -60,12 +51,6 @@ service ExperimentalService {
       body: "*"
     };
   }
-}
-
-message StreamingBulkCheckPermissionRequest {
-  Consistency consistency = 1;
-
-  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
 }
 
 message BulkCheckPermissionRequest {
@@ -88,12 +73,6 @@ message BulkCheckPermissionRequestItem {
 }
 
 message BulkCheckPermissionResponse {
-  ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
-
-  repeated BulkCheckPermissionPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
-}
-
-message StreamingBulkCheckPermissionResponse {
   ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
 
   repeated BulkCheckPermissionPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
