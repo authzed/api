@@ -1,0 +1,12 @@
+name: "Manually invoke client updates for API change"
+on:
+  workflow_dispatch:
+    inputs:
+      buftag:
+        description: "Tag or commit from https://buf.build/authzed/api/tags/main"
+        required: true
+        type: "string"
+jobs:
+  node:
+    name: "Invoke authzed-node action for update"
+    uses: "authzed/authzed-node/.github/workflows/automatic-api-update.yaml@main"
