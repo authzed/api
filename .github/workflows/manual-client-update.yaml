@@ -11,9 +11,9 @@ jobs:
     runs-on: "ubuntu-latest"
     name: "📦 Trigger Client Updates"
     steps:
-      uses: "peter-evans/repository-dispatch@v2"
-      with:
-        token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
-        repository: "authzed/authzed-node"
-        event-type: "api_update"
-        client-payload: '{"BUFTAG": "${{ inputs.buftag }}"}'
+      - uses: "peter-evans/repository-dispatch@v2"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/authzed-node"
+          event-type: "api_update"
+          client-payload: '{"BUFTAG": "${{ inputs.buftag }}"}'
