@@ -1,0 +1,38 @@
+name: "Client updates for released API change"
+on:
+  release:
+    types: ["published"]
+jobs:
+  trigger:
+    runs-on: "ubuntu-latest"
+    name: "📦 Release Client Updates"
+    if: "${{ contains(github.ref_name, 'v') }}"
+    steps:
+      - uses: "peter-evans/repository-dispatch@v2"
+        name: "🕸️ Update authzed-node"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/authzed-node"
+          event-type: "api_update"
+          client-payload: '{"BUFTAG": "${{ github.ref_name }}"}'
+      - uses: "peter-evans/repository-dispatch@v2"
+        name: "🐍 Update authzed-py"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/authzed-py"
+          event-type: "api_update"
+          client-payload: '{"BUFTAG": "${{ github.ref_name }}"}'
+      - uses: "peter-evans/repository-dispatch@v2"
+        name: "💎 Update authzed-rb"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/authzed-rb"
+          event-type: "api_update"
+          client-payload: '{"BUFTAG": "${{ github.ref_name }}"}'
+      - uses: "peter-evans/repository-dispatch@v2"
+        name: "☕ Update authzed-java"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/authzed-java"
+          event-type: "api_update"
+          client-payload: '{"BUFTAG": "${{ github.ref_name }}"}'
