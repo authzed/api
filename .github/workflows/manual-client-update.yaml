@@ -10,3 +10,5 @@ jobs:
   node:
     name: "Invoke authzed-node action for update"
     uses: "authzed/authzed-node/.github/workflows/automatic-api-update.yaml@main"
+    with:
+      buftag: "${{ inputs.buftag }}"
