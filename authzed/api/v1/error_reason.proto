@@ -285,4 +285,18 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_MAXIMUM_DEPTH_EXCEEDED = 19;
+
+  // The request failed due to a serialization error in the backend database.
+  // This typically indicates that various in flight transactions conflicted with each other
+  // and the database had to abort one or more of them. SpiceDB will retry a few times before returning
+  // the error to the client.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {
+  //       "reason": "ERROR_REASON_SERIALIZATION_FAILURE",
+  //       "domain": "authzed.com",
+  //       "metadata": {}
+  //     }
+  ERROR_REASON_SERIALIZATION_FAILURE = 20;
 }
