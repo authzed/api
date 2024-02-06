@@ -123,6 +123,10 @@ message BulkExportRelationshipsRequest {
   // should resume being returned. The cursor can be found on the
   // BulkExportRelationshipsResponse object.
   Cursor optional_cursor = 3;
+
+  // optional_relationship_filter, if specified, indicates the
+  // filter to apply to each relationship to be exported.
+  RelationshipFilter optional_relationship_filter = 4;
 }
 
 // BulkExportRelationshipsResponse is one page in a stream of relationship

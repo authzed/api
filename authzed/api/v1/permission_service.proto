@@ -122,24 +122,42 @@ message Consistency {
 // RelationshipFilter is a collection of filters which when applied to a
 // relationship will return relationships that have exactly matching fields.
 //
-// resource_type is required. All other fields are optional and if left
-// unspecified will not filter relationships.
+// All fields are optional and if left unspecified will not filter relationships,
+// but at least one field must be specified.
+//
+// NOTE: The performance of the API will be affected by the selection of fields
+// on which to filter. If a field is not indexed, the performance of the API
+// can be significantly slower.
 message RelationshipFilter {
+  // resource_type is the *optional* resource type of the relationship.
+  // NOTE: It is not prefixed with "optional_" for legacy compatibility.
   string resource_type = 1 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$",
     max_bytes : 128,
   } ];
 
+  // optional_resource_id is the *optional* resource ID of the relationship.
+  // If specified, optional_resource_id_prefix cannot be specified.
   string optional_resource_id = 2 [ (validate.rules).string = {
     pattern : "^([a-zA-Z0-9/_|\\-=+]{1,})?$",
     max_bytes : 1024,
   } ];
 
+  // optional_resource_id_prefix is the *optional* prefix for the resource ID of the relationship.
+  // If specified, optional_resource_id cannot be specified.
+  string optional_resource_id_prefix = 5 [ (validate.rules).string = {
+    pattern : "^([a-zA-Z0-9/_|\\-=+]{1,})?$",
+    max_bytes : 1024,
+  } ];
+
+
+  // relation is the *optional* relation of the relationship.
   string optional_relation = 3 [ (validate.rules).string = {
     pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
     max_bytes : 64,
   } ];
 
+  // optional_subject_filter is the optional filter for the subjects of the relationships.
   SubjectFilter optional_subject_filter = 4;
 }
 
