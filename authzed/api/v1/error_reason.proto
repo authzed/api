@@ -299,4 +299,18 @@ enum ErrorReason {
   //       "metadata": {}
   //     }
   ERROR_REASON_SERIALIZATION_FAILURE = 20;
+
+  // The request contained more check items than the maximum configured.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_TOO_MANY_CHECKS_IN_REQUEST",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "check_count": "525",
+  //         "maximum_checks_allowed": "500",
+  //       }
+  //     }
+  ERROR_REASON_TOO_MANY_CHECKS_IN_REQUEST = 21;
 }

@@ -45,12 +45,12 @@ service ExperimentalService {
     }
 
   rpc BulkCheckPermission(BulkCheckPermissionRequest)
-      returns (BulkCheckPermissionResponse) {
-    option (google.api.http) = {
-      post: "/v1/experimental/permissions/bulkcheckpermission"
-      body: "*"
-    };
-  }
+    returns (BulkCheckPermissionResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/permissions/bulkcheckpermission"
+        body: "*"
+      };
+    }
 }
 
 message BulkCheckPermissionRequest {
@@ -87,7 +87,6 @@ message BulkCheckPermissionPair {
 }
 
 message BulkCheckPermissionResponseItem {
-
   CheckPermissionResponse.Permissionship permissionship = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   PartialCaveatInfo partial_caveat_info = 2 [ (validate.rules).message.required = false ];
