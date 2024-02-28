@@ -6,6 +6,7 @@ option java_package = "com.authzed.api.v1";
 
 import "google/protobuf/struct.proto";
 import "google/api/annotations.proto";
+import "google/rpc/status.proto";
 import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
@@ -52,6 +53,16 @@ service PermissionsService {
     returns (CheckPermissionResponse) {
       option (google.api.http) = {
         post: "/v1/permissions/check"
+        body: "*"
+      };
+    }
+
+  // CheckBulkPermissions evaluates the given list of permission checks
+  // and returns the list of results.
+  rpc CheckBulkPermissions(CheckBulkPermissionsRequest)
+    returns (CheckBulkPermissionsResponse) {
+      option (google.api.http) = {
+        post: "/v1/permissions/checkbulk"
         body: "*"
       };
     }
@@ -347,6 +358,50 @@ message CheckPermissionResponse {
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 3 [ (validate.rules).message.required = false ];
+}
+
+// CheckBulkPermissionsRequest issues a check on whether a subject has permission 
+// or is a member of a relation on a specific resource for each item in the list.
+//
+// The ordering of the items in the response is maintained in the response.
+// Checks with the same subject/permission will automatically be batched for performance optimization.
+message CheckBulkPermissionsRequest {
+  Consistency consistency = 1;
+
+  repeated CheckBulkPermissionsRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message CheckBulkPermissionsRequestItem {
+  ObjectReference resource = 1 [ (validate.rules).message.required = true ];
+
+  string permission = 2 [ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
+
+  SubjectReference subject = 3 [ (validate.rules).message.required = true ];
+
+  google.protobuf.Struct context = 4 [ (validate.rules).message.required = false ];
+}
+
+message CheckBulkPermissionsResponse {
+  ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
+
+  repeated CheckBulkPermissionsPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message CheckBulkPermissionsPair {
+  CheckBulkPermissionsRequestItem request = 1;
+  oneof response {
+    CheckBulkPermissionsResponseItem item = 2;
+    google.rpc.Status error = 3;
+  }
+}
+
+message CheckBulkPermissionsResponseItem {
+  CheckPermissionResponse.Permissionship permissionship = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+
+  PartialCaveatInfo partial_caveat_info = 2 [ (validate.rules).message.required = false ];
 }
 
 // ExpandPermissionTreeRequest returns a tree representing the expansion of all
