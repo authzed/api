@@ -10,6 +10,7 @@ import "google/rpc/status.proto";
 import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
+import "authzed/api/v1/debug.proto";
 
 // PermissionsService implements a set of RPCs that perform operations on
 // relationships and permissions.
@@ -334,6 +335,11 @@ message CheckPermissionRequest {
 
   // context consists of named values that are injected into the caveat evaluation context
   google.protobuf.Struct context = 5 [ (validate.rules).message.required = false ];
+
+  // with_tracing, if true, indicates that the response should include a debug trace.
+  // This can be useful for debugging and performance analysis, but adds a small amount
+  // of compute overhead to the request.
+  bool with_tracing = 6;
 }
 
 message CheckPermissionResponse {
@@ -358,6 +364,9 @@ message CheckPermissionResponse {
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 3 [ (validate.rules).message.required = false ];
+
+  // debug_trace is the debugging trace of this check, if requested.
+  DebugInformation debug_trace = 4;
 }
 
 // CheckBulkPermissionsRequest issues a check on whether a subject has permission 
