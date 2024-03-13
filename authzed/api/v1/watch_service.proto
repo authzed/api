@@ -46,6 +46,8 @@ message WatchRequest {
 
   // optional_relationship_filters, if specified, indicates the
   // filter(s) to apply to each relationship to be returned by watch.
+  // The relationship will be returned as long as at least one filter matches,
+  // this allows clients to match relationships on multiple filters on a single watch call.
   // If specified, optional_object_types cannot be used.
   repeated RelationshipFilter optional_relationship_filters = 3;
 }
