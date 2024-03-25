@@ -8,3 +8,6 @@ deps:
 lint:
   ignore:
     - "authzed/api/v0"  # legacy from before we used buf
+breaking:
+  use:
+    - "WIRE_JSON"

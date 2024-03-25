@@ -3,6 +3,7 @@ package authzed.api.v1;
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
 option java_package = "com.authzed.api.v1";
+option java_multiple_files = true;
 
 // Defines the supported values for `google.rpc.ErrorInfo.reason` for the
 // `authzed.com` error domain.

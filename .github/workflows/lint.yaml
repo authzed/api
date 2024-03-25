@@ -10,14 +10,14 @@ on:
       - "*"
 jobs:
   lint:
-    name: "Lint"
+    name: "Lint & Publish Draft/Branch"
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
       - uses: "authzed/actions/yaml-lint@main"
-      - uses: "bufbuild/buf-setup-action@v1"
+      - uses: "bufbuild/buf-setup-action@v1.30.0"
         with:
-          version: "1.22.0"
+          version: "1.30.0"
       - uses: "bufbuild/buf-lint-action@v1"
       - uses: "bufbuild/buf-breaking-action@v1"
         if: "github.event_name == 'pull_request'"
@@ -33,3 +33,15 @@ jobs:
         env:
           BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
         run: "buf push --draft ${{ github.sha }}"
+      - name: "Push to BSR a Draft"
+        if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
+        shell: "bash"
+        env:
+          BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
+        run: "buf push --draft ${{ github.sha }}"
+      - name: "Push to BSR a Branch"
+        if: "github.event_name == 'push' && github.ref != 'refs/heads/main'"
+        shell: "bash"
+        env:
+          BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
+        run: "buf push --branch ${{ github.sha }}"
