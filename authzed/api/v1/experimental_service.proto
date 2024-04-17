@@ -44,19 +44,23 @@ service ExperimentalService {
       };
     }
 
+  // NOTE: BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission" and the
+  // API will be removed from experimental in a future release.
   rpc BulkCheckPermission(BulkCheckPermissionRequest)
     returns (BulkCheckPermissionResponse) {
       option (google.api.http) = {
         post: "/v1/experimental/permissions/bulkcheckpermission"
         body: "*"
       };
+      option deprecated = true;
     }
 }
 
+// NOTE: Deprecated now that BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission".
 message BulkCheckPermissionRequest {
   Consistency consistency = 1;
 
-  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true, deprecated=true ];
 }
 
 message BulkCheckPermissionRequestItem {
