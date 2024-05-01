@@ -333,6 +333,16 @@ message ExperimentalSchemaDiffResponse {
   ZedToken read_at = 2;
 }
 
+message ExpRelationSubjectTypeChange {
+  ExpRelation relation = 1;
+  ExpTypeReference changed_subject_type = 2;
+}
+
+message ExpCaveatParameterTypeChange {
+  ExpCaveatParameter parameter = 1;
+  string previous_type = 2;
+}
+
 message ExpSchemaDiff {
   oneof diff {
     ExpDefinition definition_added = 1;
@@ -341,17 +351,18 @@ message ExpSchemaDiff {
     ExpRelation relation_added = 4;
     ExpRelation relation_removed = 5;
     ExpRelation relation_doc_comment_changed = 6;
-    ExpRelation relation_type_changed = 7;
-    ExpPermission permission_added = 8;
-    ExpPermission permission_removed = 9;
-    ExpPermission permission_doc_comment_changed = 10;
-    ExpPermission permission_expr_changed = 11;
-    ExpCaveat caveat_added = 12;
-    ExpCaveat caveat_removed = 13;
-    ExpCaveat caveat_doc_comment_changed = 14;
-    ExpCaveat caveat_expr_changed = 15;
-    ExpCaveatParameter caveat_parameter_added = 16;
-    ExpCaveatParameter caveat_parameter_removed = 17;
-    ExpCaveatParameter caveat_parameter_type_changed = 18;
+    ExpRelationSubjectTypeChange relation_subject_type_added = 7;
+    ExpRelationSubjectTypeChange relation_subject_type_removed = 8;
+    ExpPermission permission_added = 9;
+    ExpPermission permission_removed = 10;
+    ExpPermission permission_doc_comment_changed = 11;
+    ExpPermission permission_expr_changed = 12;
+    ExpCaveat caveat_added = 13;
+    ExpCaveat caveat_removed = 14;
+    ExpCaveat caveat_doc_comment_changed = 15;
+    ExpCaveat caveat_expr_changed = 16;
+    ExpCaveatParameter caveat_parameter_added = 17;
+    ExpCaveatParameter caveat_parameter_removed = 18;
+    ExpCaveatParameterTypeChange caveat_parameter_type_changed = 19;
   }
 }
