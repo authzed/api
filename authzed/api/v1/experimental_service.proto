@@ -44,19 +44,67 @@ service ExperimentalService {
       };
     }
 
+  // NOTE: BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission" and the
+  // API will be removed from experimental in a future release.
   rpc BulkCheckPermission(BulkCheckPermissionRequest)
     returns (BulkCheckPermissionResponse) {
       option (google.api.http) = {
         post: "/v1/experimental/permissions/bulkcheckpermission"
         body: "*"
       };
+      option deprecated = true;
+    }
+
+  // EXPERIMENTAL: ReflectSchema is an API that allows clients to reflect the schema stored in
+  // SpiceDB. This is useful for clients that need to introspect the schema of a SpiceDB instance.
+  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest)
+    returns (ExperimentalReflectSchemaResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/reflectschema"
+        body: "*"
+      };
+    }
+
+  // EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
+  // permissions that compute based off a set of relations. For example, if a schema has a relation
+  // `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
+  // computable permissions for the relation `viewer` will include `view`.
+  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
+    returns (ExperimentalComputablePermissionsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/permissions/computable"
+        body: "*"
+      };
+    }
+  
+  // EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
+  // relations that used to compute a permission, recursively. It is the inverse of the
+  // ComputablePermissions API.
+  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest)
+    returns (ExperimentalDependentRelationsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/permissions/dependent"
+        body: "*"
+      };
+    }
+
+  // EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
+  // specified schema and the schema stored in SpiceDB. This is useful for clients that need to
+  // introspect the schema of a SpiceDB instance.
+  rpc ExperimentalSchemaDiff(ExperimentalSchemaDiffRequest)
+    returns (ExperimentalSchemaDiffResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/schemadiff"
+        body: "*"
+      };
     }
 }
 
+// NOTE: Deprecated now that BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission".
 message BulkCheckPermissionRequest {
   Consistency consistency = 1;
 
-  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true, deprecated=true ];
 }
 
 message BulkCheckPermissionRequestItem {
@@ -135,4 +183,175 @@ message BulkExportRelationshipsRequest {
 message BulkExportRelationshipsResponse {
   Cursor after_result_cursor  = 1;
   repeated Relationship relationships = 2;
+}
+
+// Reflection types ////////////////////////////////////////////
+
+message ExperimentalReflectSchemaRequest {
+  Consistency consistency = 1;
+ 
+  // optional_filters defines optional filters that are applied in
+  // an OR fashion to the schema, before being returned
+  repeated ExpSchemaFilter optional_filters = 2;
+}
+
+message ExperimentalReflectSchemaResponse {
+  // definitions are the definitions defined in the schema.
+  repeated ExpDefinition definitions = 1;
+
+  // caveats are the caveats defined in the schema.
+  repeated ExpCaveat caveats = 2;
+
+  // read_at is the ZedToken at which the schema was read.
+  ZedToken read_at = 3;
+}
+
+message ExpSchemaFilter {
+  enum KindFilter {
+    KIND_FILTER_UNSPECIFIED = 0;
+    KIND_FILTER_DEFINITION = 1;
+    KIND_FILTER_CAVEAT = 2;
+    KIND_FILTER_RELATION = 3;
+    KIND_FILTER_PERMISSION = 4;
+  }
+
+  // optional_definition_name_match is a regex that is matched against the definition or caveat name.
+  // If not specified, will be ignored.
+  string optional_definition_name_match = 1;
+
+  // optional_relation_or_permission_name_match is a regex that is matched against the relation or permission name.
+  // If not specified, will be ignored.
+  string optional_relation_or_permission_name_match = 2;
+
+  // kind_filters is a list of kinds to filter on. If not specified, will be ignored. If multiple are specified,
+  // the filter will be applied in an OR fashion.
+  repeated KindFilter kind_filters = 3;
+}
+
+message ExpDefinition {
+  string name = 1;
+  string comment = 2;
+  
+  repeated ExpRelation relations = 3;
+  repeated ExpPermission permissions = 4;
+}
+
+message ExpCaveat {
+  string name = 1;
+  string comment = 2;
+
+  repeated ExpCaveatParameter parameters = 3;
+  string expression = 4;
+}
+
+message ExpCaveatParameter {
+  string name = 1;
+  string type = 2;
+  string parent_caveat_name = 3;
+}
+
+message ExpRelation {
+  string name = 1;
+  string comment = 2;
+  string parent_definition_name = 3;
+  repeated ExpTypeReference subject_types = 4;
+}
+
+message ExpTypeReference {
+  // subject_definition_name is the name of the subject's definition.
+  string subject_definition_name = 1;
+
+  // optional_caveat_name is the name of the caveat that is applied to the subject, if any.
+  string optional_caveat_name = 2;
+
+  oneof typeref {
+    // is_terminal_subject is true if the subject is terminal, meaning it is referenced directly vs a sub-relation.
+    bool is_terminal_subject = 3;
+    
+    // optional_relation_name is the name of the relation that is applied to the subject, if any.
+    string optional_relation_name = 4;
+
+    // is_public_wildcard is true if the subject is a public wildcard.
+    bool is_public_wildcard  = 5;
+  }
+}
+
+message ExpPermission {
+  string name = 1;
+  string comment = 2;
+  string parent_definition_name = 3;
+}
+
+message ExperimentalComputablePermissionsRequest {
+  Consistency consistency = 1;
+  repeated ExpRelationReference relations = 2;
+
+  // optional_definition_name_match is a regex that is matched against the definition name(s)
+  // for the permissions returned.
+  // If not specified, will be ignored.
+  string optional_definition_name_match = 3;
+}
+
+message ExpRelationReference {
+  string definition_name = 1;
+  string relation_name = 2;
+}
+
+message ExpPermissionReference {
+  string definition_name = 1;
+  string relation_name = 2;
+}
+
+message ExperimentalComputablePermissionsResponse {
+  repeated ExpPermissionReference permissions = 1;
+
+  // read_at is the ZedToken at which the schema was read.
+  ZedToken read_at = 2;
+}
+
+message ExperimentalDependentRelationsRequest {
+  Consistency consistency = 1;
+  ExpPermissionReference permission = 2;
+}
+
+message ExperimentalDependentRelationsResponse {
+  repeated ExpRelationReference relations = 1;
+
+  // read_at is the ZedToken at which the schema was read.
+  ZedToken read_at = 2;
+}
+
+message ExperimentalSchemaDiffRequest {
+  Consistency consistency = 1;
+  string comparison_schema = 2;
+}
+
+message ExperimentalSchemaDiffResponse {
+  repeated ExpSchemaDiff diffs = 1;
+
+  // read_at is the ZedToken at which the schema was read.
+  ZedToken read_at = 2;
+}
+
+message ExpSchemaDiff {
+  oneof diff {
+    ExpDefinition definition_added = 1;
+    ExpDefinition definition_removed = 2;
+    ExpDefinition definition_doc_comment_changed = 3;
+    ExpRelation relation_added = 4;
+    ExpRelation relation_removed = 5;
+    ExpRelation relation_doc_comment_changed = 6;
+    ExpRelation relation_type_changed = 7;
+    ExpPermission permission_added = 8;
+    ExpPermission permission_removed = 9;
+    ExpPermission permission_doc_comment_changed = 10;
+    ExpPermission permission_expr_changed = 11;
+    ExpCaveat caveat_added = 12;
+    ExpCaveat caveat_removed = 13;
+    ExpCaveat caveat_doc_comment_changed = 14;
+    ExpCaveat caveat_expr_changed = 15;
+    ExpCaveatParameter caveat_parameter_added = 16;
+    ExpCaveatParameter caveat_parameter_removed = 17;
+    ExpCaveatParameter caveat_parameter_type_changed = 18;
+  }
 }
