@@ -8,6 +8,7 @@ import "google/protobuf/duration.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
 option java_package = "com.authzed.api.v1";
+option java_multiple_files = true;
 
 // DebugInformation defines debug information returned by an API call in a footer when
 // requested with a specific debugging header.
