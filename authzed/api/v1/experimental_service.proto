@@ -207,50 +207,56 @@ message ExperimentalReflectSchemaResponse {
   ZedToken read_at = 3;
 }
 
+// ExpSchemaFilter is a filter that can be applied to the schema on reflection.
 message ExpSchemaFilter {
-  enum KindFilter {
-    KIND_FILTER_UNSPECIFIED = 0;
-    KIND_FILTER_DEFINITION = 1;
-    KIND_FILTER_CAVEAT = 2;
-    KIND_FILTER_RELATION = 3;
-    KIND_FILTER_PERMISSION = 4;
-  }
-
-  // optional_definition_name_match is a regex that is matched against the definition or caveat name.
-  // If not specified, will be ignored.
+  // optional_definition_name_match is a regex that is matched against the definition name.
   string optional_definition_name_match = 1;
 
-  // optional_relation_or_permission_name_match is a regex that is matched against the relation or permission name.
-  // If not specified, will be ignored.
-  string optional_relation_or_permission_name_match = 2;
+  // optional_caveat_name_match is a regex that is matched against the caveat name.
+  string optional_caveat_name_match = 2;
 
-  // kind_filters is a list of kinds to filter on. If not specified, will be ignored. If multiple are specified,
-  // the filter will be applied in an OR fashion.
-  repeated KindFilter kind_filters = 3;
+  // optional_relation_name_match is a regex that is matched against the relation name.
+  string optional_relation_name_match = 3;
+
+  // optional_permission_name_match is a regex that is matched against the permission name.
+  string optional_permission_name_match = 4;
 }
 
+// ExpDefinition is the representation of a definition in the schema.
 message ExpDefinition {
   string name = 1;
+
+  // comment is a human-readable comments on the definition. Will include
+  // delimiter characters.
   string comment = 2;
   
   repeated ExpRelation relations = 3;
   repeated ExpPermission permissions = 4;
 }
 
+// ExpCaveat is the representation of a caveat in the schema.
 message ExpCaveat {
   string name = 1;
+
+  // comment is a human-readable comments on the caveat. Will include
+  // delimiter characters.
   string comment = 2;
 
   repeated ExpCaveatParameter parameters = 3;
   string expression = 4;
 }
 
+// ExpCaveatParameter is the representation of a parameter in a caveat.
 message ExpCaveatParameter {
   string name = 1;
+
+  // type is the type of the parameter. Will be a string representing the
+  // type, e.g. `int` or `list<string>`
   string type = 2;
   string parent_caveat_name = 3;
 }
 
+// ExpRelation is the representation of a relation in the schema.
 message ExpRelation {
   string name = 1;
   string comment = 2;
@@ -258,6 +264,7 @@ message ExpRelation {
   repeated ExpTypeReference subject_types = 4;
 }
 
+// ExpTypeReference is the representation of a type reference in the schema.
 message ExpTypeReference {
   // subject_definition_name is the name of the subject's definition.
   string subject_definition_name = 1;
@@ -277,8 +284,12 @@ message ExpTypeReference {
   }
 }
 
+// ExpPermission is the representation of a permission in the schema.
 message ExpPermission {
   string name = 1;
+
+  // comment is a human-readable comments on the permission. Will include
+  // delimiter characters.
   string comment = 2;
   string parent_definition_name = 3;
 }
@@ -293,14 +304,16 @@ message ExperimentalComputablePermissionsRequest {
   string optional_definition_name_match = 3;
 }
 
+// ExpRelationReference is a reference to a relation in the schema.
 message ExpRelationReference {
   string definition_name = 1;
   string relation_name = 2;
 }
 
+// ExpPermissionReference is a reference to a permission in the schema.
 message ExpPermissionReference {
   string definition_name = 1;
-  string relation_name = 2;
+  string permission_name = 2;
 }
 
 message ExperimentalComputablePermissionsResponse {
@@ -344,6 +357,7 @@ message ExpCaveatParameterTypeChange {
   string previous_type = 2;
 }
 
+// ExpSchemaDiff is the representation of a diff between two schemas.
 message ExpSchemaDiff {
   oneof diff {
     ExpDefinition definition_added = 1;

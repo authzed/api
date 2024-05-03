@@ -314,4 +314,43 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_TOO_MANY_CHECKS_IN_REQUEST = 21;
+
+  // The request's specified limit is too large.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_EXCEEDS_MAXIMUM_ALLOWABLE_LIMIT",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "limit_provided": "525",
+  //         "maximum_limit_allowed": "500",
+  //       }
+  //     }
+  ERROR_REASON_EXCEEDS_MAXIMUM_ALLOWABLE_LIMIT = 22;
+
+  // The request failed because the provided filter was invalid in some way.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_INVALID_FILTER",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "filter": "...",
+  //       }
+  //     }
+  ERROR_REASON_INVALID_FILTER = 23;
+
+  // The request failed because too many concurrent updates were attempted
+  // against the in-memory datastore.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_INMEMORY_TOO_MANY_CONCURRENT_UPDATES",
+  //       "domain": "authzed.com",
+  //       "metadata": {}
+  //     }
+  ERROR_REASON_INMEMORY_TOO_MANY_CONCURRENT_UPDATES = 24;
 }
