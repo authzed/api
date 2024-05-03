@@ -208,25 +208,17 @@ message ExperimentalReflectSchemaResponse {
 }
 
 message ExpSchemaFilter {
-  enum KindFilter {
-    KIND_FILTER_UNSPECIFIED = 0;
-    KIND_FILTER_DEFINITION = 1;
-    KIND_FILTER_CAVEAT = 2;
-    KIND_FILTER_RELATION = 3;
-    KIND_FILTER_PERMISSION = 4;
-  }
-
-  // optional_definition_name_match is a regex that is matched against the definition or caveat name.
-  // If not specified, will be ignored.
+  // optional_definition_name_match is a regex that is matched against the definition name.
   string optional_definition_name_match = 1;
 
-  // optional_relation_or_permission_name_match is a regex that is matched against the relation or permission name.
-  // If not specified, will be ignored.
-  string optional_relation_or_permission_name_match = 2;
+  // optional_caveat_name_match is a regex that is matched against the caveat name.
+  string optional_caveat_name_match = 2;
 
-  // kind_filters is a list of kinds to filter on. If not specified, will be ignored. If multiple are specified,
-  // the filter will be applied in an OR fashion.
-  repeated KindFilter kind_filters = 3;
+  // optional_relation_name_match is a regex that is matched against the relation name.
+  string optional_relation_name_match = 3;
+
+  // optional_permission_name_match is a regex that is matched against the permission name.
+  string optional_permission_name_match = 4;
 }
 
 message ExpDefinition {
