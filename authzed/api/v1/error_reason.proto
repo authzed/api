@@ -353,4 +353,15 @@ enum ErrorReason {
   //       "metadata": {}
   //     }
   ERROR_REASON_INMEMORY_TOO_MANY_CONCURRENT_UPDATES = 24;
+
+  // The request failed because the precondition specified is empty.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_EMPTY_PRECONDITION",
+  //       "domain": "authzed.com",
+  //       "metadata": {}
+  //     }
+  ERROR_REASON_EMPTY_PRECONDITION = 25;
 }
