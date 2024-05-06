@@ -209,17 +209,17 @@ message ExperimentalReflectSchemaResponse {
 
 // ExpSchemaFilter is a filter that can be applied to the schema on reflection.
 message ExpSchemaFilter {
-  // optional_definition_name_match is a regex that is matched against the definition name.
-  string optional_definition_name_match = 1;
+  // optional_definition_name_filter is a prefix that is matched against the definition name.
+  string optional_definition_name_filter = 1;
 
-  // optional_caveat_name_match is a regex that is matched against the caveat name.
-  string optional_caveat_name_match = 2;
+  // optional_caveat_name_filter is a prefix that is matched against the caveat name.
+  string optional_caveat_name_filter = 2;
 
-  // optional_relation_name_match is a regex that is matched against the relation name.
-  string optional_relation_name_match = 3;
+  // optional_relation_name_filter is a prefix that is matched against the relation name.
+  string optional_relation_name_filter = 3;
 
-  // optional_permission_name_match is a regex that is matched against the permission name.
-  string optional_permission_name_match = 4;
+  // optional_permission_name_filter is a prefix that is matched against the permission name.
+  string optional_permission_name_filter = 4;
 }
 
 // ExpDefinition is the representation of a definition in the schema.
@@ -298,10 +298,10 @@ message ExperimentalComputablePermissionsRequest {
   Consistency consistency = 1;
   repeated ExpRelationReference relations = 2;
 
-  // optional_definition_name_match is a regex that is matched against the definition name(s)
+  // optional_definition_name_match is a prefix that is matched against the definition name(s)
   // for the permissions returned.
   // If not specified, will be ignored.
-  string optional_definition_name_match = 3;
+  string optional_definition_name_filter = 3;
 }
 
 // ExpRelationReference is a reference to a relation in the schema.
