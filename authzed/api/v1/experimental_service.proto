@@ -92,10 +92,10 @@ service ExperimentalService {
   // EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
   // specified schema and the schema stored in SpiceDB. This is useful for clients that need to
   // introspect the schema of a SpiceDB instance.
-  rpc ExperimentalSchemaDiff(ExperimentalSchemaDiffRequest)
-    returns (ExperimentalSchemaDiffResponse) {
+  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest)
+    returns (ExperimentalDiffSchemaResponse) {
       option (google.api.http) = {
-        post: "/v1/experimental/schemadiff"
+        post: "/v1/experimental/diffschema"
         body: "*"
       };
     }
@@ -335,12 +335,12 @@ message ExperimentalDependentRelationsResponse {
   ZedToken read_at = 2;
 }
 
-message ExperimentalSchemaDiffRequest {
+message ExperimentalDiffSchemaRequest {
   Consistency consistency = 1;
   string comparison_schema = 2;
 }
 
-message ExperimentalSchemaDiffResponse {
+message ExperimentalDiffSchemaResponse {
   repeated ExpSchemaDiff diffs = 1;
 
   // read_at is the ZedToken at which the schema was read.
