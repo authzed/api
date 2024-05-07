@@ -67,7 +67,7 @@ service ExperimentalService {
     }
 
   // EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
-  // permissions that compute based off a set of relations. For example, if a schema has a relation
+  // permissions that compute based off a relation. For example, if a schema has a relation
   // `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
   // computable permissions for the relation `viewer` will include `view`.
   rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
@@ -79,8 +79,8 @@ service ExperimentalService {
     }
   
   // EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
-  // relations that used to compute a permission, recursively. It is the inverse of the
-  // ComputablePermissions API.
+  // relations and permissions that used to compute a permission, recursively. It is the
+  // inverse of the ComputablePermissions API.
   rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest)
     returns (ExperimentalDependentRelationsResponse) {
       option (google.api.http) = {
@@ -296,28 +296,24 @@ message ExpPermission {
 
 message ExperimentalComputablePermissionsRequest {
   Consistency consistency = 1;
-  repeated ExpRelationReference relations = 2;
+  string definition_name = 2;
+  string relation_name = 3;
 
   // optional_definition_name_match is a prefix that is matched against the definition name(s)
   // for the permissions returned.
   // If not specified, will be ignored.
-  string optional_definition_name_filter = 3;
+  string optional_definition_name_filter = 4;
 }
 
-// ExpRelationReference is a reference to a relation in the schema.
+// ExpRelationReference is a reference to a relation or permission in the schema.
 message ExpRelationReference {
   string definition_name = 1;
   string relation_name = 2;
-}
-
-// ExpPermissionReference is a reference to a permission in the schema.
-message ExpPermissionReference {
-  string definition_name = 1;
-  string permission_name = 2;
+  bool is_permission = 3;
 }
 
 message ExperimentalComputablePermissionsResponse {
-  repeated ExpPermissionReference permissions = 1;
+  repeated ExpRelationReference permissions = 1;
 
   // read_at is the ZedToken at which the schema was read.
   ZedToken read_at = 2;
@@ -325,7 +321,8 @@ message ExperimentalComputablePermissionsResponse {
 
 message ExperimentalDependentRelationsRequest {
   Consistency consistency = 1;
-  ExpPermissionReference permission = 2;
+  string definition_name = 2;
+  string permission_name = 3;
 }
 
 message ExperimentalDependentRelationsResponse {
