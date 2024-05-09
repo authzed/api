@@ -16,7 +16,6 @@ import "authzed/api/v1/permission_service.proto";
 // ExperimentalService exposes a number of APIs that are currently being
 // prototyped and tested for future inclusion in the stable API.
 service ExperimentalService {
-
   // BulkImportRelationships is a faster path to writing a large number of
   // relationships at once. It is both batched and streaming. For maximum
   // performance, the caller should attempt to write relationships in as close
@@ -99,7 +98,71 @@ service ExperimentalService {
         body: "*"
       };
     }
+
+  // EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before
+  // a count can be requested.
+  rpc ExperimentalRegisterRelationshipCounter(ExperimentalRegisterRelationshipCounterRequest)
+    returns (ExperimentalRegisterRelationshipCounterResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/registerrelationshipcounter"
+        body: "*"
+      };
+    }
+
+  // EXPERIMENTAL: CountRelationships returns the count of relationships for *pre-registered* filter.
+  rpc ExperimentalCountRelationships(ExperimentalCountRelationshipsRequest)
+    returns (ExperimentalCountRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/countrelationships"
+        body: "*"
+      };
+    }
+
+  // EXPERIMENTAL: UnregisterRelationshipCounter unregisters an existing filter for counting relationships.
+  rpc ExperimentalUnregisterRelationshipCounter(ExperimentalUnregisterRelationshipCounterRequest)
+    returns (ExperimentalUnregisterRelationshipCounterResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/unregisterrelationshipcounter"
+        body: "*"
+      };
+  }
 }
+
+message ExperimentalRegisterRelationshipCounterRequest {
+  // relationship_filter defines the filter to be applied to the relationships
+  // to be counted.
+  RelationshipFilter relationship_filter = 1
+      [ (validate.rules).message.required = true ];
+}
+
+message ExperimentalRegisterRelationshipCounterResponse {}
+
+message ExperimentalCountRelationshipsRequest {
+  // consistency defines the consistency level for the count operation. If the
+  // requested consistency is fully consistent or represents a zedtoken that is
+  // not stored in the system, the count will be performed synchronously, which
+  // can be *quite slow* for large datasets.
+  Consistency consistency = 1;
+
+  // relationship_filter defines the filter to be applied to the relationships
+  // to be counted.
+  RelationshipFilter relationship_filter = 2
+      [ (validate.rules).message.required = true ];
+}
+
+message ExperimentalCountRelationshipsResponse {
+  // read_at is the ZedToken at which the relationship count was performed
+  ZedToken read_at = 1 [ (validate.rules).message.required = true ];
+
+  uint64 relationship_count = 2;
+}
+
+message ExperimentalUnregisterRelationshipCounterRequest {
+  RelationshipFilter relationship_filter = 1
+      [ (validate.rules).message.required = true ];
+}
+
+message ExperimentalUnregisterRelationshipCounterResponse {}
 
 // NOTE: Deprecated now that BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission".
 message BulkCheckPermissionRequest {

@@ -364,4 +364,26 @@ enum ErrorReason {
   //       "metadata": {}
   //     }
   ERROR_REASON_EMPTY_PRECONDITION = 25;
+
+  // The request failed because the filter was already registered.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_FILTER_ALREADY_REGISTERED",
+  //       "domain": "authzed.com",
+  //       "metadata": { ... filter fields ... }
+  //     }
+  ERROR_REASON_FILTER_ALREADY_REGISTERED = 26;
+
+  // The request failed because the filter was not registered.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_FILTER_NOT_REGISTERED",
+  //       "domain": "authzed.com",
+  //       "metadata": { ... filter fields ... }
+  //     }
+  ERROR_REASON_FILTER_NOT_REGISTERED = 27;
 }
