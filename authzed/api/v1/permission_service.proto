@@ -265,9 +265,27 @@ message WriteRelationshipsRequest {
   repeated Precondition optional_preconditions = 2
       [ (validate.rules).repeated .items.message.required =
             true ]; // To be bounded by configuration
+
+  bool with_status = 3;
 }
 
-message WriteRelationshipsResponse { ZedToken written_at = 1; }
+message RelationshipUpdateStatus {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_CREATED = 1;
+    STATUS_ALREADY_EXISTED = 2;
+    STATUS_DELETED = 3;
+    STATUS_DIDNT_EXIST = 4;
+  }
+
+  Status status = 1;
+  Relationship relationship = 2;
+}
+
+message WriteRelationshipsResponse {
+  ZedToken written_at = 1;
+  repeated RelationshipUpdateStatus update_statuses = 2;
+}
 
 // DeleteRelationshipsRequest specifies which Relationships should be deleted,
 // requesting the delete of *ALL* relationships that match the specified
