@@ -270,21 +270,22 @@ message WriteRelationshipsRequest {
 }
 
 message RelationshipUpdateStatus {
-  enum Status {
-    STATUS_UNSPECIFIED = 0;
-    STATUS_CREATED = 1;
-    STATUS_ALREADY_EXISTED = 2;
-    STATUS_DELETED = 3;
-    STATUS_DIDNT_EXIST = 4;
+  message Update {
+    Relationship old = 1;
+    Relationship new = 2;
   }
 
-  Status status = 1;
-  Relationship relationship = 2;
+  oneof status {
+    Relationship noop = 1;
+    Relationship created = 2;
+    Relationship deleted = 3;
+    Update updated = 4;
+  }
 }
 
 message WriteRelationshipsResponse {
   ZedToken written_at = 1;
-  repeated RelationshipUpdateStatus update_statuses = 2;
+  repeated RelationshipUpdateStatus updates = 2;
 }
 
 // DeleteRelationshipsRequest specifies which Relationships should be deleted,
