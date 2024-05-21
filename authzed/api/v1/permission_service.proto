@@ -266,25 +266,38 @@ message WriteRelationshipsRequest {
       [ (validate.rules).repeated .items.message.required =
             true ]; // To be bounded by configuration
 
+  // with_status, if true, indicates that the response should include the status of each update.
+  // This can be useful for knowing how to rollback a given call to WriteRelationships, but adds a small amount
+  // of compute overhead to the request.
   bool with_status = 3;
 }
 
+// RelationshipUpdateStatus is the status of a relationship update.
 message RelationshipUpdateStatus {
   message Update {
+    // old is the previous relationship.
     Relationship old = 1;
+    // new is the new relationship.
     Relationship new = 2;
   }
 
   oneof status {
-    Relationship noop = 1;
+    // no_op indicates that the relationship was not changed (already existed on TOUCH, or didn't exist on DELETE).
+    Relationship no_op = 1;
+    // created indicates that the relationship was created.
     Relationship created = 2;
+    // deleted indicates that the relationship was deleted.
     Relationship deleted = 3;
+    // updated indicates that the relationship was updated.
     Update updated = 4;
   }
 }
 
 message WriteRelationshipsResponse {
+  // written_at is the revision at which the relationships were written.
   ZedToken written_at = 1;
+
+  // updates is the status of each relationship update, if requested.
   repeated RelationshipUpdateStatus updates = 2;
 }
 
