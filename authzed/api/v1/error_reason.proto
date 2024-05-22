@@ -365,25 +365,25 @@ enum ErrorReason {
   //     }
   ERROR_REASON_EMPTY_PRECONDITION = 25;
 
-  // The request failed because the filter was already registered.
+  // The request failed because the counter was already registered.
   //
   // Example of an ErrorInfo:
   //
   //     {  
-  //       "reason": "ERROR_REASON_FILTER_ALREADY_REGISTERED",
+  //       "reason": "ERROR_REASON_COUNTER_ALREADY_REGISTERED",
   //       "domain": "authzed.com",
-  //       "metadata": { ... filter fields ... }
+  //       "metadata": { "counter_name": "name" }
   //     }
-  ERROR_REASON_FILTER_ALREADY_REGISTERED = 26;
+  ERROR_REASON_COUNTER_ALREADY_REGISTERED = 26;
 
-  // The request failed because the filter was not registered.
+  // The request failed because the counter was not registered.
   //
   // Example of an ErrorInfo:
   //
   //     {  
-  //       "reason": "ERROR_REASON_FILTER_NOT_REGISTERED",
+  //       "reason": "ERROR_REASON_COUNTER_NOT_REGISTERED",
   //       "domain": "authzed.com",
-  //       "metadata": { ... filter fields ... }
+  //       "metadata": { "counter_name": "name"  }
   //     }
-  ERROR_REASON_FILTER_NOT_REGISTERED = 27;
+  ERROR_REASON_COUNTER_NOT_REGISTERED = 27;
 }
