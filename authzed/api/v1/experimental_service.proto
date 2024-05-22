@@ -129,20 +129,11 @@ service ExperimentalService {
 }
 
 message ExperimentalRegisterRelationshipCounterRequest {
-  // relationship_filter defines the filter to be applied to the relationships
-  // to be counted.
-  RelationshipFilter relationship_filter = 1
-      [ (validate.rules).message.required = true ];
-}
-
-message ExperimentalRegisterRelationshipCounterResponse {}
-
-message ExperimentalCountRelationshipsRequest {
-  // consistency defines the consistency level for the count operation. If the
-  // requested consistency is fully consistent or represents a zedtoken that is
-  // not stored in the system, the count will be performed synchronously, which
-  // can be *quite slow* for large datasets.
-  Consistency consistency = 1;
+  // name is the name of the counter being registered.
+  string name = 1[ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
 
   // relationship_filter defines the filter to be applied to the relationships
   // to be counted.
@@ -150,16 +141,40 @@ message ExperimentalCountRelationshipsRequest {
       [ (validate.rules).message.required = true ];
 }
 
-message ExperimentalCountRelationshipsResponse {
-  // read_at is the ZedToken at which the relationship count was performed
-  ZedToken read_at = 1 [ (validate.rules).message.required = true ];
+message ExperimentalRegisterRelationshipCounterResponse {}
 
-  uint64 relationship_count = 2;
+message ExperimentalCountRelationshipsRequest {
+  // name is the name of the counter whose count is being requested.
+  string name = 1[ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
+}
+
+message ExperimentalCountRelationshipsResponse {
+  oneof counter_result {
+    // counter_still_calculating is true if the counter is still calculating the count.
+    bool counter_still_calculating = 1;
+
+    // read_counter_value is the value of the counter at the time of the read.
+    ReadCounterValue read_counter_value = 2;
+  }
+}
+
+message ReadCounterValue {
+  // relationship_count is the count of relationships that match the filter.
+  uint64 relationship_count = 1;
+
+  // read_at is the ZedToken at which the relationship count applies.
+  ZedToken read_at = 2 [ (validate.rules).message.required = true ];
 }
 
 message ExperimentalUnregisterRelationshipCounterRequest {
-  RelationshipFilter relationship_filter = 1
-      [ (validate.rules).message.required = true ];
+  // name is the name of the counter being unregistered.
+  string name = 1[ (validate.rules).string = {
+    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
+    max_bytes : 64,
+  } ];
 }
 
 message ExperimentalUnregisterRelationshipCounterResponse {}
