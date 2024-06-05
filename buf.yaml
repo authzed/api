@@ -6,6 +6,8 @@ deps:
   - "buf.build/googleapis/googleapis"
   - "buf.build/grpc-ecosystem/grpc-gateway"
 lint:
+  except:
+    - "PACKAGE_VERSION_SUFFIX"
   ignore:
     - "authzed/api/v0"  # legacy from before we used buf
 breaking:
