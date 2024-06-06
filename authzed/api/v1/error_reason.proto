@@ -386,4 +386,17 @@ enum ErrorReason {
   //       "metadata": { "counter_name": "name"  }
   //     }
   ERROR_REASON_COUNTER_NOT_REGISTERED = 27;
+
+  // The request failed because a wildcard was not allowed. For CheckPermission,
+  // this means that the subject or resource ID was a wildcard. For LookupResources,
+  // this means that the subject ID was a wildcard.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {  
+  //       "reason": "ERROR_REASON_WILDCARD_NOT_ALLOWED",
+  //       "domain": "authzed.com",
+  //       "metadata": { "disallowed_field": "subject_id" }
+  //     }
+  ERROR_REASON_WILDCARD_NOT_ALLOWED = 28;
 }
