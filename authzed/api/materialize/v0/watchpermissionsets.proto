@@ -81,6 +81,12 @@ message WatchPermissionSetsResponse {
     // the permission set snapshot needs to be rebuilt from scratch. This typically happens when the origin SpiceDB
     // cluster has seen its schema changed.
     LookupPermissionSetsRequired lookup_permission_sets_required = 3;
+
+    // breaking_schema_change is a signal that a breaking schema change has been written to the origin SpiceDB cluster,
+    // and that the consumer should expect delays in the ingestion of new changes,
+    // because the permission set snapshot needs to be rebuilt from scratch. Once the snapshot is ready, the consumer
+    // will receive a LookupPermissionSetsRequired event.
+    BreakingSchemaChange breaking_schema_change = 4;
   }
 }
 
@@ -159,8 +165,16 @@ message MemberReference {
 
 // LookupPermissionSetsRequired is a signal that the consumer should perform a LookupPermissionSets call because
 // the permission set snapshot needs to be rebuilt from scratch. This typically happens when the origin SpiceDB
-// cluster has seen its schema changed.
+// cluster has seen its schema changed, see BreakingSchemaChange event.
 message LookupPermissionSetsRequired {
   // required_lookup_at is the snapshot revision at which the permission set needs to be rebuilt to.
   authzed.api.v1.ZedToken required_lookup_at = 1;
+}
+
+// BreakingSchemaChange is used to signal a breaking schema change has happened, and that the consumer should
+// expect delays in the ingestion of new changes, because the permission set snapshot needs to be rebuilt from scratch.
+// Once the snapshot is ready, the consumer will receive a LookupPermissionSetsRequired event.
+message BreakingSchemaChange {
+  // change_at is the revision at which a breaking schema event has happened.
+  authzed.api.v1.ZedToken change_at = 1;
 }
