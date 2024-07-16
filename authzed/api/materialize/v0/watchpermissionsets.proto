@@ -106,6 +106,10 @@ message LookupPermissionSetsRequest {
   // the server will close the stream. If more permission sets are available, the consume should open a new stream
   // providing optional_starting_after_cursor, using the cursor from the last response.
   uint32 limit = 1;
+  // optional_at_revision specifies the client is requesting to lookup PermissionSets at a specific revision. It's
+  // optional, and if not provided, PermissionSets will be looked up at the current revision. The cursor always
+  // takes precedence in defining the revision when present.
+  authzed.api.v1.ZedToken optional_at_revision = 2;
   // optional_starting_after_cursor is used to specify the offset to start streaming permission sets from.
   Cursor optional_starting_after_cursor = 4;
 }
