@@ -257,7 +257,8 @@ message Precondition {
 // WriteRelationshipsRequest contains a list of Relationship mutations that
 // should be applied to the service. If the optional_preconditions parameter
 // is included, all of the specified preconditions must also be satisfied before
-// the write will be committed.
+// the write will be committed. All updates will be applied transactionally,
+// and if any preconditions fail, the entire transaction will be reverted.
 message WriteRelationshipsRequest {
   repeated RelationshipUpdate updates = 1
       [ (validate.rules).repeated .items.message.required = true ];
@@ -265,6 +266,11 @@ message WriteRelationshipsRequest {
   repeated Precondition optional_preconditions = 2
       [ (validate.rules).repeated .items.message.required =
             true ]; // To be bounded by configuration
+
+  // transaction_metadata is an optional field that can be used to store metadata about the transaction.
+  // If specified, this metadata will be supplied in the WatchResponse for the updates associated with this
+  // transaction.
+  google.protobuf.Struct transaction_metadata = 3 [ (validate.rules).message.required = false ];
 }
 
 message WriteRelationshipsResponse { ZedToken written_at = 1; }
@@ -292,6 +298,11 @@ message DeleteRelationshipsRequest {
   // optional_allow_partial_deletions, if true and a limit is specified, will delete matching found
   // relationships up to the count specified in optional_limit, and no more.
   bool optional_allow_partial_deletions = 4;
+
+  // transaction_metadata is an optional field that can be used to store metadata about the transaction.
+  // If specified, this metadata will be supplied in the WatchResponse for the deletions associated with
+  // this transaction.
+  google.protobuf.Struct transaction_metadata = 5 [ (validate.rules).message.required = false ];
 }
 
 message DeleteRelationshipsResponse {
