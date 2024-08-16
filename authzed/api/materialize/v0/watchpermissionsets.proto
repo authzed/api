@@ -99,6 +99,8 @@ message Cursor {
   uint32 starting_index = 5;
   // completed_members is a boolean flag that indicates that the cursor has reached the end of the permission sets
   bool completed_members = 6;
+  // starting_key is a string cursor used by some backends to resume the stream from a specific point.
+  string starting_key = 7;
 }
 
 message LookupPermissionSetsRequest {
