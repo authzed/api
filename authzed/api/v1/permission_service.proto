@@ -99,6 +99,31 @@ service PermissionsService {
         body: "*"
       };
     }
+
+  // ImportBulkRelationships is a faster path to writing a large number of
+  // relationships at once. It is both batched and streaming. For maximum
+  // performance, the caller should attempt to write relationships in as close
+  // to relationship sort order as possible: (resource.object_type,
+  // resource.object_id, relation, subject.object.object_type,
+  // subject.object.object_id, subject.optional_relation)
+  rpc ImportBulkRelationships(stream ImportBulkRelationshipsRequest)
+    returns (ImportBulkRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/relationships/bulkimport"
+        body: "*"
+      };
+    }
+
+  // ExportBulkRelationships is the fastest path available to exporting
+  // relationships from the server. It is resumable, and will return results
+  // in an order determined by the server.
+  rpc ExportBulkRelationships(ExportBulkRelationshipsRequest)
+    returns (stream ExportBulkRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/relationships/bulkexport"
+        body: "*"
+      };
+    }
 }
 
 // Consistency will define how a request is handled by the backend.
@@ -628,4 +653,49 @@ message ResolvedSubject {
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 3 [ (validate.rules).message.required = false ];
+}
+
+// ImportBulkRelationshipsRequest represents one batch of the streaming
+// ImportBulkRelationships API. The maximum size is only limited by the backing
+// datastore, and optimal size should be determined by the calling client
+// experimentally.
+message ImportBulkRelationshipsRequest {
+  repeated Relationship relationships = 1
+      [ (validate.rules).repeated .items.message.required = true ];
+}
+
+// ImportBulkRelationshipsResponse is returned on successful completion of the
+// bulk load stream, and contains the total number of relationships loaded.
+message ImportBulkRelationshipsResponse {
+  uint64 num_loaded = 1;
+}
+
+// ExportBulkRelationshipsRequest represents a resumable request for
+// all relationships from the server.
+message ExportBulkRelationshipsRequest {
+  Consistency consistency = 1;
+
+  // optional_limit, if non-zero, specifies the limit on the number of
+  // relationships the server can return in one page. By default, the server
+  // will pick a page size, and the server is free to choose a smaller size
+  // at will.
+  uint32 optional_limit = 2 [(validate.rules).uint32 = {gte:0}];
+
+  // optional_cursor, if specified, indicates the cursor after which results
+  // should resume being returned. The cursor can be found on the
+  // BulkExportRelationshipsResponse object.
+  Cursor optional_cursor = 3;
+
+  // optional_relationship_filter, if specified, indicates the
+  // filter to apply to each relationship to be exported.
+  RelationshipFilter optional_relationship_filter = 4;
+}
+
+// ExportBulkRelationshipsResponse is one page in a stream of relationship
+// groups that meet the criteria specified by the originating request. The
+// server will continue to stream back relationship groups as quickly as it can
+// until all relationships have been transmitted back.
+message ExportBulkRelationshipsResponse {
+  Cursor after_result_cursor  = 1;
+  repeated Relationship relationships = 2;
 }
