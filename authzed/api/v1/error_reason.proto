@@ -399,4 +399,18 @@ enum ErrorReason {
   //       "metadata": { "disallowed_field": "subject_id" }
   //     }
   ERROR_REASON_WILDCARD_NOT_ALLOWED = 28;
+
+  // The request failed because the transaction metadata was too large.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {
+  //       "reason": "ERROR_REASON_TRANSACTION_METADATA_TOO_LARGE",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "metadata_byte_size": "1024",
+  //         "maximum_allowed_metadata_byte_size": "512",
+  //       }
+  //     }
+  ERROR_REASON_TRANSACTION_METADATA_TOO_LARGE = 29;
 }
