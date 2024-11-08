@@ -38,11 +38,11 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 				in: IN_HEADER;
 				name: "Authorization";
 			}
-		},
-		security: {
-			security_requirement: {
-				key: "ApiKeyAuth"
-			}
+		}
+	},
+	security: {
+		security_requirement: {
+			key: "ApiKeyAuth"
 		}
 	}
 };
