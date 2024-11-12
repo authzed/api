@@ -110,7 +110,7 @@ service PermissionsService {
   rpc ImportBulkRelationships(stream ImportBulkRelationshipsRequest)
     returns (ImportBulkRelationshipsResponse) {
       option (google.api.http) = {
-        post: "/v1/experimental/relationships/bulkimport"
+        post: "/v1/relationships/importbulk"
         body: "*"
       };
     }
@@ -121,7 +121,7 @@ service PermissionsService {
   rpc ExportBulkRelationships(ExportBulkRelationshipsRequest)
     returns (stream ExportBulkRelationshipsResponse) {
       option (google.api.http) = {
-        post: "/v1/experimental/relationships/bulkexport"
+        post: "/v1/relationships/exportbulk"
         body: "*"
       };
     }
