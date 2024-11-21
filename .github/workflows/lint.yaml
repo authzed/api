@@ -17,7 +17,7 @@ jobs:
       - uses: "authzed/actions/yaml-lint@main"
       - uses: "bufbuild/buf-setup-action@v1.32.2"
         with:
-          version: "1.30.0"
+          version: "1.46.2"
       - uses: "bufbuild/buf-lint-action@v1"
       - uses: "bufbuild/buf-breaking-action@v1"
         if: "github.event_name == 'pull_request'"
