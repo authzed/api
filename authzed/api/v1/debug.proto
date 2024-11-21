@@ -2,13 +2,13 @@ syntax = "proto3";
 package authzed.api.v1;
 
 import "authzed/api/v1/core.proto";
-import "validate/validate.proto";
-import "google/protobuf/struct.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
 option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
 
 // DebugInformation defines debug information returned by an API call in a footer when
 // requested with a specific debugging header.
@@ -45,21 +45,27 @@ message CheckDebugTrace {
   }
 
   // resource holds the resource on which the Check was performed.
-  ObjectReference resource = 1 [ (validate.rules).message.required = true ];
+  ObjectReference resource = 1 [(validate.rules).message.required = true];
 
   // permission holds the name of the permission or relation on which the Check was performed.
   string permission = 2;
 
   // permission_type holds information indicating whether it was a permission or relation.
-  PermissionType permission_type = 3 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+  PermissionType permission_type = 3 [(validate.rules).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
 
   // subject holds the subject on which the Check was performed. This will be static across all calls within
   // the same Check tree.
-  SubjectReference subject = 4 [ (validate.rules).message.required = true ];
+  SubjectReference subject = 4 [(validate.rules).message.required = true];
 
   // result holds the result of the Check call.
-  Permissionship result = 5 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
- 
+  Permissionship result = 5 [(validate.rules).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
   // caveat_evaluation_info holds information about the caveat evaluated for this step of the trace.
   CaveatEvalInfo caveat_evaluation_info = 8;
 
