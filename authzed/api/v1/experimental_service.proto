@@ -3,6 +3,7 @@ package authzed.api.v1;
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/struct.proto";
 import "google/rpc/status.proto";
@@ -119,24 +120,39 @@ service ExperimentalService {
 
 message ExperimentalRegisterRelationshipCounterRequest {
   // name is the name of the counter being registered.
-  string name = 1 [(validate.rules).string = {
-    pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
-    max_bytes: 64
-  }];
+  string name = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 
   // relationship_filter defines the filter to be applied to the relationships
   // to be counted.
-  RelationshipFilter relationship_filter = 2 [(validate.rules).message.required = true];
+  RelationshipFilter relationship_filter = 2 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 }
 
 message ExperimentalRegisterRelationshipCounterResponse {}
 
 message ExperimentalCountRelationshipsRequest {
   // name is the name of the counter whose count is being requested.
-  string name = 1 [(validate.rules).string = {
-    pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
-    max_bytes: 64
-  }];
+  string name = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 }
 
 message ExperimentalCountRelationshipsResponse {
@@ -154,15 +170,24 @@ message ReadCounterValue {
   uint64 relationship_count = 1;
 
   // read_at is the ZedToken at which the relationship count applies.
-  ZedToken read_at = 2 [(validate.rules).message.required = true];
+  ZedToken read_at = 2 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 }
 
 message ExperimentalUnregisterRelationshipCounterRequest {
   // name is the name of the counter being unregistered.
-  string name = 1 [(validate.rules).string = {
-    pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
-    max_bytes: 64
-  }];
+  string name = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 }
 
 message ExperimentalUnregisterRelationshipCounterResponse {}
@@ -173,27 +198,49 @@ message BulkCheckPermissionRequest {
 
   repeated BulkCheckPermissionRequestItem items = 2 [
     (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true,
     deprecated = true
   ];
 }
 
 message BulkCheckPermissionRequestItem {
-  ObjectReference resource = 1 [(validate.rules).message.required = true];
+  ObjectReference resource = 1 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 
-  string permission = 2 [(validate.rules).string = {
-    pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
-    max_bytes: 64
-  }];
+  string permission = 2 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 
-  SubjectReference subject = 3 [(validate.rules).message.required = true];
+  SubjectReference subject = 3 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 
-  google.protobuf.Struct context = 4 [(validate.rules).message.required = false];
+  google.protobuf.Struct context = 4 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 }
 
 message BulkCheckPermissionResponse {
-  ZedToken checked_at = 1 [(validate.rules).message.required = false];
+  ZedToken checked_at = 1 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 
-  repeated BulkCheckPermissionPair pairs = 2 [(validate.rules).repeated.items.message.required = true];
+  repeated BulkCheckPermissionPair pairs = 2 [
+    (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true
+  ];
 }
 
 message BulkCheckPermissionPair {
@@ -205,12 +252,21 @@ message BulkCheckPermissionPair {
 }
 
 message BulkCheckPermissionResponseItem {
-  CheckPermissionResponse.Permissionship permissionship = 1 [(validate.rules).enum = {
-    defined_only: true
-    not_in: [0]
-  }];
+  CheckPermissionResponse.Permissionship permissionship = 1 [
+    (validate.rules).enum = {
+      defined_only: true
+      not_in: [0]
+    },
+    (buf.validate.field).enum = {
+      defined_only: true
+      not_in: [0]
+    }
+  ];
 
-  PartialCaveatInfo partial_caveat_info = 2 [(validate.rules).message.required = false];
+  PartialCaveatInfo partial_caveat_info = 2 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 }
 
 // BulkImportRelationshipsRequest represents one batch of the streaming
@@ -221,7 +277,10 @@ message BulkCheckPermissionResponseItem {
 // invocation are executed under this single transaction. If a relationship already
 // exists within the datastore, the entire transaction will fail with an error.
 message BulkImportRelationshipsRequest {
-  repeated Relationship relationships = 1 [(validate.rules).repeated.items.message.required = true];
+  repeated Relationship relationships = 1 [
+    (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true
+  ];
 }
 
 // BulkImportRelationshipsResponse is returned on successful completion of the
@@ -239,7 +298,10 @@ message BulkExportRelationshipsRequest {
   // relationships the server can return in one page. By default, the server
   // will pick a page size, and the server is free to choose a smaller size
   // at will.
-  uint32 optional_limit = 2 [(validate.rules).uint32 = {gte: 0}];
+  uint32 optional_limit = 2 [
+    (validate.rules).uint32 = {gte: 0},
+    (buf.validate.field).uint32 = {gte: 0}
+  ];
 
   // optional_cursor, if specified, indicates the cursor after which results
   // should resume being returned. The cursor can be found on the

@@ -2,6 +2,7 @@
 version: "v2"
 name: "buf.build/authzed/api"
 deps:
+  - "buf.build/envoyproxy/protoc-gen-validate"
   - "buf.build/bufbuild/protovalidate"
   - "buf.build/googleapis/googleapis"
   - "buf.build/grpc-ecosystem/grpc-gateway"

@@ -2,6 +2,7 @@ syntax = "proto3";
 package authzed.api.v1alpha1;
 
 import "authzed/api/v1/core.proto";
+import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 
@@ -26,17 +27,29 @@ service WatchResourcesService {
 message WatchResourcesRequest {
   // resource_object_type is the type of resource object for which we will
   // watch for changes.
-  string resource_object_type = 1 [(validate.rules).string = {
-    pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
-    max_bytes: 128
-  }];
+  string resource_object_type = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    }
+  ];
 
   // permission is the name of the permission or relation for which we will
   // watch for changes.
-  string permission = 2 [(validate.rules).string = {
-    pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
-    max_bytes: 64
-  }];
+  string permission = 2 [
+    (validate.rules).string = {
+      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 64
+    }
+  ];
 
   // subject_object_type is the type of the subject resource for which we will
   // watch for changes.

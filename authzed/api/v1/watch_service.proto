@@ -3,6 +3,7 @@ package authzed.api.v1;
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/struct.proto";
 import "validate/validate.proto";
@@ -29,7 +30,14 @@ message WatchRequest {
   // optional_relationship_filters cannot be used.
   repeated string optional_object_types = 1 [
     (validate.rules).repeated.min_items = 0,
+    (buf.validate.field).repeated.min_items = 0,
     (validate.rules).repeated.items.string = {
+      pattern:
+        "^([a-z][a-z0-9_]{1,62}[a-z0-9]/"
+        ")*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    },
+    (buf.validate.field).repeated.items.string = {
       pattern:
         "^([a-z][a-z0-9_]{1,62}[a-z0-9]/"
         ")*[a-z][a-z0-9_]{1,62}[a-z0-9]$"

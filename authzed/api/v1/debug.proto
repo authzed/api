@@ -2,6 +2,7 @@ syntax = "proto3";
 package authzed.api.v1;
 
 import "authzed/api/v1/core.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
 import "validate/validate.proto";
@@ -45,26 +46,44 @@ message CheckDebugTrace {
   }
 
   // resource holds the resource on which the Check was performed.
-  ObjectReference resource = 1 [(validate.rules).message.required = true];
+  ObjectReference resource = 1 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 
   // permission holds the name of the permission or relation on which the Check was performed.
   string permission = 2;
 
   // permission_type holds information indicating whether it was a permission or relation.
-  PermissionType permission_type = 3 [(validate.rules).enum = {
-    defined_only: true
-    not_in: [0]
-  }];
+  PermissionType permission_type = 3 [
+    (validate.rules).enum = {
+      defined_only: true
+      not_in: [0]
+    },
+    (buf.validate.field).enum = {
+      defined_only: true
+      not_in: [0]
+    }
+  ];
 
   // subject holds the subject on which the Check was performed. This will be static across all calls within
   // the same Check tree.
-  SubjectReference subject = 4 [(validate.rules).message.required = true];
+  SubjectReference subject = 4 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 
   // result holds the result of the Check call.
-  Permissionship result = 5 [(validate.rules).enum = {
-    defined_only: true
-    not_in: [0]
-  }];
+  Permissionship result = 5 [
+    (validate.rules).enum = {
+      defined_only: true
+      not_in: [0]
+    },
+    (buf.validate.field).enum = {
+      defined_only: true
+      not_in: [0]
+    }
+  ];
 
   // caveat_evaluation_info holds information about the caveat evaluated for this step of the trace.
   CaveatEvalInfo caveat_evaluation_info = 8;
@@ -75,6 +94,7 @@ message CheckDebugTrace {
   // resolution holds information about how the problem was resolved.
   oneof resolution {
     option (validate.required) = true;
+    option (buf.validate.oneof).required = true;
 
     // was_cached_result, if true, indicates that the result was found in the cache and returned directly.
     bool was_cached_result = 6;
