@@ -1,17 +1,17 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
-option java_multiple_files = true;
-
-import "google/api/annotations.proto";
-import "validate/validate.proto";
-import "google/protobuf/struct.proto";
-import "google/rpc/status.proto";
-
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/status.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
 
 // ExperimentalService exposes a number of APIs that are currently being
 // prototyped and tested for future inclusion in the stable API.
@@ -22,38 +22,35 @@ service ExperimentalService {
   // to relationship sort order as possible: (resource.object_type,
   // resource.object_id, relation, subject.object.object_type,
   // subject.object.object_id, subject.optional_relation)
-  // 
+  //
   // EXPERIMENTAL
   // https://github.com/authzed/spicedb/issues/1303
-  rpc BulkImportRelationships(stream BulkImportRelationshipsRequest)
-    returns (BulkImportRelationshipsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/relationships/bulkimport"
-        body: "*"
-      };
-    }
+  rpc BulkImportRelationships(stream BulkImportRelationshipsRequest) returns (BulkImportRelationshipsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/relationships/bulkimport"
+      body: "*"
+    };
+  }
 
   // BulkExportRelationships is the fastest path available to exporting
   // relationships from the server. It is resumable, and will return results
   // in an order determined by the server.
-  rpc BulkExportRelationships(BulkExportRelationshipsRequest)
-    returns (stream BulkExportRelationshipsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/relationships/bulkexport"
-        body: "*"
-      };
-    }
+  rpc BulkExportRelationships(BulkExportRelationshipsRequest) returns (stream BulkExportRelationshipsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/relationships/bulkexport"
+      body: "*"
+    };
+  }
 
   // NOTE: BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission" and the
   // API will be removed from experimental in a future release.
-  rpc BulkCheckPermission(BulkCheckPermissionRequest)
-    returns (BulkCheckPermissionResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/permissions/bulkcheckpermission"
-        body: "*"
-      };
-      option deprecated = true;
-    }
+  rpc BulkCheckPermission(BulkCheckPermissionRequest) returns (BulkCheckPermissionResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/bulkcheckpermission"
+      body: "*"
+    };
+    option deprecated = true;
+  }
 
   // DEPRECATED: Promoted to ReflectSchema in the stable API.
   rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest)
@@ -64,6 +61,23 @@ service ExperimentalService {
       };
       option deprecated = true;
     }
+  // EXPERIMENTAL: ReflectSchema is an API that allows clients to reflect the schema stored in
+  // SpiceDB. This is useful for clients that need to introspect the schema of a SpiceDB instance.
+  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest)
+    returns (ExperimentalReflectSchemaResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/reflectschema"
+        body: "*"
+      };
+    }
+  // EXPERIMENTAL: ReflectSchema is an API that allows clients to reflect the schema stored in
+  // SpiceDB. This is useful for clients that need to introspect the schema of a SpiceDB instance.
+  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest) returns (ExperimentalReflectSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/reflectschema"
+      body: "*"
+    };
+  }
 
   // DEPRECATED: Promoted to ComputablePermissions in the stable API.
   rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
@@ -84,6 +98,48 @@ service ExperimentalService {
       };
       option deprecated = true;
     }
+  // EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
+  // permissions that compute based off a relation. For example, if a schema has a relation
+  // `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
+  // computable permissions for the relation `viewer` will include `view`.
+  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
+    returns (ExperimentalComputablePermissionsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/permissions/computable"
+        body: "*"
+      };
+    }
+  
+  // EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
+  // relations and permissions that used to compute a permission, recursively. It is the
+  // inverse of the ComputablePermissions API.
+  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest)
+    returns (ExperimentalDependentRelationsResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/permissions/dependent"
+        body: "*"
+      };
+    }
+  // EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
+  // permissions that compute based off a relation. For example, if a schema has a relation
+  // `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
+  // computable permissions for the relation `viewer` will include `view`.
+  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest) returns (ExperimentalComputablePermissionsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/computable"
+      body: "*"
+    };
+  }
+
+  // EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
+  // relations and permissions that used to compute a permission, recursively. It is the
+  // inverse of the ComputablePermissions API.
+  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest) returns (ExperimentalDependentRelationsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/dependent"
+      body: "*"
+    };
+  }
 
   // DEPRECATED: Promoted to DiffSchema in the stable API.
   rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest)
@@ -94,57 +150,87 @@ service ExperimentalService {
       };
       option deprecated = true;
     }
+  // EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
+  // specified schema and the schema stored in SpiceDB. This is useful for clients that need to
+  // introspect the schema of a SpiceDB instance.
+  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest)
+    returns (ExperimentalDiffSchemaResponse) {
+      option (google.api.http) = {
+        post: "/v1/experimental/diffschema"
+        body: "*"
+      };
+    }
+  // EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
+  // specified schema and the schema stored in SpiceDB. This is useful for clients that need to
+  // introspect the schema of a SpiceDB instance.
+  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest) returns (ExperimentalDiffSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/diffschema"
+      body: "*"
+    };
+  }
 
   // EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before
   // a count can be requested.
-  rpc ExperimentalRegisterRelationshipCounter(ExperimentalRegisterRelationshipCounterRequest)
-    returns (ExperimentalRegisterRelationshipCounterResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/registerrelationshipcounter"
-        body: "*"
-      };
-    }
+  rpc ExperimentalRegisterRelationshipCounter(ExperimentalRegisterRelationshipCounterRequest) returns (ExperimentalRegisterRelationshipCounterResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/registerrelationshipcounter"
+      body: "*"
+    };
+  }
 
   // EXPERIMENTAL: CountRelationships returns the count of relationships for *pre-registered* filter.
-  rpc ExperimentalCountRelationships(ExperimentalCountRelationshipsRequest)
-    returns (ExperimentalCountRelationshipsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/countrelationships"
-        body: "*"
-      };
-    }
+  rpc ExperimentalCountRelationships(ExperimentalCountRelationshipsRequest) returns (ExperimentalCountRelationshipsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/countrelationships"
+      body: "*"
+    };
+  }
 
   // EXPERIMENTAL: UnregisterRelationshipCounter unregisters an existing filter for counting relationships.
-  rpc ExperimentalUnregisterRelationshipCounter(ExperimentalUnregisterRelationshipCounterRequest)
-    returns (ExperimentalUnregisterRelationshipCounterResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/unregisterrelationshipcounter"
-        body: "*"
-      };
+  rpc ExperimentalUnregisterRelationshipCounter(ExperimentalUnregisterRelationshipCounterRequest) returns (ExperimentalUnregisterRelationshipCounterResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/unregisterrelationshipcounter"
+      body: "*"
+    };
   }
 }
 
 message ExperimentalRegisterRelationshipCounterRequest {
   // name is the name of the counter being registered.
-  string name = 1[ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
-    max_bytes : 64,
-  } ];
+  string name = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 
   // relationship_filter defines the filter to be applied to the relationships
   // to be counted.
-  RelationshipFilter relationship_filter = 2
-      [ (validate.rules).message.required = true ];
+  RelationshipFilter relationship_filter = 2 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 }
 
 message ExperimentalRegisterRelationshipCounterResponse {}
 
 message ExperimentalCountRelationshipsRequest {
   // name is the name of the counter whose count is being requested.
-  string name = 1[ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
-    max_bytes : 64,
-  } ];
+  string name = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 }
 
 message ExperimentalCountRelationshipsResponse {
@@ -162,15 +248,24 @@ message ReadCounterValue {
   uint64 relationship_count = 1;
 
   // read_at is the ZedToken at which the relationship count applies.
-  ZedToken read_at = 2 [ (validate.rules).message.required = true ];
+  ZedToken read_at = 2 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 }
 
 message ExperimentalUnregisterRelationshipCounterRequest {
   // name is the name of the counter being unregistered.
-  string name = 1[ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
-    max_bytes : 64,
-  } ];
+  string name = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 }
 
 message ExperimentalUnregisterRelationshipCounterResponse {}
@@ -179,26 +274,51 @@ message ExperimentalUnregisterRelationshipCounterResponse {}
 message BulkCheckPermissionRequest {
   Consistency consistency = 1;
 
-  repeated BulkCheckPermissionRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true, deprecated=true ];
+  repeated BulkCheckPermissionRequestItem items = 2 [
+    (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true,
+    deprecated = true
+  ];
 }
 
 message BulkCheckPermissionRequestItem {
-  ObjectReference resource = 1 [ (validate.rules).message.required = true ];
+  ObjectReference resource = 1 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 
-  string permission = 2 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$",
-    max_bytes : 64,
-  } ];
+  string permission = 2 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      max_bytes: 64
+    }
+  ];
 
-  SubjectReference subject = 3 [ (validate.rules).message.required = true ];
+  SubjectReference subject = 3 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 
-  google.protobuf.Struct context = 4 [ (validate.rules).message.required = false ];
+  google.protobuf.Struct context = 4 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 }
 
 message BulkCheckPermissionResponse {
-  ZedToken checked_at = 1 [ (validate.rules).message.required = false ];
+  ZedToken checked_at = 1 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 
-  repeated BulkCheckPermissionPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
+  repeated BulkCheckPermissionPair pairs = 2 [
+    (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true
+  ];
 }
 
 message BulkCheckPermissionPair {
@@ -210,9 +330,21 @@ message BulkCheckPermissionPair {
 }
 
 message BulkCheckPermissionResponseItem {
-  CheckPermissionResponse.Permissionship permissionship = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
+  CheckPermissionResponse.Permissionship permissionship = 1 [
+    (validate.rules).enum = {
+      defined_only: true
+      not_in: [0]
+    },
+    (buf.validate.field).enum = {
+      defined_only: true
+      not_in: [0]
+    }
+  ];
 
-  PartialCaveatInfo partial_caveat_info = 2 [ (validate.rules).message.required = false ];
+  PartialCaveatInfo partial_caveat_info = 2 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 }
 
 // BulkImportRelationshipsRequest represents one batch of the streaming
@@ -223,8 +355,10 @@ message BulkCheckPermissionResponseItem {
 // invocation are executed under this single transaction. If a relationship already
 // exists within the datastore, the entire transaction will fail with an error.
 message BulkImportRelationshipsRequest {
-  repeated Relationship relationships = 1
-      [ (validate.rules).repeated .items.message.required = true ];
+  repeated Relationship relationships = 1 [
+    (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true
+  ];
 }
 
 // BulkImportRelationshipsResponse is returned on successful completion of the
@@ -242,7 +376,10 @@ message BulkExportRelationshipsRequest {
   // relationships the server can return in one page. By default, the server
   // will pick a page size, and the server is free to choose a smaller size
   // at will.
-  uint32 optional_limit = 2 [(validate.rules).uint32 = {gte:0}];
+  uint32 optional_limit = 2 [
+    (validate.rules).uint32 = {gte: 0},
+    (buf.validate.field).uint32 = {gte: 0}
+  ];
 
   // optional_cursor, if specified, indicates the cursor after which results
   // should resume being returned. The cursor can be found on the
@@ -259,7 +396,7 @@ message BulkExportRelationshipsRequest {
 // server will continue to stream back relationship groups as quickly as it can
 // until all relationships have been transmitted back.
 message BulkExportRelationshipsResponse {
-  Cursor after_result_cursor  = 1;
+  Cursor after_result_cursor = 1;
   repeated Relationship relationships = 2;
 }
 
@@ -267,7 +404,7 @@ message BulkExportRelationshipsResponse {
 
 message ExperimentalReflectSchemaRequest {
   Consistency consistency = 1;
- 
+
   // optional_filters defines optional filters that are applied in
   // an OR fashion to the schema, before being returned
   repeated ExpSchemaFilter optional_filters = 2;
@@ -306,7 +443,7 @@ message ExpDefinition {
   // comment is a human-readable comments on the definition. Will include
   // delimiter characters.
   string comment = 2;
-  
+
   repeated ExpRelation relations = 3;
   repeated ExpPermission permissions = 4;
 }
@@ -352,12 +489,12 @@ message ExpTypeReference {
   oneof typeref {
     // is_terminal_subject is true if the subject is terminal, meaning it is referenced directly vs a sub-relation.
     bool is_terminal_subject = 3;
-    
+
     // optional_relation_name is the name of the relation that is applied to the subject, if any.
     string optional_relation_name = 4;
 
     // is_public_wildcard is true if the subject is a public wildcard.
-    bool is_public_wildcard  = 5;
+    bool is_public_wildcard = 5;
   }
 }
 

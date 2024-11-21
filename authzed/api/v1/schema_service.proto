@@ -1,7 +1,13 @@
 syntax = "proto3";
 package authzed.api.v1;
 
+import "authzed/api/v1/core.proto";
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
 option java_package = "com.authzed.api.v1";
 option java_multiple_files = true;
 
@@ -10,6 +16,12 @@ import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+option java_multiple_files = true;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+import "authzed/api/v1/core.proto";
 
 // SchemaService implements operations on a Permissions System's Schema.
 service SchemaService {
@@ -87,7 +99,10 @@ message ReadSchemaResponse {
   string schema_text = 1;
 
   // read_at is the ZedToken at which the schema was read.
-  ZedToken read_at = 2 [ (validate.rules).message.required = true ];
+  ZedToken read_at = 2 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 }
 
 // WriteSchemaRequest is the required data used to "upsert" the Schema of a
@@ -95,14 +110,20 @@ message ReadSchemaResponse {
 message WriteSchemaRequest {
   // The Schema containing one or more Object Definitions that will be written
   // to the Permissions System.
-  string schema = 1 [ (validate.rules).string.max_bytes = 4194304 ]; // 4MiB
+  string schema = 1 [
+    (validate.rules).string.max_bytes = 4194304,
+    (buf.validate.field).string.max_bytes = 4194304
+  ]; // 4MiB
 }
 
 // WriteSchemaResponse is the resulting data after having written a Schema to
 // a Permissions System.
 message WriteSchemaResponse {
-    // written_at is the ZedToken at which the schema was written.
-    ZedToken written_at = 1 [ (validate.rules).message.required = true ];
+  // written_at is the ZedToken at which the schema was written.
+  ZedToken written_at = 1 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
 }
 
 // Reflection types ////////////////////////////////////////////

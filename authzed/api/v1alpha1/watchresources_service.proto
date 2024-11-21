@@ -1,46 +1,55 @@
 syntax = "proto3";
 package authzed.api.v1alpha1;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1alpha1";
-option java_package = "com.authzed.api.v1alpha1";
-
+import "authzed/api/v1/core.proto";
+import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 
-import "authzed/api/v1/core.proto";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1alpha1";
+option java_package = "com.authzed.api.v1alpha1";
 
 // WatchResourcesService is used to receive a stream of updates for resources of a
 // specific (resource type, permission, subject) combination.
 service WatchResourcesService {
-
   // WatchResources initiates a watch for permission changes for the provided
   // (resource type, permission, subject) pair.
-  rpc WatchResources(WatchResourcesRequest)
-    returns (stream WatchResourcesResponse) {
-      option (google.api.http) = {
-        post: "/v1alpha1/lookupwatch"
-        body: "*"
-      }; 
-    }
+  rpc WatchResources(WatchResourcesRequest) returns (stream WatchResourcesResponse) {
+    option (google.api.http) = {
+      post: "/v1alpha1/lookupwatch"
+      body: "*"
+    };
+  }
 }
 
 // WatchResourcesRequest starts a watch for specific permission updates
 // for the given resource and subject types.
 message WatchResourcesRequest {
-
   // resource_object_type is the type of resource object for which we will
   // watch for changes.
-  string resource_object_type = 1 [ (validate.rules).string = {
-    pattern : "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$",
-    max_bytes : 128,
-  } ];
+  string resource_object_type = 1 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    }
+  ];
 
   // permission is the name of the permission or relation for which we will
   // watch for changes.
-  string permission = 2 [ (validate.rules).string = {
-    pattern : "^[a-z][a-z0-9_]{1,62}[a-z0-9]$",
-    max_bytes : 64,
-  } ];
+  string permission = 2 [
+    (validate.rules).string = {
+      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 64
+    }
+  ];
 
   // subject_object_type is the type of the subject resource for which we will
   // watch for changes.
@@ -56,7 +65,6 @@ message WatchResourcesRequest {
 // PermissionUpdate represents a single permission update for a specific
 // subject's permissions.
 message PermissionUpdate {
-  
   // todo: work this into the v1 core API at some point since it's used
   // across services.
   enum Permissionship {
