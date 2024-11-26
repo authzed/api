@@ -8,6 +8,7 @@ option java_multiple_files = true;
 import "google/protobuf/struct.proto";
 import "google/api/annotations.proto";
 import "google/rpc/status.proto";
+import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
@@ -405,6 +406,10 @@ message CheckPermissionResponse {
 
   // debug_trace is the debugging trace of this check, if requested.
   DebugInformation debug_trace = 4;
+
+  // optional_expires_at is the time at which at least one of the relationships used to
+  // compute this result, expires (if any). This is *not* related to the caching window.
+  google.protobuf.Timestamp optional_expires_at = 5;
 }
 
 // CheckBulkPermissionsRequest issues a check on whether a subject has permission 

@@ -5,6 +5,7 @@ import "authzed/api/v1/core.proto";
 import "validate/validate.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
 option java_package = "com.authzed.api.v1";
@@ -77,6 +78,10 @@ message CheckDebugTrace {
     // and a permissionship of PERMISSIONSHIP_HAS_PERMISSION indicates the subject was found within this relation.
     SubProblems sub_problems = 7;
   }
+
+  // optional_expires_at is the time at which at least one of the relationships used to
+  // compute this result, expires (if any). This is *not* related to the caching window.
+  google.protobuf.Timestamp optional_expires_at = 10;
 }
 
 // CaveatEvalInfo holds information about a caveat expression that was evaluated.
