@@ -101,6 +101,8 @@ message Cursor {
   bool completed_members = 6;
   // starting_key is a string cursor used by some backends to resume the stream from a specific point.
   string starting_key = 7;
+  // cursor is a string-encoded internal materialize cursor.
+  string cursor = 8;
 }
 
 message LookupPermissionSetsRequest {
