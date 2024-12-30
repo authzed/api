@@ -46,6 +46,8 @@ message CheckDebugTrace {
   }
 
   // resource holds the resource on which the Check was performed.
+  // for batched calls, the object_id field contains a comma-separated list of object IDs
+  // for all the resources checked in the batch.
   ObjectReference resource = 1 [ (validate.rules).message.required = true ];
 
   // permission holds the name of the permission or relation on which the Check was performed.
@@ -82,6 +84,10 @@ message CheckDebugTrace {
   // optional_expires_at is the time at which at least one of the relationships used to
   // compute this result, expires (if any). This is *not* related to the caching window.
   google.protobuf.Timestamp optional_expires_at = 10;
+
+  // trace_id is a unique identifier for this trace. This identifier is only guanranteed
+  // to be unique within the same overall Check or CheckBulk operation.
+  string trace_id = 11;
 }
 
 // CaveatEvalInfo holds information about a caveat expression that was evaluated.
