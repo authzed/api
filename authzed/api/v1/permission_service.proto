@@ -27,6 +27,14 @@ service PermissionsService {
       };
   }
 
+  rpc ReadBulkRelationships(ReadBulkRelationshipsRequest)
+    returns (ReadBulkRelationshipsResponse) {
+      option (google.api.http) = {
+        post: "/v1/relationships/readbulk"
+        body: "*"
+      };
+  }
+
   // WriteRelationships atomically writes and/or deletes a set of specified
   // relationships. An optional set of preconditions can be provided that must
   // be satisfied for the operation to commit.
@@ -260,6 +268,51 @@ message ReadRelationshipsResponse {
   // after_result_cursor holds a cursor that can be used to resume the ReadRelationships stream after this
   // result.
   Cursor after_result_cursor = 3;
+}
+
+// ReadBulkRelationshipsRequest specifies one or more filters used to read matching
+// relationships within the system in a non-streaming fashion.
+message ReadBulkRelationshipsRequest {
+  Consistency consistency = 1;
+
+  repeated ReadBulkRelationshipsRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message ReadBulkRelationshipsRequestItem {
+  // relationship_filter defines the filter to be applied to the relationships
+  // to be returned.
+  RelationshipFilter relationship_filter = 1 [ (validate.rules).message.required = true ];
+
+  // optional_limit, if non-zero, specifies the limit on the number of relationships to return.
+  // By default, all matching relationships will be returned.
+  uint32 optional_limit = 2 [(validate.rules).uint32 = {gte:0}];
+
+  // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
+  // The cursor can be found on the ReadBulkRelationshipsResponse object.
+  Cursor optional_cursor = 3;
+}
+
+message ReadBulkRelationshipsResponse {
+  // read_at is the ZedToken at which the relationships were found.
+  ZedToken read_at = 1 [ (validate.rules).message.required = false ];
+
+  repeated ReadBulkRelationshipsPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
+}
+
+message ReadBulkRelationshipsPair {
+  ReadBulkRelationshipsRequestItem request = 1;
+  oneof response {
+    ReadBulkRelationshipsResponseItem item = 2;
+    google.rpc.Status error = 3;
+  }
+}
+
+message ReadBulkRelationshipsResponseItem {
+  // relationships are the found relationships.
+  repeated Relationship relationships = 1;
+
+  // after_result_cursor holds a cursor that can be used to resume reading after these results.
+  Cursor after_result_cursor = 2;
 }
 
 // Precondition specifies how and the existence or absence of certain
