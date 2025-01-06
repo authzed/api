@@ -1,3 +1,4 @@
+---
 name: "Client updates for released API change"
 on:
   release:

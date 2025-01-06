@@ -27,12 +27,6 @@ jobs:
         with:
           against: "https://github.com/authzed/api.git#branch=main"
           buf_token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
-      - name: "Push to BSR"
-        if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
-        shell: "bash"
-        env:
-          BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
-        run: "buf push --draft ${{ github.sha }}"
       - name: "Push to BSR a Draft"
         if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
         shell: "bash"
