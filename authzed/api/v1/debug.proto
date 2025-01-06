@@ -85,9 +85,14 @@ message CheckDebugTrace {
   // compute this result, expires (if any). This is *not* related to the caching window.
   google.protobuf.Timestamp optional_expires_at = 10;
 
-  // trace_id is a unique identifier for this trace. This identifier is only guanranteed
+  // trace_id is a unique identifier for this trace. This identifier is only guaranteed
   // to be unique within the same overall Check or CheckBulk operation.
   string trace_id = 11;
+
+  // source holds the source of the result. It is of the form:
+  // `<sourcetype>:<sourceid>`, where sourcetype can be, among others:
+  // `spicedb`, `materialize`, etc.
+  string source = 12;
 }
 
 // CaveatEvalInfo holds information about a caveat expression that was evaluated.
