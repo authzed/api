@@ -421,6 +421,11 @@ message CheckBulkPermissionsRequest {
   Consistency consistency = 1;
 
   repeated CheckBulkPermissionsRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+
+  // with_tracing, if true, indicates that each response should include a debug trace.
+  // This can be useful for debugging and performance analysis, but adds a small amount
+  // of compute overhead to the request.
+  bool with_tracing = 3;
 }
 
 message CheckBulkPermissionsRequestItem {
@@ -454,6 +459,9 @@ message CheckBulkPermissionsResponseItem {
   CheckPermissionResponse.Permissionship permissionship = 1 [ (validate.rules).enum = {defined_only: true, not_in: [0]} ];
 
   PartialCaveatInfo partial_caveat_info = 2 [ (validate.rules).message.required = false ];
+
+  // debug_trace is the debugging trace of this check, if requested.
+  DebugInformation debug_trace = 3;
 }
 
 // ExpandPermissionTreeRequest returns a tree representing the expansion of all
