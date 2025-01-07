@@ -276,6 +276,10 @@ message ReadBulkRelationshipsRequest {
   Consistency consistency = 1;
 
   repeated ReadBulkRelationshipsRequestItem items = 2 [ (validate.rules).repeated .items.message.required = true ];
+
+  // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
+  // The cursor can be found on the ReadBulkRelationshipsResponse object.
+  Cursor optional_cursor = 3;
 }
 
 message ReadBulkRelationshipsRequestItem {
@@ -287,9 +291,6 @@ message ReadBulkRelationshipsRequestItem {
   // By default, all matching relationships will be returned.
   uint32 optional_limit = 2 [(validate.rules).uint32 = {gte:0}];
 
-  // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
-  // The cursor can be found on the ReadBulkRelationshipsResponse object.
-  Cursor optional_cursor = 3;
 }
 
 message ReadBulkRelationshipsResponse {
@@ -297,6 +298,10 @@ message ReadBulkRelationshipsResponse {
   ZedToken read_at = 1 [ (validate.rules).message.required = false ];
 
   repeated ReadBulkRelationshipsPair pairs = 2 [ (validate.rules).repeated .items.message.required = true ];
+
+  // after_result_cursor holds a cursor that can be used to resume reading after all results in this response.
+  // This replaces the per-item cursors to provide consistency across the entire bulk read operation.
+  Cursor after_result_cursor = 3;
 }
 
 message ReadBulkRelationshipsPair {
@@ -308,11 +313,7 @@ message ReadBulkRelationshipsPair {
 }
 
 message ReadBulkRelationshipsResponseItem {
-  // relationships are the found relationships.
-  repeated Relationship relationships = 1;
-
-  // after_result_cursor holds a cursor that can be used to resume reading after these results.
-  Cursor after_result_cursor = 2;
+  Relationship relationships = 1;
 }
 
 // Precondition specifies how and the existence or absence of certain
