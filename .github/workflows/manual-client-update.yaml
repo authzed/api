@@ -1,3 +1,4 @@
+---
 name: "Manually invoke client updates for API change"
 on:
   workflow_dispatch:
