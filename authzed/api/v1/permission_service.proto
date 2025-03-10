@@ -352,6 +352,9 @@ message DeleteRelationshipsResponse {
 
   // deletion_progress is an enumeration of the possible outcomes that occurred when attempting to delete the specified relationships.
   DeletionProgress deletion_progress = 2;
+
+  // relationships_deleted_count is the number of relationships that were deleted.
+  uint64 relationships_deleted_count = 3;
 }
 
 // CheckPermissionRequest issues a check on whether a subject has a permission
