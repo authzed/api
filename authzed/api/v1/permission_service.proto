@@ -245,6 +245,8 @@ message ReadRelationshipsRequest {
   // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
   // The cursor can be found on the ReadRelationshipsResponse object.
   Cursor optional_cursor = 4;
+  // include_object_data, if true, indicates that object data should be included in the response.
+  bool include_object_data = 5;
 }
 
 // ReadRelationshipsResponse contains a Relationship found that matches the
@@ -260,6 +262,13 @@ message ReadRelationshipsResponse {
   // after_result_cursor holds a cursor that can be used to resume the ReadRelationships stream after this
   // result.
   Cursor after_result_cursor = 3;
+
+  // resource_object_data is the optional object data associated with the resource.
+  google.protobuf.Struct resource_object_data = 4 [ (validate.rules).message.required = false ];
+
+  // subject_object_data is the optional object data associated with the subject.
+  google.protobuf.Struct subject_object_data = 5 [ (validate.rules).message.required = false ];
+
 }
 
 // Precondition specifies how and the existence or absence of certain
@@ -529,6 +538,9 @@ message LookupResourcesRequest {
   // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
   // The cursor can be found on the LookupResourcesResponse object.
   Cursor optional_cursor = 7;
+
+  // include_object_data, if true, indicates that object data should be included in the response.
+  bool include_object_data = 8;
 }
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
@@ -556,6 +568,9 @@ message LookupResourcesResponse {
   // after_result_cursor holds a cursor that can be used to resume the LookupResources stream after this
   // result.
   Cursor after_result_cursor = 5;
+
+  // resource_object_data is the optional object data associated with the resource.
+  google.protobuf.Struct resource_object_data = 6 [ (validate.rules).message.required = false ];
 }
 
 // LookupSubjectsRequest performs a lookup of all subjects of a particular
@@ -628,6 +643,9 @@ message LookupSubjectsRequest {
   // wildcard_option specifies whether wildcards should be returned by LookupSubjects.
   // For backwards compatibility, defaults to WILDCARD_OPTION_INCLUDE_WILDCARDS if unspecified.
   WildcardOption wildcard_option = 9;
+
+  // include_object_data, if true, indicates that object data should be included in the response.
+  bool include_object_data = 10;
 }
 
 // LookupSubjectsResponse contains a single matching subject object ID for the
@@ -678,6 +696,9 @@ message ResolvedSubject {
 
   // partial_caveat_info holds information of a partially-evaluated caveated response
   PartialCaveatInfo partial_caveat_info = 3 [ (validate.rules).message.required = false ];
+
+  // subject_object_data is the optional object data associated with the subject.
+  google.protobuf.Struct subject_object_data = 4 [ (validate.rules).message.required = false ];
 }
 
 // ImportBulkRelationshipsRequest represents one batch of the streaming
@@ -690,6 +711,9 @@ message ResolvedSubject {
 message ImportBulkRelationshipsRequest {
   repeated Relationship relationships = 1
       [ (validate.rules).repeated .items.message.required = true ];
+
+  // include_object_data, if true, indicates that object data is allowed in the relationships.
+  bool include_object_data = 2;
 }
 
 // ImportBulkRelationshipsResponse is returned on successful completion of the
