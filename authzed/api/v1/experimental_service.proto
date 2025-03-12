@@ -1,17 +1,18 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-import "authzed/api/v1/core.proto";
-import "authzed/api/v1/permission_service.proto";
-import "buf/validate/validate.proto";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_package = "com.authzed.api.v1";
+option java_multiple_files = true;
+
 import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "buf/validate/validate.proto";
 import "google/protobuf/struct.proto";
 import "google/rpc/status.proto";
-import "validate/validate.proto";
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_multiple_files = true;
-option java_package = "com.authzed.api.v1";
+import "authzed/api/v1/core.proto";
+import "authzed/api/v1/permission_service.proto";
 
 // ExperimentalService exposes a number of APIs that are currently being
 // prototyped and tested for future inclusion in the stable API.
@@ -61,23 +62,6 @@ service ExperimentalService {
       };
       option deprecated = true;
     }
-  // EXPERIMENTAL: ReflectSchema is an API that allows clients to reflect the schema stored in
-  // SpiceDB. This is useful for clients that need to introspect the schema of a SpiceDB instance.
-  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest)
-    returns (ExperimentalReflectSchemaResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/reflectschema"
-        body: "*"
-      };
-    }
-  // EXPERIMENTAL: ReflectSchema is an API that allows clients to reflect the schema stored in
-  // SpiceDB. This is useful for clients that need to introspect the schema of a SpiceDB instance.
-  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest) returns (ExperimentalReflectSchemaResponse) {
-    option (google.api.http) = {
-      post: "/v1/experimental/reflectschema"
-      body: "*"
-    };
-  }
 
   // DEPRECATED: Promoted to ComputablePermissions in the stable API.
   rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
@@ -98,48 +82,6 @@ service ExperimentalService {
       };
       option deprecated = true;
     }
-  // EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
-  // permissions that compute based off a relation. For example, if a schema has a relation
-  // `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
-  // computable permissions for the relation `viewer` will include `view`.
-  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
-    returns (ExperimentalComputablePermissionsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/permissions/computable"
-        body: "*"
-      };
-    }
-  
-  // EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
-  // relations and permissions that used to compute a permission, recursively. It is the
-  // inverse of the ComputablePermissions API.
-  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest)
-    returns (ExperimentalDependentRelationsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/permissions/dependent"
-        body: "*"
-      };
-    }
-  // EXPERIMENTAL: ComputablePermissions is an API that allows clients to request the set of
-  // permissions that compute based off a relation. For example, if a schema has a relation
-  // `viewer` and a permission `view` defined as `permission view = viewer + editor`, then the
-  // computable permissions for the relation `viewer` will include `view`.
-  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest) returns (ExperimentalComputablePermissionsResponse) {
-    option (google.api.http) = {
-      post: "/v1/experimental/permissions/computable"
-      body: "*"
-    };
-  }
-
-  // EXPERIMENTAL: DependentRelations is an API that allows clients to request the set of
-  // relations and permissions that used to compute a permission, recursively. It is the
-  // inverse of the ComputablePermissions API.
-  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest) returns (ExperimentalDependentRelationsResponse) {
-    option (google.api.http) = {
-      post: "/v1/experimental/permissions/dependent"
-      body: "*"
-    };
-  }
 
   // DEPRECATED: Promoted to DiffSchema in the stable API.
   rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest)
@@ -150,25 +92,6 @@ service ExperimentalService {
       };
       option deprecated = true;
     }
-  // EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
-  // specified schema and the schema stored in SpiceDB. This is useful for clients that need to
-  // introspect the schema of a SpiceDB instance.
-  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest)
-    returns (ExperimentalDiffSchemaResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/diffschema"
-        body: "*"
-      };
-    }
-  // EXPERIMENTAL: DiffSchema is an API that allows clients to request the difference between the
-  // specified schema and the schema stored in SpiceDB. This is useful for clients that need to
-  // introspect the schema of a SpiceDB instance.
-  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest) returns (ExperimentalDiffSchemaResponse) {
-    option (google.api.http) = {
-      post: "/v1/experimental/diffschema"
-      body: "*"
-    };
-  }
 
   // EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before
   // a count can be requested.

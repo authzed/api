@@ -1,18 +1,19 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-import "authzed/api/v1/core.proto";
-import "authzed/api/v1/debug.proto";
-import "buf/validate/validate.proto";
-import "google/api/annotations.proto";
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_package = "com.authzed.api.v1";
+option java_multiple_files = true;
+
 import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
 import "google/rpc/status.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
+import "buf/validate/validate.proto";
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_multiple_files = true;
-option java_package = "com.authzed.api.v1";
+import "authzed/api/v1/core.proto";
+import "authzed/api/v1/debug.proto";
 
 // PermissionsService implements a set of RPCs that perform operations on
 // relationships and permissions.
@@ -531,16 +532,15 @@ message CheckPermissionResponse {
 message CheckBulkPermissionsRequest {
   Consistency consistency = 1;
 
+  repeated CheckBulkPermissionsRequestItem items = 2 [
+    (validate.rules).repeated.items.message.required = true,
+    (buf.validate.field).repeated.items.required = true
+  ];
 
   // with_tracing, if true, indicates that each response should include a debug trace.
   // This can be useful for debugging and performance analysis, but adds a small amount
   // of compute overhead to the request.
   bool with_tracing = 3;
-  repeated CheckBulkPermissionsRequestItem items = 2 [(validate.rules).repeated.items.message.required = true];
-  repeated CheckBulkPermissionsRequestItem items = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
 }
 
 message CheckBulkPermissionsRequestItem {
@@ -603,14 +603,13 @@ message CheckBulkPermissionsResponseItem {
     }
   ];
 
-
-  // debug_trace is the debugging trace of this check, if requested.
-  DebugInformation debug_trace = 3;
-  PartialCaveatInfo partial_caveat_info = 2 [(validate.rules).message.required = false];
   PartialCaveatInfo partial_caveat_info = 2 [
     (validate.rules).message.required = false,
     (buf.validate.field).required = false
   ];
+
+  // debug_trace is the debugging trace of this check, if requested.
+  DebugInformation debug_trace = 3;
 }
 
 // ExpandPermissionTreeRequest returns a tree representing the expansion of all

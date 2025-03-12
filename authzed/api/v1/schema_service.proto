@@ -1,27 +1,16 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-import "authzed/api/v1/core.proto";
-import "buf/validate/validate.proto";
-import "google/api/annotations.proto";
-import "validate/validate.proto";
-
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_multiple_files = true;
 option java_package = "com.authzed.api.v1";
 option java_multiple_files = true;
 
 import "google/api/annotations.proto";
 import "validate/validate.proto";
+import "buf/validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
-option java_multiple_files = true;
-
-import "google/api/annotations.proto";
-import "validate/validate.proto";
-
-import "authzed/api/v1/core.proto";
 
 // SchemaService implements operations on a Permissions System's Schema.
 service SchemaService {

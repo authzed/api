@@ -1,21 +1,13 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-import "buf/validate/validate.proto";
-import "google/protobuf/struct.proto";
-import "validate/validate.proto";
-
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_multiple_files = true;
 option java_package = "com.authzed.api.v1";
 option java_multiple_files = true;
 
+import "buf/validate/validate.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "validate/validate.proto";
-option java_multiple_files = true;
-
-import "google/protobuf/struct.proto";
 import "validate/validate.proto";
 
 // Relationship specifies how a resource relates to a subject. Relationships
@@ -46,18 +38,14 @@ message Relationship {
     (buf.validate.field).required = true
   ];
 
-  // optional_caveat is a reference to a the caveat that must be enforced over the relationship.
-  ContextualizedCaveat optional_caveat = 4 [ (validate.rules).message.required = false ];
-
-  // optional_expires_at is the time at which the relationship expires, if any.
-  google.protobuf.Timestamp optional_expires_at = 5;
-  // optional_caveat is a reference to a the caveat that must be enforced over the relationship
-  ContextualizedCaveat optional_caveat = 4 [ (validate.rules).message.required = false ];
   // optional_caveat is a reference to a the caveat that must be enforced over the relationship
   ContextualizedCaveat optional_caveat = 4 [
     (validate.rules).message.required = false,
     (buf.validate.field).required = false
   ];
+
+  // optional_expires_at is the time at which the relationship expires, if any.
+  google.protobuf.Timestamp optional_expires_at = 5;
 }
 
 // ContextualizedCaveat represents a reference to a caveat to be used by caveated relationships.
