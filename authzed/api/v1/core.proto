@@ -1,14 +1,14 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
-option java_multiple_files = true;
-
 import "buf/validate/validate.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
 
 // Relationship specifies how a resource relates to a subject. Relationships
 // form the data for the graph over which all permissions questions are

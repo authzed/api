@@ -1,18 +1,17 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
-option java_multiple_files = true;
-
-import "google/api/annotations.proto";
-import "validate/validate.proto";
-import "buf/validate/validate.proto";
-import "google/protobuf/struct.proto";
-import "google/rpc/status.proto";
-
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/rpc/status.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
 
 // ExperimentalService exposes a number of APIs that are currently being
 // prototyped and tested for future inclusion in the stable API.
@@ -54,44 +53,40 @@ service ExperimentalService {
   }
 
   // DEPRECATED: Promoted to ReflectSchema in the stable API.
-  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest)
-    returns (ExperimentalReflectSchemaResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/reflectschema"
-        body: "*"
-      };
-      option deprecated = true;
-    }
+  rpc ExperimentalReflectSchema(ExperimentalReflectSchemaRequest) returns (ExperimentalReflectSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/reflectschema"
+      body: "*"
+    };
+    option deprecated = true;
+  }
 
   // DEPRECATED: Promoted to ComputablePermissions in the stable API.
-  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest)
-    returns (ExperimentalComputablePermissionsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/permissions/computable"
-        body: "*"
-      };
-      option deprecated = true;
-    }
-  
+  rpc ExperimentalComputablePermissions(ExperimentalComputablePermissionsRequest) returns (ExperimentalComputablePermissionsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/computable"
+      body: "*"
+    };
+    option deprecated = true;
+  }
+
   // DEPRECATED: Promoted to DependentRelations in the stable API.
-  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest)
-    returns (ExperimentalDependentRelationsResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/permissions/dependent"
-        body: "*"
-      };
-      option deprecated = true;
-    }
+  rpc ExperimentalDependentRelations(ExperimentalDependentRelationsRequest) returns (ExperimentalDependentRelationsResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/permissions/dependent"
+      body: "*"
+    };
+    option deprecated = true;
+  }
 
   // DEPRECATED: Promoted to DiffSchema in the stable API.
-  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest)
-    returns (ExperimentalDiffSchemaResponse) {
-      option (google.api.http) = {
-        post: "/v1/experimental/diffschema"
-        body: "*"
-      };
-      option deprecated = true;
-    }
+  rpc ExperimentalDiffSchema(ExperimentalDiffSchemaRequest) returns (ExperimentalDiffSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/experimental/diffschema"
+      body: "*"
+    };
+    option deprecated = true;
+  }
 
   // EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before
   // a count can be requested.
