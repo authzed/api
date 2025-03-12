@@ -1,16 +1,15 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
-option java_multiple_files = true;
-
-import "google/api/annotations.proto";
-import "validate/validate.proto";
-import "buf/validate/validate.proto";
-
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
 
 // SchemaService implements operations on a Permissions System's Schema.
 service SchemaService {
@@ -36,46 +35,42 @@ service SchemaService {
 
   // ReflectSchema reflects the current schema stored in SpiceDB, returning a structural
   // form of the schema for use by client tooling.
-  rpc ReflectSchema(ReflectSchemaRequest)
-    returns (ReflectSchemaResponse) {
-      option (google.api.http) = {
-        post: "/v1/schema/reflectschema"
-        body: "*"
-      };
-    }
+  rpc ReflectSchema(ReflectSchemaRequest) returns (ReflectSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/schema/reflectschema"
+      body: "*"
+    };
+  }
 
   // ComputablePermissions returns the set of permissions that compute based off a relation
   // in the current schema. For example, if the schema has a relation `viewer` and a permission
   // `view` defined as `permission view = viewer + editor`, then the
   // computable permissions for the relation `viewer` will include `view`.
-  rpc ComputablePermissions(ComputablePermissionsRequest)
-    returns (ComputablePermissionsResponse) {
-      option (google.api.http) = {
-        post: "/v1/schema/permissions/computable"
-        body: "*"
-      };
-    }
-  
+  rpc ComputablePermissions(ComputablePermissionsRequest) returns (ComputablePermissionsResponse) {
+    option (google.api.http) = {
+      post: "/v1/schema/permissions/computable"
+      body: "*"
+    };
+  }
+
   // DependentRelations returns the set of relations and permissions that used
   // to compute a permission, recursively, in the current schema. It is the
   // inverse of the ComputablePermissions API.
-  rpc DependentRelations(DependentRelationsRequest)
-    returns (DependentRelationsResponse) {
-      option (google.api.http) = {
-        post: "/v1/schema/permissions/dependent"
-        body: "*"
-      };
-    }
+  rpc DependentRelations(DependentRelationsRequest) returns (DependentRelationsResponse) {
+    option (google.api.http) = {
+      post: "/v1/schema/permissions/dependent"
+      body: "*"
+    };
+  }
 
   // DiffSchema returns the difference between the specified schema and the current
   // schema stored in SpiceDB.
-  rpc DiffSchema(DiffSchemaRequest)
-    returns (DiffSchemaResponse) {
-      option (google.api.http) = {
-        post: "/v1/schema/diffschema"
-        body: "*"
-      };
-    }
+  rpc DiffSchema(DiffSchemaRequest) returns (DiffSchemaResponse) {
+    option (google.api.http) = {
+      post: "/v1/schema/diffschema"
+      body: "*"
+    };
+  }
 }
 
 // ReadSchemaRequest returns the schema from the database.
@@ -119,7 +114,7 @@ message WriteSchemaResponse {
 
 message ReflectSchemaRequest {
   Consistency consistency = 1;
- 
+
   // optional_filters defines optional filters that are applied in
   // an OR fashion to the schema, before being returned
   repeated ReflectionSchemaFilter optional_filters = 2;
@@ -158,7 +153,7 @@ message ReflectionDefinition {
   // comment is a human-readable comments on the definition. Will include
   // delimiter characters.
   string comment = 2;
-  
+
   repeated ReflectionRelation relations = 3;
   repeated ReflectionPermission permissions = 4;
 }
@@ -204,12 +199,12 @@ message ReflectionTypeReference {
   oneof typeref {
     // is_terminal_subject is true if the subject is terminal, meaning it is referenced directly vs a sub-relation.
     bool is_terminal_subject = 3;
-    
+
     // optional_relation_name is the name of the relation that is applied to the subject, if any.
     string optional_relation_name = 4;
 
     // is_public_wildcard is true if the subject is a public wildcard.
-    bool is_public_wildcard  = 5;
+    bool is_public_wildcard = 5;
   }
 }
 

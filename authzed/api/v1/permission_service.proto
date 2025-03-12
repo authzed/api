@@ -1,19 +1,18 @@
 syntax = "proto3";
 package authzed.api.v1;
 
-option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
-option java_package = "com.authzed.api.v1";
-option java_multiple_files = true;
-
-import "google/protobuf/struct.proto";
-import "google/api/annotations.proto";
-import "google/rpc/status.proto";
-import "google/protobuf/timestamp.proto";
-import "validate/validate.proto";
-import "buf/validate/validate.proto";
-
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/debug.proto";
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
 
 // PermissionsService implements a set of RPCs that perform operations on
 // relationships and permissions.

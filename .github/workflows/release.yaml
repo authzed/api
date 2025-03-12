@@ -10,11 +10,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v4"
-      - uses: "bufbuild/buf-setup-action@v1.47.2"
+      - uses: "bufbuild/buf-action@v1"
         with:
-          github_token: "${{ github.token }}"
-      - name: "push release name to BSR"
-        run:
-          "buf push --tag ${{ github.ref_name }}"
-        env:
-          BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
+          token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
+          breaking_against: "https://github.com/authzed/api.git#branch=main"
