@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: "https://github.com/bufbuild/buf"
-    rev: "v1.6.0"
+    rev: "v1.47.2"
     hooks:
       - id: "buf-lint"
   - repo: "https://github.com/adrienverge/yamllint.git"

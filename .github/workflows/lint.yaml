@@ -8,34 +8,25 @@ on:
   pull_request:
     branches:
       - "*"
+    types:
+      # This makes the buf checks run again when attributes of the PRs change.
+      - "ready_for_review"
+      - "labeled"
+      - "unlabeled"
+      # These are the defaults
+      - "opened"
+      - "synchronize"
+      - "reopened"
+
+
 jobs:
   lint:
     name: "Lint & Publish Draft/Branch"
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "actions/checkout@v3"
+      - uses: "actions/checkout@v4"
       - uses: "authzed/actions/yaml-lint@main"
-      - uses: "bufbuild/buf-setup-action@v1.32.2"
+      - uses: "bufbuild/buf-action@v1"
         with:
-          version: "1.30.0"
-      - uses: "bufbuild/buf-lint-action@v1"
-      - uses: "bufbuild/buf-breaking-action@v1"
-        if: "github.event_name == 'pull_request'"
-        env:
-          BUF_INPUT_HTTPS_USERNAME: "${{ github.actor }}"
-          BUF_INPUT_HTTPS_PASSWORD: "${{ github.token }}"
-        with:
-          against: "https://github.com/authzed/api.git#branch=main"
-          buf_token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
-      - name: "Push to BSR a Draft"
-        if: "github.event_name == 'push' && github.ref == 'refs/heads/main'"
-        shell: "bash"
-        env:
-          BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
-        run: "buf push --draft ${{ github.sha }}"
-      - name: "Push to BSR a Branch"
-        if: "github.event_name == 'push' && github.ref != 'refs/heads/main'"
-        shell: "bash"
-        env:
-          BUF_TOKEN: "${{ secrets.BUF_REGISTRY_TOKEN }}"
-        run: "buf push --branch ${{ github.sha }}"
+          token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
+          breaking_against: "https://github.com/authzed/api.git#branch=main"

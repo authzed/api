@@ -1,15 +1,21 @@
 ---
-version: "v1"
+version: "v2"
 name: "buf.build/authzed/api"
 deps:
   - "buf.build/envoyproxy/protoc-gen-validate"
+  - "buf.build/bufbuild/protovalidate"
   - "buf.build/googleapis/googleapis"
   - "buf.build/grpc-ecosystem/grpc-gateway"
 lint:
   except:
+    - "FIELD_NOT_REQUIRED"
+    - "PACKAGE_NO_IMPORT_CYCLE"
     - "PACKAGE_VERSION_SUFFIX"
   ignore:
-    - "authzed/api/v0"  # legacy from before we used buf
+    - "authzed/api/v0"
+  disallow_comment_ignores: true
 breaking:
   use:
     - "WIRE_JSON"
+  except:
+    - "FIELD_SAME_DEFAULT"
