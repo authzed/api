@@ -21,11 +21,10 @@ service WatchService {
   }
 }
 
-// WatchRequest specifies the object definitions for which we want to start
-// watching mutations, and an optional start snapshot for when to start
+// WatchRequest specifies what mutations to watch for, and an optional start snapshot for when to start
 // watching.
 message WatchRequest {
-  // optional_object_types is a filter of resource object types to watch for changes.
+  // optional_object_types is a filter of resource object types to watch for relationship changes.
   // If specified, only changes to the specified object types will be returned and
   // optional_relationship_filters cannot be used.
   repeated string optional_object_types = 1 [
@@ -52,10 +51,14 @@ message WatchRequest {
   // this allows clients to match relationships on multiple filters on a single watch call.
   // If specified, optional_object_types cannot be used.
   repeated RelationshipFilter optional_relationship_filters = 3;
+
+  // optional_include_schema_updates, if specified, will modify the response
+  // so that it also includes changes made to the schema.
+  bool optional_include_schema_updates = 4;
 }
 
-// WatchResponse contains all tuple modification events in ascending
-// timestamp order, from the requested start snapshot to a snapshot
+// WatchResponse contains all tuple modification events and, optionally, schema modification events,
+// in ascending timestamp order, from the requested start snapshot to a snapshot
 // encoded in the watch response. The client can use the snapshot to resume
 // watching where the previous watch response left off.
 message WatchResponse {
@@ -72,4 +75,8 @@ message WatchResponse {
   // given to SpiceDB during the transaction that produced the changes in this response.
   // This field may not exist if no transaction metadata was provided.
   google.protobuf.Struct optional_transaction_metadata = 3;
+
+  // schema_updates are the schema update events that have occurred since the
+  // last watch response.
+  repeated SchemaUpdate schema_updates = 4;
 }
