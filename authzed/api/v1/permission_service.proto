@@ -714,9 +714,6 @@ message ResolvedSubject {
 message ImportBulkRelationshipsRequest {
   repeated Relationship relationships = 1
       [ (validate.rules).repeated .items.message.required = true ];
-
-  // include_object_data, if true, indicates that object data is allowed in the relationships.
-  bool include_object_data = 2;
 }
 
 // ImportBulkRelationshipsResponse is returned on successful completion of the
