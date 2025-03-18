@@ -11,6 +11,7 @@ import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "authzed/api/v1/schema_service.proto";
 
 service WatchService {
   rpc Watch(WatchRequest) returns (stream WatchResponse) {
@@ -21,11 +22,17 @@ service WatchService {
   }
 }
 
-// WatchRequest specifies the object definitions for which we want to start
-// watching mutations, and an optional start snapshot for when to start
+enum WatchKind {
+  WATCH_KIND_UNSPECIFIED = 0; // Default, just relationship updates (for backwards compatibility)
+  WATCH_KIND_INCLUDE_RELATIONSHIP_UPDATES = 1;
+  WATCH_KIND_INCLUDE_SCHEMA_UPDATES = 2;
+  WATCH_KIND_INCLUDE_CHECKPOINTS = 3;
+}
+
+// WatchRequest specifies what mutations to watch for, and an optional start snapshot for when to start
 // watching.
 message WatchRequest {
-  // optional_object_types is a filter of resource object types to watch for changes.
+  // optional_object_types is a filter of resource object types to watch for relationship changes.
   // If specified, only changes to the specified object types will be returned and
   // optional_relationship_filters cannot be used.
   repeated string optional_object_types = 1 [
@@ -52,10 +59,13 @@ message WatchRequest {
   // this allows clients to match relationships on multiple filters on a single watch call.
   // If specified, optional_object_types cannot be used.
   repeated RelationshipFilter optional_relationship_filters = 3;
+
+  // optional_update_kinds, if specified, indicates what kinds of mutations to include
+  repeated WatchKind optional_update_kinds = 4;
 }
 
-// WatchResponse contains all tuple modification events in ascending
-// timestamp order, from the requested start snapshot to a snapshot
+// WatchResponse contains all mutation events in ascending timestamp order,
+// from the requested start snapshot to a snapshot
 // encoded in the watch response. The client can use the snapshot to resume
 // watching where the previous watch response left off.
 message WatchResponse {
@@ -72,4 +82,11 @@ message WatchResponse {
   // given to SpiceDB during the transaction that produced the changes in this response.
   // This field may not exist if no transaction metadata was provided.
   google.protobuf.Struct optional_transaction_metadata = 3;
+
+  // schema_updates are the schema update events that have occurred since the
+  // last watch response.
+  repeated ReflectionSchemaDiff schema_updates = 4;
+
+  // is_checkpoint, if true, indicates that a revision was reached.
+  bool is_checkpoint = 5;
 }
