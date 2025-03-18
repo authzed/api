@@ -87,5 +87,6 @@ message WatchResponse {
   // last watch response.
   repeated ReflectionSchemaDiff schema_updates = 4;
 
+  // is_checkpoint, if true, indicates that a revision was reached.
   bool is_checkpoint = 5;
 }
