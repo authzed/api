@@ -11,6 +11,7 @@ import "validate/validate.proto";
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/permission_service.proto";
+import "authzed/api/v1/schema_service.proto";
 
 service WatchService {
   rpc Watch(WatchRequest) returns (stream WatchResponse) {
@@ -19,6 +20,13 @@ service WatchService {
       body: "*"
     };
   }
+}
+
+enum WatchKind {
+  WATCH_KIND_UNSPECIFIED = 0; // Default, just relationship updates (for backwards compatibility)
+  WATCH_KIND_INCLUDE_RELATIONSHIP_UPDATES = 1;
+  WATCH_KIND_INCLUDE_SCHEMA_UPDATES = 2;
+  WATCH_KIND_INCLUDE_CHECKPOINTS = 3;
 }
 
 // WatchRequest specifies what mutations to watch for, and an optional start snapshot for when to start
@@ -52,13 +60,12 @@ message WatchRequest {
   // If specified, optional_object_types cannot be used.
   repeated RelationshipFilter optional_relationship_filters = 3;
 
-  // optional_include_schema_updates, if specified, will modify the response
-  // so that it also includes changes made to the schema.
-  bool optional_include_schema_updates = 4;
+  // optional_update_kinds, if specified, indicates what kinds of mutations to include
+  repeated WatchKind optional_update_kinds = 4;
 }
 
-// WatchResponse contains all tuple modification events and, optionally, schema modification events,
-// in ascending timestamp order, from the requested start snapshot to a snapshot
+// WatchResponse contains all mutation events in ascending timestamp order,
+// from the requested start snapshot to a snapshot
 // encoded in the watch response. The client can use the snapshot to resume
 // watching where the previous watch response left off.
 message WatchResponse {
@@ -78,5 +85,7 @@ message WatchResponse {
 
   // schema_updates are the schema update events that have occurred since the
   // last watch response.
-  repeated SchemaUpdate schema_updates = 4;
+  repeated ReflectionSchemaDiff schema_updates = 4;
+
+  bool is_checkpoint = 5;
 }

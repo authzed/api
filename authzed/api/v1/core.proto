@@ -111,19 +111,6 @@ message RelationshipUpdate {
   Relationship relationship = 2 [ (validate.rules).message.required = true ];
 }
 
-// SchemaUpdate is used for reporting an update made to a type definition or a caveat.
-message SchemaUpdate {
-  // name of the type definition or caveat.
-  string name = 1;
-
-  oneof type {
-    option (validate.required) = true;
-
-    string definition = 2;
-    string caveat = 3;
-  }
-}
-
 // PermissionRelationshipTree is used for representing a tree of a resource and
 // its permission relationships with other objects.
 message PermissionRelationshipTree {
