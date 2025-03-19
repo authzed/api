@@ -190,6 +190,12 @@ message RelationshipFilter {
     max_bytes : 1024,
   } ];
 
+  // optional_resource_ids is the *optional* list of resource IDs to filter relationships.
+  // If specified, optional_resource_id and optional_resource_id_prefix cannot be specified.
+  repeated string optional_resource_ids = 6 [ (validate.rules).repeated .string = {
+    pattern : "^([a-zA-Z0-9/_|\\-=+]{1,})?$",
+    max_bytes : 1024,
+  } ];
 
   // relation is the *optional* relation of the relationship.
   string optional_relation = 3 [ (validate.rules).string = {
@@ -219,6 +225,13 @@ message SubjectFilter {
   } ];
 
   string optional_subject_id = 2 [ (validate.rules).string = {
+    pattern : "^(([a-zA-Z0-9/_|\\-=+]{1,})|\\*)?$",
+    max_bytes : 1024,
+  } ];
+
+  // optional_subject_ids is the *optional* list of subject IDs to filter.
+  // If specified, optional_subject_id cannot be specified.
+  repeated string optional_subject_ids = 4 [ (validate.rules).string = {
     pattern : "^(([a-zA-Z0-9/_|\\-=+]{1,})|\\*)?$",
     max_bytes : 1024,
   } ];
@@ -256,6 +269,10 @@ message ReadRelationshipsResponse {
 
   // relationship is the found relationship.
   Relationship relationship = 2 [ (validate.rules).message.required = true ];
+
+  // optional_relationships are a list of relationships found when multiple resource and subject ids are
+  // specified in the request
+  repeated Relationship optional_relationships = 3 [ (validate.rules).message.required = true ];
 
   // after_result_cursor holds a cursor that can be used to resume the ReadRelationships stream after this
   // result.
