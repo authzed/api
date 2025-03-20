@@ -85,6 +85,8 @@ message WatchResponse {
   // schema_updated, if true, indicates that the schema was changed in this revision.
   bool schema_updated = 4;
 
-  // is_checkpoint, if true, indicates that a revision was reached.
+  // is_checkpoint, if true, indicates that a checkpoint was reached.
+  // A checkpoint indicates that the server guarantees that the client
+  // will not observe any changes at a revision below or equal to the revision in this response.
   bool is_checkpoint = 5;
 }
