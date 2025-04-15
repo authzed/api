@@ -4,8 +4,8 @@ package authzed.api.materialize.v0;
 import "authzed/api/v1/core.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
-option java_package = "com.authzed.api.materialize.v0";
 option java_multiple_files = true;
+option java_package = "com.authzed.api.materialize.v0";
 
 service WatchPermissionsService {
   // WatchPermissions returns a stream of PermissionChange events for the given permissions.

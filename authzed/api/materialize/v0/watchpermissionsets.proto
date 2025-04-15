@@ -4,8 +4,8 @@ package authzed.api.materialize.v0;
 import "authzed/api/v1/core.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
-option java_package = "com.authzed.api.materialize.v0";
 option java_multiple_files = true;
+option java_package = "com.authzed.api.materialize.v0";
 
 service WatchPermissionSetsService {
   // WatchPermissionSets returns a stream of changes to the sets which can be used to compute the watched permissions.
@@ -55,7 +55,7 @@ service WatchPermissionSetsService {
   // and the revision token from the last LookupPermissionSets response.
   rpc LookupPermissionSets(LookupPermissionSetsRequest) returns (stream LookupPermissionSetsResponse) {}
 }
-  
+
 message WatchPermissionSetsRequest {
   // optional_starting_after is used to specify the SpiceDB revision to start watching from.
   // If not specified, the watch will start from the current SpiceDB revision time of the request ("head revision").
@@ -154,21 +154,21 @@ message PermissionSetChange {
 }
 
 message SetReference {
-    // object_type is the type of object in a permission set
-    string object_type = 1;
-    // object_id is the ID of a permission set
-    string object_id = 2;
-    // permission_or_relation is the permission or relation referenced by this permission set
-    string permission_or_relation = 3;
+  // object_type is the type of object in a permission set
+  string object_type = 1;
+  // object_id is the ID of a permission set
+  string object_id = 2;
+  // permission_or_relation is the permission or relation referenced by this permission set
+  string permission_or_relation = 3;
 }
 
 message MemberReference {
-    // object_type is the type of object of a permission set member
-    string object_type = 1;
-    // object_id is the ID of a permission set member
-    string object_id = 2;
-    // optional_permission_or_relation is the permission or relation referenced by this permission set member
-    string optional_permission_or_relation = 3;
+  // object_type is the type of object of a permission set member
+  string object_type = 1;
+  // object_id is the ID of a permission set member
+  string object_id = 2;
+  // optional_permission_or_relation is the permission or relation referenced by this permission set member
+  string optional_permission_or_relation = 3;
 }
 
 // LookupPermissionSetsRequired is a signal that the consumer should perform a LookupPermissionSets call because

@@ -1,10 +1,11 @@
 syntax = "proto3";
 package authzed.api.v1alpha1;
 
+import "buf/validate/validate.proto";
+import "validate/validate.proto";
+
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1alpha1";
 option java_package = "com.authzed.api.v1alpha1";
-
-import "validate/validate.proto";
 
 // SchemaService implements operations on a Permissions System's Schema.
 service SchemaService {
@@ -13,7 +14,7 @@ service SchemaService {
   // Errors include:
   // - INVALID_ARGUMENT: a provided value has failed to semantically validate
   // - NOT_FOUND: one of the Object Definitions being requested does not exist
-  rpc ReadSchema(ReadSchemaRequest)   returns (ReadSchemaResponse)  {}
+  rpc ReadSchema(ReadSchemaRequest) returns (ReadSchemaResponse) {}
 
   // Write overwrites the current Object Definitions for a Permissions System.
   //
@@ -23,15 +24,21 @@ service SchemaService {
 
 // ReadSchemaRequest is the required data to read Object Definitions from
 // a Schema.
-message ReadSchemaRequest { 
+message ReadSchemaRequest {
   // The list of names of the Object Definitions that are being requested.
   //
   // These names must be fully qualified with their namespace (e.g.
   // myblog/post).
-  repeated string object_definitions_names = 1 [ (validate.rules).repeated .items.string = {
-    pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$",
-    max_bytes: 128,
-  } ];
+  repeated string object_definitions_names = 1 [
+    (validate.rules).repeated.items.string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    },
+    (buf.validate.field).repeated.items.string = {
+      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    }
+  ];
 }
 
 // ReadSchemaResponse is the resulting data after having read the Object
@@ -49,7 +56,10 @@ message ReadSchemaResponse {
 message WriteSchemaRequest {
   // The Schema containing one or more Object Definitions that will be written
   // to the Permissions System.
-  string schema = 1 [ (validate.rules).string.max_bytes = 262144 ]; // 256KiB
+  string schema = 1 [
+    (validate.rules).string.max_bytes = 262144,
+    (buf.validate.field).string.max_bytes = 262144
+  ]; // 256KiB
 
   // If specified, the existing revision of object definitions in the schema that must be present for
   // the write to succeed. If the revision specified differs (i.e. the underlying schema has changed),
