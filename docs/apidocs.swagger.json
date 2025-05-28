@@ -1,0 +1,3365 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Authzed",
+    "version": "1.0",
+    "contact": {
+      "name": "Authzed, Inc.",
+      "url": "https://github.com/authzed/api",
+      "email": "support@authzed.com"
+    },
+    "license": {
+      "name": "Apache 2.0 License",
+      "url": "https://github.com/authzed/api/blob/main/LICENSE"
+    }
+  },
+  "tags": [
+    {
+      "name": "WatchPermissionsService"
+    },
+    {
+      "name": "WatchPermissionSetsService"
+    },
+    {
+      "name": "DeveloperService"
+    },
+    {
+      "name": "PermissionsService"
+    },
+    {
+      "name": "ExperimentalService"
+    },
+    {
+      "name": "SchemaService"
+    },
+    {
+      "name": "WatchService"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https",
+    "wss"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/experimental/countrelationships": {
+      "post": {
+        "summary": "EXPERIMENTAL: CountRelationships returns the count of relationships for *pre-registered* filter.",
+        "operationId": "ExperimentalService_ExperimentalCountRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalCountRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalCountRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/diffschema": {
+      "post": {
+        "summary": "DEPRECATED: Promoted to DiffSchema in the stable API.",
+        "operationId": "ExperimentalService_ExperimentalDiffSchema",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalDiffSchemaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalDiffSchemaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/permissions/bulkcheckpermission": {
+      "post": {
+        "summary": "NOTE: BulkCheckPermission has been promoted to the stable API as \"CheckBulkPermission\" and the\nAPI will be removed from experimental in a future release.",
+        "operationId": "ExperimentalService_BulkCheckPermission",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BulkCheckPermissionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "NOTE: Deprecated now that BulkCheckPermission has been promoted to the stable API as \"CheckBulkPermission\".",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkCheckPermissionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/permissions/computable": {
+      "post": {
+        "summary": "DEPRECATED: Promoted to ComputablePermissions in the stable API.",
+        "operationId": "ExperimentalService_ExperimentalComputablePermissions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalComputablePermissionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalComputablePermissionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/permissions/dependent": {
+      "post": {
+        "summary": "DEPRECATED: Promoted to DependentRelations in the stable API.",
+        "operationId": "ExperimentalService_ExperimentalDependentRelations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalDependentRelationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalDependentRelationsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/reflectschema": {
+      "post": {
+        "summary": "DEPRECATED: Promoted to ReflectSchema in the stable API.",
+        "operationId": "ExperimentalService_ExperimentalReflectSchema",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalReflectSchemaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalReflectSchemaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/registerrelationshipcounter": {
+      "post": {
+        "summary": "EXPERIMENTAL: RegisterRelationshipCounter registers a new filter for counting relationships. A filter must be registered before\na count can be requested.",
+        "operationId": "ExperimentalService_ExperimentalRegisterRelationshipCounter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalRegisterRelationshipCounterResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalRegisterRelationshipCounterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/relationships/bulkexport": {
+      "post": {
+        "summary": "BulkExportRelationships is the fastest path available to exporting\nrelationships from the server. It is resumable, and will return results\nin an order determined by the server.",
+        "operationId": "ExperimentalService_BulkExportRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/BulkExportRelationshipsResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/Status"
+                }
+              },
+              "title": "Stream result of BulkExportRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "BulkExportRelationshipsRequest represents a resumable request for\nall relationships from the server.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkExportRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/relationships/bulkimport": {
+      "post": {
+        "summary": "BulkImportRelationships is a faster path to writing a large number of\nrelationships at once. It is both batched and streaming. For maximum\nperformance, the caller should attempt to write relationships in as close\nto relationship sort order as possible: (resource.object_type,\nresource.object_id, relation, subject.object.object_type,\nsubject.object.object_id, subject.optional_relation)",
+        "description": "EXPERIMENTAL\nhttps://github.com/authzed/spicedb/issues/1303",
+        "operationId": "ExperimentalService_BulkImportRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BulkImportRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "BulkImportRelationshipsRequest represents one batch of the streaming\nBulkImportRelationships API. The maximum size is only limited by the backing\ndatastore, and optimal size should be determined by the calling client\nexperimentally. When BulkImport is invoked and receives its first request message,\na transaction is opened to import the relationships. All requests sent to the same\ninvocation are executed under this single transaction. If a relationship already\nexists within the datastore, the entire transaction will fail with an error. (streaming inputs)",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkImportRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/experimental/unregisterrelationshipcounter": {
+      "post": {
+        "summary": "EXPERIMENTAL: UnregisterRelationshipCounter unregisters an existing filter for counting relationships.",
+        "operationId": "ExperimentalService_ExperimentalUnregisterRelationshipCounter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExperimentalUnregisterRelationshipCounterResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExperimentalUnregisterRelationshipCounterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ExperimentalService"
+        ]
+      }
+    },
+    "/v1/permissions/check": {
+      "post": {
+        "summary": "CheckPermission determines for a given resource whether a subject computes\nto having a permission or is a direct member of a particular relation.",
+        "operationId": "PermissionsService_CheckPermission",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CheckPermissionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "CheckPermissionRequest issues a check on whether a subject has a permission\nor is a member of a relation, on a specific resource.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckPermissionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/permissions/checkbulk": {
+      "post": {
+        "summary": "CheckBulkPermissions evaluates the given list of permission checks\nand returns the list of results.",
+        "operationId": "PermissionsService_CheckBulkPermissions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CheckBulkPermissionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "CheckBulkPermissionsRequest issues a check on whether a subject has permission\nor is a member of a relation on a specific resource for each item in the list.\n\nThe ordering of the items in the response is maintained in the response.\nChecks with the same subject/permission will automatically be batched for performance optimization.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckBulkPermissionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/permissions/expand": {
+      "post": {
+        "summary": "ExpandPermissionTree reveals the graph structure for a resource's\npermission or relation. This RPC does not recurse infinitely deep and may\nrequire multiple calls to fully unnest a deeply nested graph.",
+        "operationId": "PermissionsService_ExpandPermissionTree",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ExpandPermissionTreeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ExpandPermissionTreeRequest returns a tree representing the expansion of all\nrelationships found accessible from a permission or relation on a particular\nresource.\n\nExpandPermissionTreeRequest is typically used to determine the full set of\nsubjects with a permission, along with the relationships that grant said\naccess.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExpandPermissionTreeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/permissions/resources": {
+      "post": {
+        "summary": "LookupResources returns all the resources of a given type that a subject\ncan access whether via a computed permission or relation membership.",
+        "operationId": "PermissionsService_LookupResources",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/LookupResourcesResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/Status"
+                }
+              },
+              "title": "Stream result of LookupResourcesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "LookupResourcesRequest performs a lookup of all resources of a particular\nkind on which the subject has the specified permission or the relation in\nwhich the subject exists, streaming back the IDs of those resources.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LookupResourcesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/permissions/subjects": {
+      "post": {
+        "summary": "LookupSubjects returns all the subjects of a given type that\nhave access whether via a computed permission or relation membership.",
+        "operationId": "PermissionsService_LookupSubjects",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/LookupSubjectsResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/Status"
+                }
+              },
+              "title": "Stream result of LookupSubjectsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "LookupSubjectsRequest performs a lookup of all subjects of a particular\nkind for which the subject has the specified permission or the relation in\nwhich the subject exists, streaming back the IDs of those subjects.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LookupSubjectsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/relationships/delete": {
+      "post": {
+        "summary": "DeleteRelationships atomically bulk deletes all relationships matching the\nprovided filter. If no relationships match, none will be deleted and the\noperation will succeed. An optional set of preconditions can be provided that must\nbe satisfied for the operation to commit.",
+        "operationId": "PermissionsService_DeleteRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DeleteRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "DeleteRelationshipsRequest specifies which Relationships should be deleted,\nrequesting the delete of *ALL* relationships that match the specified\nfilters. If the optional_preconditions parameter is included, all of the\nspecified preconditions must also be satisfied before the delete will be\nexecuted.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/relationships/exportbulk": {
+      "post": {
+        "summary": "ExportBulkRelationships is the fastest path available to exporting\nrelationships from the server. It is resumable, and will return results\nin an order determined by the server.",
+        "operationId": "PermissionsService_ExportBulkRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/ExportBulkRelationshipsResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/Status"
+                }
+              },
+              "title": "Stream result of ExportBulkRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ExportBulkRelationshipsRequest represents a resumable request for\nall relationships from the server.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExportBulkRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/relationships/importbulk": {
+      "post": {
+        "summary": "ImportBulkRelationships is a faster path to writing a large number of\nrelationships at once. It is both batched and streaming. For maximum\nperformance, the caller should attempt to write relationships in as close\nto relationship sort order as possible: (resource.object_type,\nresource.object_id, relation, subject.object.object_type,\nsubject.object.object_id, subject.optional_relation). All relationships\nwritten are done so under a single transaction.",
+        "operationId": "PermissionsService_ImportBulkRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ImportBulkRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ImportBulkRelationshipsRequest represents one batch of the streaming\nImportBulkRelationships API. The maximum size is only limited by the backing\ndatastore, and optimal size should be determined by the calling client\nexperimentally. When ImportBulk is invoked and receives its first request message,\na transaction is opened to import the relationships. All requests sent to the same\ninvocation are executed under this single transaction. If a relationship already\nexists within the datastore, the entire transaction will fail with an error. (streaming inputs)",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportBulkRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/relationships/read": {
+      "post": {
+        "summary": "ReadRelationships reads a set of the relationships matching one or more\nfilters.",
+        "operationId": "PermissionsService_ReadRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/ReadRelationshipsResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/Status"
+                }
+              },
+              "title": "Stream result of ReadRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ReadRelationshipsRequest specifies one or more filters used to read matching\nrelationships within the system.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReadRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/relationships/write": {
+      "post": {
+        "summary": "WriteRelationships atomically writes and/or deletes a set of specified\nrelationships. An optional set of preconditions can be provided that must\nbe satisfied for the operation to commit.",
+        "operationId": "PermissionsService_WriteRelationships",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/WriteRelationshipsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "WriteRelationshipsRequest contains a list of Relationship mutations that\nshould be applied to the service. If the optional_preconditions parameter\nis included, all of the specified preconditions must also be satisfied before\nthe write will be committed. All updates will be applied transactionally,\nand if any preconditions fail, the entire transaction will be reverted.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WriteRelationshipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionsService"
+        ]
+      }
+    },
+    "/v1/schema/diffschema": {
+      "post": {
+        "summary": "DiffSchema returns the difference between the specified schema and the current\nschema stored in SpiceDB.",
+        "operationId": "SchemaService_DiffSchema",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DiffSchemaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiffSchemaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SchemaService"
+        ]
+      }
+    },
+    "/v1/schema/permissions/computable": {
+      "post": {
+        "summary": "ComputablePermissions returns the set of permissions that compute based off a relation\nin the current schema. For example, if the schema has a relation `viewer` and a permission\n`view` defined as `permission view = viewer + editor`, then the\ncomputable permissions for the relation `viewer` will include `view`.",
+        "operationId": "SchemaService_ComputablePermissions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ComputablePermissionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ComputablePermissionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SchemaService"
+        ]
+      }
+    },
+    "/v1/schema/permissions/dependent": {
+      "post": {
+        "summary": "DependentRelations returns the set of relations and permissions that used\nto compute a permission, recursively, in the current schema. It is the\ninverse of the ComputablePermissions API.",
+        "operationId": "SchemaService_DependentRelations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DependentRelationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DependentRelationsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SchemaService"
+        ]
+      }
+    },
+    "/v1/schema/read": {
+      "post": {
+        "summary": "Read returns the current Object Definitions for a Permissions System.",
+        "description": "Errors include:\n- INVALID_ARGUMENT: a provided value has failed to semantically validate\n- NOT_FOUND: no schema has been defined",
+        "operationId": "SchemaService_ReadSchema",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReadSchemaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "ReadSchemaRequest returns the schema from the database.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReadSchemaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SchemaService"
+        ]
+      }
+    },
+    "/v1/schema/reflectschema": {
+      "post": {
+        "summary": "ReflectSchema reflects the current schema stored in SpiceDB, returning a structural\nform of the schema for use by client tooling.",
+        "operationId": "SchemaService_ReflectSchema",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReflectSchemaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReflectSchemaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SchemaService"
+        ]
+      }
+    },
+    "/v1/schema/write": {
+      "post": {
+        "summary": "Write overwrites the current Object Definitions for a Permissions System.",
+        "operationId": "SchemaService_WriteSchema",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/WriteSchemaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "WriteSchemaRequest is the required data used to \"upsert\" the Schema of a\nPermissions System.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WriteSchemaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SchemaService"
+        ]
+      }
+    },
+    "/v1/watch": {
+      "post": {
+        "operationId": "WatchService_Watch",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/WatchResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/Status"
+                }
+              },
+              "title": "Stream result of WatchResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "WatchRequest specifies what mutations to watch for, and an optional start snapshot for when to start\nwatching.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WatchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WatchService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AlgebraicSubjectSet": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/AlgebraicSubjectSet.Operation"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/PermissionRelationshipTree"
+          }
+        }
+      },
+      "description": "AlgebraicSubjectSet is a subject set which is computed based on applying the\nspecified operation to the operands according to the algebra of sets.\n\nUNION is a logical set containing the subject members from all operands.\n\nINTERSECTION is a logical set containing only the subject members which are\npresent in all operands.\n\nEXCLUSION is a logical set containing only the subject members which are\npresent in the first operand, and none of the other operands."
+    },
+    "AlgebraicSubjectSet.Operation": {
+      "type": "string",
+      "enum": [
+        "OPERATION_UNSPECIFIED",
+        "OPERATION_UNION",
+        "OPERATION_INTERSECTION",
+        "OPERATION_EXCLUSION"
+      ],
+      "default": "OPERATION_UNSPECIFIED"
+    },
+    "Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "BreakingSchemaChange": {
+      "type": "object",
+      "properties": {
+        "changeAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "change_at is the revision at which a breaking schema event has happened."
+        }
+      },
+      "description": "BreakingSchemaChange is used to signal a breaking schema change has happened, and that the consumer should\nexpect delays in the ingestion of new changes, because the permission set snapshot needs to be rebuilt from scratch.\nOnce the snapshot is ready, the consumer will receive a LookupPermissionSetsRequired event."
+    },
+    "BulkCheckPermissionPair": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "$ref": "#/definitions/BulkCheckPermissionRequestItem"
+        },
+        "item": {
+          "$ref": "#/definitions/BulkCheckPermissionResponseItem"
+        },
+        "error": {
+          "$ref": "#/definitions/Status"
+        }
+      }
+    },
+    "BulkCheckPermissionRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/BulkCheckPermissionRequestItem"
+          }
+        }
+      },
+      "description": "NOTE: Deprecated now that BulkCheckPermission has been promoted to the stable API as \"CheckBulkPermission\"."
+    },
+    "BulkCheckPermissionRequestItem": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/ObjectReference"
+        },
+        "permission": {
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference"
+        },
+        "context": {
+          "type": "object"
+        }
+      }
+    },
+    "BulkCheckPermissionResponse": {
+      "type": "object",
+      "properties": {
+        "checkedAt": {
+          "$ref": "#/definitions/ZedToken"
+        },
+        "pairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/BulkCheckPermissionPair"
+          }
+        }
+      }
+    },
+    "BulkCheckPermissionResponseItem": {
+      "type": "object",
+      "properties": {
+        "permissionship": {
+          "$ref": "#/definitions/CheckPermissionResponse.Permissionship"
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo"
+        }
+      }
+    },
+    "BulkExportRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "optionalLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "optional_limit, if non-zero, specifies the limit on the number of\nrelationships the server can return in one page. By default, the server\nwill pick a page size, and the server is free to choose a smaller size\nat will."
+        },
+        "optionalCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "optional_cursor, if specified, indicates the cursor after which results\nshould resume being returned. The cursor can be found on the\nBulkExportRelationshipsResponse object."
+        },
+        "optionalRelationshipFilter": {
+          "$ref": "#/definitions/RelationshipFilter",
+          "description": "optional_relationship_filter, if specified, indicates the\nfilter to apply to each relationship to be exported."
+        }
+      },
+      "description": "BulkExportRelationshipsRequest represents a resumable request for\nall relationships from the server."
+    },
+    "BulkExportRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "afterResultCursor": {
+          "$ref": "#/definitions/v1.Cursor"
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Relationship"
+          }
+        }
+      },
+      "description": "BulkExportRelationshipsResponse is one page in a stream of relationship\ngroups that meet the criteria specified by the originating request. The\nserver will continue to stream back relationship groups as quickly as it can\nuntil all relationships have been transmitted back."
+    },
+    "BulkImportRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Relationship"
+          }
+        }
+      },
+      "description": "BulkImportRelationshipsRequest represents one batch of the streaming\nBulkImportRelationships API. The maximum size is only limited by the backing\ndatastore, and optimal size should be determined by the calling client\nexperimentally. When BulkImport is invoked and receives its first request message,\na transaction is opened to import the relationships. All requests sent to the same\ninvocation are executed under this single transaction. If a relationship already\nexists within the datastore, the entire transaction will fail with an error."
+    },
+    "BulkImportRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "numLoaded": {
+          "type": "string",
+          "format": "uint64"
+        }
+      },
+      "description": "BulkImportRelationshipsResponse is returned on successful completion of the\nbulk load stream, and contains the total number of relationships loaded."
+    },
+    "CaveatEvalInfo": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string",
+          "description": "expression is the expression that was evaluated."
+        },
+        "result": {
+          "$ref": "#/definitions/Result",
+          "description": "result is the result of the evaluation."
+        },
+        "context": {
+          "type": "object",
+          "description": "context consists of any named values that were used for evaluating the caveat expression."
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo",
+          "description": "partial_caveat_info holds information of a partially-evaluated caveated response, if applicable."
+        },
+        "caveatName": {
+          "type": "string",
+          "description": "caveat_name is the name of the caveat that was executed, if applicable."
+        }
+      },
+      "description": "CaveatEvalInfo holds information about a caveat expression that was evaluated."
+    },
+    "CheckBulkPermissionsPair": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "$ref": "#/definitions/CheckBulkPermissionsRequestItem"
+        },
+        "item": {
+          "$ref": "#/definitions/CheckBulkPermissionsResponseItem"
+        },
+        "error": {
+          "$ref": "#/definitions/Status"
+        }
+      }
+    },
+    "CheckBulkPermissionsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/CheckBulkPermissionsRequestItem"
+          }
+        },
+        "withTracing": {
+          "type": "boolean",
+          "description": "with_tracing, if true, indicates that each response should include a debug trace.\nThis can be useful for debugging and performance analysis, but adds a small amount\nof compute overhead to the request."
+        }
+      },
+      "description": "CheckBulkPermissionsRequest issues a check on whether a subject has permission\nor is a member of a relation on a specific resource for each item in the list.\n\nThe ordering of the items in the response is maintained in the response.\nChecks with the same subject/permission will automatically be batched for performance optimization."
+    },
+    "CheckBulkPermissionsRequestItem": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/ObjectReference"
+        },
+        "permission": {
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference"
+        },
+        "context": {
+          "type": "object"
+        }
+      }
+    },
+    "CheckBulkPermissionsResponse": {
+      "type": "object",
+      "properties": {
+        "checkedAt": {
+          "$ref": "#/definitions/ZedToken"
+        },
+        "pairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/CheckBulkPermissionsPair"
+          }
+        }
+      }
+    },
+    "CheckBulkPermissionsResponseItem": {
+      "type": "object",
+      "properties": {
+        "permissionship": {
+          "$ref": "#/definitions/CheckPermissionResponse.Permissionship"
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo"
+        },
+        "debugTrace": {
+          "$ref": "#/definitions/DebugInformation",
+          "description": "debug_trace is the debugging trace of this check, if requested."
+        }
+      }
+    },
+    "CheckDebugTrace": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/ObjectReference",
+          "description": "resource holds the resource on which the Check was performed.\nfor batched calls, the object_id field contains a comma-separated list of object IDs\nfor all the resources checked in the batch."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission holds the name of the permission or relation on which the Check was performed."
+        },
+        "permissionType": {
+          "$ref": "#/definitions/PermissionType",
+          "description": "permission_type holds information indicating whether it was a permission or relation."
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference",
+          "description": "subject holds the subject on which the Check was performed. This will be static across all calls within\nthe same Check tree."
+        },
+        "result": {
+          "$ref": "#/definitions/CheckDebugTrace.Permissionship",
+          "description": "result holds the result of the Check call."
+        },
+        "caveatEvaluationInfo": {
+          "$ref": "#/definitions/CaveatEvalInfo",
+          "description": "caveat_evaluation_info holds information about the caveat evaluated for this step of the trace."
+        },
+        "duration": {
+          "type": "string",
+          "description": "duration holds the time spent executing this Check operation."
+        },
+        "wasCachedResult": {
+          "type": "boolean",
+          "description": "was_cached_result, if true, indicates that the result was found in the cache and returned directly."
+        },
+        "subProblems": {
+          "$ref": "#/definitions/SubProblems",
+          "description": "sub_problems holds the sub problems that were executed to resolve the answer to this Check. An empty list\nand a permissionship of PERMISSIONSHIP_HAS_PERMISSION indicates the subject was found within this relation."
+        },
+        "optionalExpiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "optional_expires_at is the time at which at least one of the relationships used to\ncompute this result, expires (if any). This is *not* related to the caching window."
+        },
+        "traceOperationId": {
+          "type": "string",
+          "description": "trace_operation_id is a unique identifier for this trace's operation, that will\nbe shared for all traces created for the same check operation in SpiceDB.\n\nIn cases where SpiceDB performs automatic batching of subproblems, this ID can be used\nto correlate work that was shared across multiple traces.\n\nThis identifier is generated by SpiceDB, is to be considered opaque to the caller\nand only guaranteed to be unique within the same overall Check or CheckBulk operation."
+        },
+        "source": {
+          "type": "string",
+          "description": "source holds the source of the result. It is of the form:\n`\u003csourcetype\u003e:\u003csourceid\u003e`, where sourcetype can be, among others:\n`spicedb`, `materialize`, etc."
+        }
+      },
+      "description": "CheckDebugTrace is a recursive trace of the requests made for resolving a CheckPermission\nAPI call."
+    },
+    "CheckDebugTrace.Permissionship": {
+      "type": "string",
+      "enum": [
+        "PERMISSIONSHIP_UNSPECIFIED",
+        "PERMISSIONSHIP_NO_PERMISSION",
+        "PERMISSIONSHIP_HAS_PERMISSION",
+        "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
+      ],
+      "default": "PERMISSIONSHIP_UNSPECIFIED"
+    },
+    "CheckPermissionRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "resource": {
+          "$ref": "#/definitions/ObjectReference",
+          "description": "resource is the resource on which to check the permission or relation."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission is the name of the permission (or relation) on which to execute\nthe check."
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference",
+          "description": "subject is the subject that will be checked for the permission or relation."
+        },
+        "context": {
+          "type": "object",
+          "title": "context consists of named values that are injected into the caveat evaluation context"
+        },
+        "withTracing": {
+          "type": "boolean",
+          "description": "with_tracing, if true, indicates that the response should include a debug trace.\nThis can be useful for debugging and performance analysis, but adds a small amount\nof compute overhead to the request."
+        }
+      },
+      "description": "CheckPermissionRequest issues a check on whether a subject has a permission\nor is a member of a relation, on a specific resource."
+    },
+    "CheckPermissionResponse": {
+      "type": "object",
+      "properties": {
+        "checkedAt": {
+          "$ref": "#/definitions/ZedToken"
+        },
+        "permissionship": {
+          "$ref": "#/definitions/CheckPermissionResponse.Permissionship",
+          "description": "Permissionship communicates whether or not the subject has the requested\npermission or has a relationship with the given resource, over the given\nrelation.\n\nThis value will be authzed.api.v1.PERMISSIONSHIP_HAS_PERMISSION if the\nrequested subject is a member of the computed permission set or there\nexists a relationship with the requested relation from the given resource\nto the given subject."
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo",
+          "title": "partial_caveat_info holds information of a partially-evaluated caveated response"
+        },
+        "debugTrace": {
+          "$ref": "#/definitions/DebugInformation",
+          "description": "debug_trace is the debugging trace of this check, if requested."
+        },
+        "optionalExpiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "optional_expires_at is the time at which at least one of the relationships used to\ncompute this result, expires (if any). This is *not* related to the caching window."
+        }
+      }
+    },
+    "CheckPermissionResponse.Permissionship": {
+      "type": "string",
+      "enum": [
+        "PERMISSIONSHIP_UNSPECIFIED",
+        "PERMISSIONSHIP_NO_PERMISSION",
+        "PERMISSIONSHIP_HAS_PERMISSION",
+        "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
+      ],
+      "default": "PERMISSIONSHIP_UNSPECIFIED"
+    },
+    "ComputablePermissionsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "definitionName": {
+          "type": "string"
+        },
+        "relationName": {
+          "type": "string"
+        },
+        "optionalDefinitionNameFilter": {
+          "type": "string",
+          "description": "optional_definition_name_match is a prefix that is matched against the definition name(s)\nfor the permissions returned.\nIf not specified, will be ignored."
+        }
+      }
+    },
+    "ComputablePermissionsResponse": {
+      "type": "object",
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionRelationReference"
+          }
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "Consistency": {
+      "type": "object",
+      "properties": {
+        "minimizeLatency": {
+          "type": "boolean",
+          "description": "minimize_latency indicates that the latency for the call should be\nminimized by having the system select the fastest snapshot available."
+        },
+        "atLeastAsFresh": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "at_least_as_fresh indicates that all data used in the API call must be\n*at least as fresh* as that found in the ZedToken; more recent data might\nbe used if available or faster."
+        },
+        "atExactSnapshot": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "at_exact_snapshot indicates that all data used in the API call must be\n*at the given* snapshot in time; if the snapshot is no longer available,\nan error will be returned to the caller."
+        },
+        "fullyConsistent": {
+          "type": "boolean",
+          "description": "fully_consistent indicates that all data used in the API call *must* be\nat the most recent snapshot found.\n\nNOTE: using this method can be *quite slow*, so unless there is a need to\ndo so, it is recommended to use `at_least_as_fresh` with a stored\nZedToken."
+        }
+      },
+      "description": "Consistency will define how a request is handled by the backend.\nBy defining a consistency requirement, and a token at which those\nrequirements should be applied, where applicable."
+    },
+    "ContextualizedCaveat": {
+      "type": "object",
+      "properties": {
+        "caveatName": {
+          "type": "string",
+          "title": "caveat_name is the name of the caveat expression to use, as defined in the schema"
+        },
+        "context": {
+          "type": "object",
+          "title": "context consists of any named values that are defined at write time for the caveat expression"
+        }
+      },
+      "description": "ContextualizedCaveat represents a reference to a caveat to be used by caveated relationships.\nThe context consists of key-value pairs that will be injected at evaluation time.\nThe keys must match the arguments defined on the caveat in the schema."
+    },
+    "DebugInformation": {
+      "type": "object",
+      "properties": {
+        "check": {
+          "$ref": "#/definitions/CheckDebugTrace",
+          "description": "check holds debug information about a check request."
+        },
+        "schemaUsed": {
+          "type": "string",
+          "description": "schema_used holds the schema used for the request."
+        }
+      },
+      "description": "DebugInformation defines debug information returned by an API call in a footer when\nrequested with a specific debugging header.\n\nThe specific debug information returned will depend on the type of the API call made.\n\nSee the github.com/authzed/authzed-go project for the specific header and footer names."
+    },
+    "DeleteRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "relationshipFilter": {
+          "$ref": "#/definitions/RelationshipFilter"
+        },
+        "optionalPreconditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Precondition"
+          },
+          "title": "To be bounded by configuration"
+        },
+        "optionalLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "optional_limit, if non-zero, specifies the limit on the number of relationships to be deleted.\nIf there are more matching relationships found to be deleted than the limit specified here,\nthe deletion call will fail with an error to prevent partial deletion. If partial deletion\nis needed, specify below that partial deletion is allowed. Partial deletions can be used\nin a loop to delete large amounts of relationships in a *non-transactional* manner."
+        },
+        "optionalAllowPartialDeletions": {
+          "type": "boolean",
+          "description": "optional_allow_partial_deletions, if true and a limit is specified, will delete matching found\nrelationships up to the count specified in optional_limit, and no more."
+        },
+        "optionalTransactionMetadata": {
+          "type": "object",
+          "description": "optional_transaction_metadata is an optional field that can be used to store metadata about the transaction.\nIf specified, this metadata will be supplied in the WatchResponse for the deletions associated with\nthis transaction."
+        }
+      },
+      "description": "DeleteRelationshipsRequest specifies which Relationships should be deleted,\nrequesting the delete of *ALL* relationships that match the specified\nfilters. If the optional_preconditions parameter is included, all of the\nspecified preconditions must also be satisfied before the delete will be\nexecuted."
+    },
+    "DeleteRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "deletedAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "deleted_at is the revision at which the relationships were deleted."
+        },
+        "deletionProgress": {
+          "$ref": "#/definitions/DeletionProgress",
+          "description": "deletion_progress is an enumeration of the possible outcomes that occurred when attempting to delete the specified relationships."
+        },
+        "relationshipsDeletedCount": {
+          "type": "string",
+          "format": "uint64",
+          "description": "relationships_deleted_count is the number of relationships that were deleted."
+        }
+      }
+    },
+    "DeletionProgress": {
+      "type": "string",
+      "enum": [
+        "DELETION_PROGRESS_UNSPECIFIED",
+        "DELETION_PROGRESS_COMPLETE",
+        "DELETION_PROGRESS_PARTIAL"
+      ],
+      "default": "DELETION_PROGRESS_UNSPECIFIED",
+      "description": " - DELETION_PROGRESS_COMPLETE: DELETION_PROGRESS_COMPLETE indicates that all remaining relationships matching the filter\nwere deleted. Will be returned even if no relationships were deleted.\n - DELETION_PROGRESS_PARTIAL: DELETION_PROGRESS_PARTIAL indicates that a subset of the relationships matching the filter\nwere deleted. Only returned if optional_allow_partial_deletions was true, an optional_limit was\nspecified, and there existed more relationships matching the filter than optional_limit would allow.\nOnce all remaining relationships have been deleted, DELETION_PROGRESS_COMPLETE will be returned."
+    },
+    "DependentRelationsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "definitionName": {
+          "type": "string"
+        },
+        "permissionName": {
+          "type": "string"
+        }
+      }
+    },
+    "DependentRelationsResponse": {
+      "type": "object",
+      "properties": {
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionRelationReference"
+          }
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "DiffSchemaRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "comparisonSchema": {
+          "type": "string"
+        }
+      }
+    },
+    "DiffSchemaResponse": {
+      "type": "object",
+      "properties": {
+        "diffs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionSchemaDiff"
+          }
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "DirectSubjectSet": {
+      "type": "object",
+      "properties": {
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/SubjectReference"
+          }
+        }
+      },
+      "description": "DirectSubjectSet is a subject set which is simply a collection of subjects."
+    },
+    "ExpCaveat": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "description": "comment is a human-readable comments on the caveat. Will include\ndelimiter characters."
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpCaveatParameter"
+          }
+        },
+        "expression": {
+          "type": "string"
+        }
+      },
+      "description": "ExpCaveat is the representation of a caveat in the schema."
+    },
+    "ExpCaveatParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "title": "type is the type of the parameter. Will be a string representing the\ntype, e.g. `int` or `list\u003cstring\u003e`"
+        },
+        "parentCaveatName": {
+          "type": "string"
+        }
+      },
+      "description": "ExpCaveatParameter is the representation of a parameter in a caveat."
+    },
+    "ExpCaveatParameterTypeChange": {
+      "type": "object",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/ExpCaveatParameter"
+        },
+        "previousType": {
+          "type": "string"
+        }
+      }
+    },
+    "ExpDefinition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "description": "comment is a human-readable comments on the definition. Will include\ndelimiter characters."
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpRelation"
+          }
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpPermission"
+          }
+        }
+      },
+      "description": "ExpDefinition is the representation of a definition in the schema."
+    },
+    "ExpPermission": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "description": "comment is a human-readable comments on the permission. Will include\ndelimiter characters."
+        },
+        "parentDefinitionName": {
+          "type": "string"
+        }
+      },
+      "description": "ExpPermission is the representation of a permission in the schema."
+    },
+    "ExpRelation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "parentDefinitionName": {
+          "type": "string"
+        },
+        "subjectTypes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpTypeReference"
+          }
+        }
+      },
+      "description": "ExpRelation is the representation of a relation in the schema."
+    },
+    "ExpRelationReference": {
+      "type": "object",
+      "properties": {
+        "definitionName": {
+          "type": "string"
+        },
+        "relationName": {
+          "type": "string"
+        },
+        "isPermission": {
+          "type": "boolean"
+        }
+      },
+      "description": "ExpRelationReference is a reference to a relation or permission in the schema."
+    },
+    "ExpRelationSubjectTypeChange": {
+      "type": "object",
+      "properties": {
+        "relation": {
+          "$ref": "#/definitions/ExpRelation"
+        },
+        "changedSubjectType": {
+          "$ref": "#/definitions/ExpTypeReference"
+        }
+      }
+    },
+    "ExpSchemaDiff": {
+      "type": "object",
+      "properties": {
+        "definitionAdded": {
+          "$ref": "#/definitions/ExpDefinition"
+        },
+        "definitionRemoved": {
+          "$ref": "#/definitions/ExpDefinition"
+        },
+        "definitionDocCommentChanged": {
+          "$ref": "#/definitions/ExpDefinition"
+        },
+        "relationAdded": {
+          "$ref": "#/definitions/ExpRelation"
+        },
+        "relationRemoved": {
+          "$ref": "#/definitions/ExpRelation"
+        },
+        "relationDocCommentChanged": {
+          "$ref": "#/definitions/ExpRelation"
+        },
+        "relationSubjectTypeAdded": {
+          "$ref": "#/definitions/ExpRelationSubjectTypeChange"
+        },
+        "relationSubjectTypeRemoved": {
+          "$ref": "#/definitions/ExpRelationSubjectTypeChange"
+        },
+        "permissionAdded": {
+          "$ref": "#/definitions/ExpPermission"
+        },
+        "permissionRemoved": {
+          "$ref": "#/definitions/ExpPermission"
+        },
+        "permissionDocCommentChanged": {
+          "$ref": "#/definitions/ExpPermission"
+        },
+        "permissionExprChanged": {
+          "$ref": "#/definitions/ExpPermission"
+        },
+        "caveatAdded": {
+          "$ref": "#/definitions/ExpCaveat"
+        },
+        "caveatRemoved": {
+          "$ref": "#/definitions/ExpCaveat"
+        },
+        "caveatDocCommentChanged": {
+          "$ref": "#/definitions/ExpCaveat"
+        },
+        "caveatExprChanged": {
+          "$ref": "#/definitions/ExpCaveat"
+        },
+        "caveatParameterAdded": {
+          "$ref": "#/definitions/ExpCaveatParameter"
+        },
+        "caveatParameterRemoved": {
+          "$ref": "#/definitions/ExpCaveatParameter"
+        },
+        "caveatParameterTypeChanged": {
+          "$ref": "#/definitions/ExpCaveatParameterTypeChange"
+        }
+      },
+      "description": "ExpSchemaDiff is the representation of a diff between two schemas."
+    },
+    "ExpSchemaFilter": {
+      "type": "object",
+      "properties": {
+        "optionalDefinitionNameFilter": {
+          "type": "string",
+          "description": "optional_definition_name_filter is a prefix that is matched against the definition name."
+        },
+        "optionalCaveatNameFilter": {
+          "type": "string",
+          "description": "optional_caveat_name_filter is a prefix that is matched against the caveat name."
+        },
+        "optionalRelationNameFilter": {
+          "type": "string",
+          "description": "optional_relation_name_filter is a prefix that is matched against the relation name."
+        },
+        "optionalPermissionNameFilter": {
+          "type": "string",
+          "description": "optional_permission_name_filter is a prefix that is matched against the permission name."
+        }
+      },
+      "description": "ExpSchemaFilter is a filter that can be applied to the schema on reflection."
+    },
+    "ExpTypeReference": {
+      "type": "object",
+      "properties": {
+        "subjectDefinitionName": {
+          "type": "string",
+          "description": "subject_definition_name is the name of the subject's definition."
+        },
+        "optionalCaveatName": {
+          "type": "string",
+          "description": "optional_caveat_name is the name of the caveat that is applied to the subject, if any."
+        },
+        "isTerminalSubject": {
+          "type": "boolean",
+          "description": "is_terminal_subject is true if the subject is terminal, meaning it is referenced directly vs a sub-relation."
+        },
+        "optionalRelationName": {
+          "type": "string",
+          "description": "optional_relation_name is the name of the relation that is applied to the subject, if any."
+        },
+        "isPublicWildcard": {
+          "type": "boolean",
+          "description": "is_public_wildcard is true if the subject is a public wildcard."
+        }
+      },
+      "description": "ExpTypeReference is the representation of a type reference in the schema."
+    },
+    "ExpandPermissionTreeRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "resource": {
+          "$ref": "#/definitions/ObjectReference",
+          "description": "resource is the resource over which to run the expansion."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission is the name of the permission or relation over which to run the\nexpansion for the resource."
+        }
+      },
+      "description": "ExpandPermissionTreeRequest returns a tree representing the expansion of all\nrelationships found accessible from a permission or relation on a particular\nresource.\n\nExpandPermissionTreeRequest is typically used to determine the full set of\nsubjects with a permission, along with the relationships that grant said\naccess."
+    },
+    "ExpandPermissionTreeResponse": {
+      "type": "object",
+      "properties": {
+        "expandedAt": {
+          "$ref": "#/definitions/ZedToken"
+        },
+        "treeRoot": {
+          "$ref": "#/definitions/PermissionRelationshipTree",
+          "description": "tree_root is a tree structure whose leaf nodes are subjects, and\nintermediate nodes represent the various operations (union, intersection,\nexclusion) to reach those subjects."
+        }
+      }
+    },
+    "ExperimentalComputablePermissionsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "definitionName": {
+          "type": "string"
+        },
+        "relationName": {
+          "type": "string"
+        },
+        "optionalDefinitionNameFilter": {
+          "type": "string",
+          "description": "optional_definition_name_match is a prefix that is matched against the definition name(s)\nfor the permissions returned.\nIf not specified, will be ignored."
+        }
+      }
+    },
+    "ExperimentalComputablePermissionsResponse": {
+      "type": "object",
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpRelationReference"
+          }
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "ExperimentalCountRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name is the name of the counter whose count is being requested."
+        }
+      }
+    },
+    "ExperimentalCountRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "counterStillCalculating": {
+          "type": "boolean",
+          "description": "counter_still_calculating is true if the counter is still calculating the count."
+        },
+        "readCounterValue": {
+          "$ref": "#/definitions/ReadCounterValue",
+          "description": "read_counter_value is the value of the counter at the time of the read."
+        }
+      }
+    },
+    "ExperimentalDependentRelationsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "definitionName": {
+          "type": "string"
+        },
+        "permissionName": {
+          "type": "string"
+        }
+      }
+    },
+    "ExperimentalDependentRelationsResponse": {
+      "type": "object",
+      "properties": {
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpRelationReference"
+          }
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "ExperimentalDiffSchemaRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "comparisonSchema": {
+          "type": "string"
+        }
+      }
+    },
+    "ExperimentalDiffSchemaResponse": {
+      "type": "object",
+      "properties": {
+        "diffs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpSchemaDiff"
+          }
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "ExperimentalReflectSchemaRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "optionalFilters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpSchemaFilter"
+          },
+          "title": "optional_filters defines optional filters that are applied in\nan OR fashion to the schema, before being returned"
+        }
+      }
+    },
+    "ExperimentalReflectSchemaResponse": {
+      "type": "object",
+      "properties": {
+        "definitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpDefinition"
+          },
+          "description": "definitions are the definitions defined in the schema."
+        },
+        "caveats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ExpCaveat"
+          },
+          "description": "caveats are the caveats defined in the schema."
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "ExperimentalRegisterRelationshipCounterRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name is the name of the counter being registered."
+        },
+        "relationshipFilter": {
+          "$ref": "#/definitions/RelationshipFilter",
+          "description": "relationship_filter defines the filter to be applied to the relationships\nto be counted."
+        }
+      }
+    },
+    "ExperimentalRegisterRelationshipCounterResponse": {
+      "type": "object"
+    },
+    "ExperimentalUnregisterRelationshipCounterRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name is the name of the counter being unregistered."
+        }
+      }
+    },
+    "ExperimentalUnregisterRelationshipCounterResponse": {
+      "type": "object"
+    },
+    "ExportBulkRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "optionalLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "optional_limit, if non-zero, specifies the limit on the number of\nrelationships the server can return in one page. By default, the server\nwill pick a page size, and the server is free to choose a smaller size\nat will."
+        },
+        "optionalCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "optional_cursor, if specified, indicates the cursor after which results\nshould resume being returned. The cursor can be found on the\nBulkExportRelationshipsResponse object."
+        },
+        "optionalRelationshipFilter": {
+          "$ref": "#/definitions/RelationshipFilter",
+          "description": "optional_relationship_filter, if specified, indicates the\nfilter to apply to each relationship to be exported."
+        }
+      },
+      "description": "ExportBulkRelationshipsRequest represents a resumable request for\nall relationships from the server."
+    },
+    "ExportBulkRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "afterResultCursor": {
+          "$ref": "#/definitions/v1.Cursor"
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Relationship"
+          }
+        }
+      },
+      "description": "ExportBulkRelationshipsResponse is one page in a stream of relationship\ngroups that meet the criteria specified by the originating request. The\nserver will continue to stream back relationship groups as quickly as it can\nuntil all relationships have been transmitted back."
+    },
+    "ImportBulkRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Relationship"
+          }
+        }
+      },
+      "description": "ImportBulkRelationshipsRequest represents one batch of the streaming\nImportBulkRelationships API. The maximum size is only limited by the backing\ndatastore, and optimal size should be determined by the calling client\nexperimentally. When ImportBulk is invoked and receives its first request message,\na transaction is opened to import the relationships. All requests sent to the same\ninvocation are executed under this single transaction. If a relationship already\nexists within the datastore, the entire transaction will fail with an error."
+    },
+    "ImportBulkRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "numLoaded": {
+          "type": "string",
+          "format": "uint64"
+        }
+      },
+      "description": "ImportBulkRelationshipsResponse is returned on successful completion of the\nbulk load stream, and contains the total number of relationships loaded."
+    },
+    "LookupPermissionSetsRequired": {
+      "type": "object",
+      "properties": {
+        "requiredLookupAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "required_lookup_at is the snapshot revision at which the permission set needs to be rebuilt to."
+        }
+      },
+      "description": "LookupPermissionSetsRequired is a signal that the consumer should perform a LookupPermissionSets call because\nthe permission set snapshot needs to be rebuilt from scratch. This typically happens when the origin SpiceDB\ncluster has seen its schema changed, see BreakingSchemaChange event."
+    },
+    "LookupPermissionSetsResponse": {
+      "type": "object",
+      "properties": {
+        "change": {
+          "$ref": "#/definitions/PermissionSetChange",
+          "description": "change represents the permission set delta necessary to transition an uninitialized target system to\na specific snapshot revision. In practice it's not different from the WatchPermissionSetsResponse.change, except\nall changes will be of time SET_OPERATION_ADDED because it's assumed there is no known previous state.\n\nApplying the deltas to a previously initialized target system would yield incorrect results."
+        },
+        "cursor": {
+          "$ref": "#/definitions/v0.Cursor",
+          "description": "cursor points to a specific permission set in a revision.\nThe consumer should keep track of the cursor in order to resume streaming in the event of consumer restarts. This\nis particularly important in backfill scenarios that may take hours or event days to complete."
+        }
+      }
+    },
+    "LookupPermissionship": {
+      "type": "string",
+      "enum": [
+        "LOOKUP_PERMISSIONSHIP_UNSPECIFIED",
+        "LOOKUP_PERMISSIONSHIP_HAS_PERMISSION",
+        "LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION"
+      ],
+      "default": "LOOKUP_PERMISSIONSHIP_UNSPECIFIED",
+      "title": "LookupPermissionship represents whether a Lookup response was partially evaluated or not"
+    },
+    "LookupResourcesRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "resourceObjectType": {
+          "type": "string",
+          "description": "resource_object_type is the type of resource object for which the IDs will\nbe returned."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission is the name of the permission or relation for which the subject\nmust Check."
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference",
+          "description": "subject is the subject with access to the resources."
+        },
+        "context": {
+          "type": "object",
+          "title": "context consists of named values that are injected into the caveat evaluation context"
+        },
+        "optionalLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "optional_limit, if non-zero, specifies the limit on the number of resources to return\nbefore the stream is closed on the server side. By default, the stream will continue\nresolving resources until exhausted or the stream is closed due to the client or a\nnetwork issue."
+        },
+        "optionalCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "optional_cursor, if specified, indicates the cursor after which results should resume being returned.\nThe cursor can be found on the LookupResourcesResponse object."
+        }
+      },
+      "description": "LookupResourcesRequest performs a lookup of all resources of a particular\nkind on which the subject has the specified permission or the relation in\nwhich the subject exists, streaming back the IDs of those resources."
+    },
+    "LookupResourcesResponse": {
+      "type": "object",
+      "properties": {
+        "lookedUpAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "looked_up_at is the ZedToken at which the resource was found."
+        },
+        "resourceObjectId": {
+          "type": "string",
+          "description": "resource_object_id is the object ID of the found resource."
+        },
+        "permissionship": {
+          "$ref": "#/definitions/LookupPermissionship",
+          "title": "permissionship indicates whether the response was partially evaluated or not"
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo",
+          "title": "partial_caveat_info holds information of a partially-evaluated caveated response"
+        },
+        "afterResultCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "after_result_cursor holds a cursor that can be used to resume the LookupResources stream after this\nresult."
+        }
+      },
+      "description": "LookupResourcesResponse contains a single matching resource object ID for the\nrequested object type, permission, and subject."
+    },
+    "LookupShareResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/LookupStatus"
+        },
+        "schema": {
+          "type": "string"
+        },
+        "relationshipsYaml": {
+          "type": "string"
+        },
+        "validationYaml": {
+          "type": "string"
+        },
+        "assertionsYaml": {
+          "type": "string"
+        }
+      }
+    },
+    "LookupStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN_REFERENCE",
+        "FAILED_TO_LOOKUP",
+        "VALID_REFERENCE",
+        "UPGRADED_REFERENCE"
+      ],
+      "default": "UNKNOWN_REFERENCE"
+    },
+    "LookupSubjectsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "resource": {
+          "$ref": "#/definitions/ObjectReference",
+          "description": "resource is the resource for which all matching subjects for the permission\nor relation will be returned."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission is the name of the permission (or relation) for which to find\nthe subjects."
+        },
+        "subjectObjectType": {
+          "type": "string",
+          "description": "subject_object_type is the type of subject object for which the IDs will\nbe returned."
+        },
+        "optionalSubjectRelation": {
+          "type": "string",
+          "description": "optional_subject_relation is the optional relation for the subject."
+        },
+        "context": {
+          "type": "object",
+          "title": "context consists of named values that are injected into the caveat evaluation context"
+        },
+        "optionalConcreteLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "optional_concrete_limit, if non-zero, specifies the limit on the number of\n*concrete* (non-wildcard) subjects to return before the stream is closed on the\nserver side. With the default value of zero, the stream will continue resolving\nconcrete subjects until exhausted or the stream is closed due to the client or\na network issue.\n\nNOTE: Wildcard subjects (\"*\") have special treatment when cursors and limits are used. Because\nwildcards can apply to *any* concrete subjects, if a wildcard subject is found within the dataset,\na wildcard subject can be returned for *all* LookupSubjects calls, regardless of the cursor or\nlimit.\n\nFor example, if wildcards are requested, a wildcard subject exists, there is a specified limit\nof 10 concrete subjects, and at least 10 concrete subjects exist, the API will return 11 subjects\nin total: the 10 concrete + the wildcard\n\nFurthermore, if a wildcard has a set of exclusions generated by the dataset,\nthe exclusions *will respect the cursor* and only a *partial* set of exclusions will be returned\nfor each invocation of the API.\n\n***IT IS UP TO THE CALLER IN THIS CASE TO COMBINE THE EXCLUSIONS IF DESIRED***"
+        },
+        "optionalCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "optional_cursor, if specified, indicates the cursor after which results should resume being returned.\nThe cursor can be found on the LookupSubjectsResponse object.\n\nNOTE: See above for notes about how cursors interact with wildcard subjects."
+        },
+        "wildcardOption": {
+          "$ref": "#/definitions/WildcardOption",
+          "description": "wildcard_option specifies whether wildcards should be returned by LookupSubjects.\nFor backwards compatibility, defaults to WILDCARD_OPTION_INCLUDE_WILDCARDS if unspecified."
+        }
+      },
+      "description": "LookupSubjectsRequest performs a lookup of all subjects of a particular\nkind for which the subject has the specified permission or the relation in\nwhich the subject exists, streaming back the IDs of those subjects."
+    },
+    "LookupSubjectsResponse": {
+      "type": "object",
+      "properties": {
+        "lookedUpAt": {
+          "$ref": "#/definitions/ZedToken"
+        },
+        "subjectObjectId": {
+          "type": "string",
+          "title": "subject_object_id is the Object ID of the subject found. May be a `*` if\na wildcard was found.\ndeprecated: use `subject`"
+        },
+        "excludedSubjectIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "excluded_subject_ids are the Object IDs of the subjects excluded. This list\nwill only contain object IDs if `subject_object_id` is a wildcard (`*`) and\nwill only be populated if exclusions exist from the wildcard.\ndeprecated: use `excluded_subjects`"
+        },
+        "permissionship": {
+          "$ref": "#/definitions/LookupPermissionship",
+          "title": "permissionship indicates whether the response was partially evaluated or not\ndeprecated: use `subject.permissionship`"
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo",
+          "title": "partial_caveat_info holds information of a partially-evaluated caveated response\ndeprecated: use `subject.partial_caveat_info`"
+        },
+        "subject": {
+          "$ref": "#/definitions/ResolvedSubject",
+          "description": "subject is the subject found, along with its permissionship."
+        },
+        "excludedSubjects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ResolvedSubject"
+          },
+          "description": "excluded_subjects are the subjects excluded. This list\nwill only contain subjects if `subject.subject_object_id` is a wildcard (`*`) and\nwill only be populated if exclusions exist from the wildcard."
+        },
+        "afterResultCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "after_result_cursor holds a cursor that can be used to resume the LookupSubjects stream after this\nresult."
+        }
+      },
+      "description": "LookupSubjectsResponse contains a single matching subject object ID for the\nrequested subject object type on the permission or relation."
+    },
+    "MemberReference": {
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "type": "string",
+          "title": "object_type is the type of object of a permission set member"
+        },
+        "objectId": {
+          "type": "string",
+          "title": "object_id is the ID of a permission set member"
+        },
+        "optionalPermissionOrRelation": {
+          "type": "string",
+          "title": "optional_permission_or_relation is the permission or relation referenced by this permission set member"
+        }
+      }
+    },
+    "NullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "ObjectReference": {
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "type": "string"
+        },
+        "objectId": {
+          "type": "string"
+        }
+      },
+      "description": "ObjectReference is used to refer to a specific object in the system."
+    },
+    "PartialCaveatInfo": {
+      "type": "object",
+      "properties": {
+        "missingRequiredContext": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "missing_required_context is a list of one or more fields that were missing and prevented caveats\nfrom being fully evaluated"
+        }
+      },
+      "title": "PartialCaveatInfo carries information necessary for the client to take action\nin the event a response contains a partially evaluated caveat"
+    },
+    "PermissionChange": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "revision represents the revision at which the change occurred."
+        },
+        "resource": {
+          "$ref": "#/definitions/ObjectReference",
+          "description": "resource is the resource that the permission change is related to."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission is the permission that has changed."
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference",
+          "description": "subject is the subject that the permission change is related to."
+        },
+        "permissionship": {
+          "$ref": "#/definitions/PermissionChange.Permissionship",
+          "description": "permissionship is the new permissionship of the subject over the resource after the change."
+        }
+      }
+    },
+    "PermissionChange.Permissionship": {
+      "type": "string",
+      "enum": [
+        "PERMISSIONSHIP_UNSPECIFIED",
+        "PERMISSIONSHIP_NO_PERMISSION",
+        "PERMISSIONSHIP_HAS_PERMISSION",
+        "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
+      ],
+      "default": "PERMISSIONSHIP_UNSPECIFIED"
+    },
+    "PermissionRelationshipTree": {
+      "type": "object",
+      "properties": {
+        "intermediate": {
+          "$ref": "#/definitions/AlgebraicSubjectSet"
+        },
+        "leaf": {
+          "$ref": "#/definitions/DirectSubjectSet"
+        },
+        "expandedObject": {
+          "$ref": "#/definitions/ObjectReference"
+        },
+        "expandedRelation": {
+          "type": "string"
+        }
+      },
+      "description": "PermissionRelationshipTree is used for representing a tree of a resource and\nits permission relationships with other objects."
+    },
+    "PermissionSetChange": {
+      "type": "object",
+      "properties": {
+        "atRevision": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "revision represents the revision at which the permission set change occurred."
+        },
+        "operation": {
+          "$ref": "#/definitions/SetOperation",
+          "title": "operation represents the type of set operation that took place as part of the change"
+        },
+        "parentSet": {
+          "$ref": "#/definitions/SetReference",
+          "title": "parent_set represents the permission set parent of either another set or a member"
+        },
+        "childSet": {
+          "$ref": "#/definitions/SetReference",
+          "title": "child_set represents the scenario where another set is considered member of the parent set"
+        },
+        "childMember": {
+          "$ref": "#/definitions/MemberReference",
+          "title": "child_member represents the scenario where an specific object is considered member of the parent set"
+        }
+      }
+    },
+    "PermissionType": {
+      "type": "string",
+      "enum": [
+        "PERMISSION_TYPE_UNSPECIFIED",
+        "PERMISSION_TYPE_RELATION",
+        "PERMISSION_TYPE_PERMISSION"
+      ],
+      "default": "PERMISSION_TYPE_UNSPECIFIED"
+    },
+    "Precondition": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/Precondition.Operation"
+        },
+        "filter": {
+          "$ref": "#/definitions/RelationshipFilter"
+        }
+      },
+      "description": "Precondition specifies how and the existence or absence of certain\nrelationships as expressed through the accompanying filter should affect\nwhether or not the operation proceeds.\n\nMUST_NOT_MATCH will fail the parent request if any relationships match the\nrelationships filter.\nMUST_MATCH will fail the parent request if there are no\nrelationships that match the filter."
+    },
+    "Precondition.Operation": {
+      "type": "string",
+      "enum": [
+        "OPERATION_UNSPECIFIED",
+        "OPERATION_MUST_NOT_MATCH",
+        "OPERATION_MUST_MATCH"
+      ],
+      "default": "OPERATION_UNSPECIFIED"
+    },
+    "ReadCounterValue": {
+      "type": "object",
+      "properties": {
+        "relationshipCount": {
+          "type": "string",
+          "format": "uint64",
+          "description": "relationship_count is the count of relationships that match the filter."
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the relationship count applies."
+        }
+      }
+    },
+    "ReadRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "relationshipFilter": {
+          "$ref": "#/definitions/RelationshipFilter",
+          "description": "relationship_filter defines the filter to be applied to the relationships\nto be returned."
+        },
+        "optionalLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "optional_limit, if non-zero, specifies the limit on the number of relationships to return\nbefore the stream is closed on the server side. By default, the stream will continue\nresolving relationships until exhausted or the stream is closed due to the client or a\nnetwork issue."
+        },
+        "optionalCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "optional_cursor, if specified, indicates the cursor after which results should resume being returned.\nThe cursor can be found on the ReadRelationshipsResponse object."
+        }
+      },
+      "description": "ReadRelationshipsRequest specifies one or more filters used to read matching\nrelationships within the system."
+    },
+    "ReadRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the relationship was found."
+        },
+        "relationship": {
+          "$ref": "#/definitions/Relationship",
+          "description": "relationship is the found relationship."
+        },
+        "afterResultCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "after_result_cursor holds a cursor that can be used to resume the ReadRelationships stream after this\nresult."
+        }
+      },
+      "description": "ReadRelationshipsResponse contains a Relationship found that matches the\nspecified relationship filter(s). A instance of this response message will\nbe streamed to the client for each relationship found."
+    },
+    "ReadSchemaRequest": {
+      "type": "object",
+      "description": "ReadSchemaRequest returns the schema from the database."
+    },
+    "ReadSchemaResponse": {
+      "type": "object",
+      "properties": {
+        "schemaText": {
+          "type": "string",
+          "title": "schema_text is the textual form of the current schema in the system"
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      },
+      "description": "ReadSchemaResponse is the resulting data after having read the Object\nDefinitions from a Schema."
+    },
+    "ReflectSchemaRequest": {
+      "type": "object",
+      "properties": {
+        "consistency": {
+          "$ref": "#/definitions/Consistency"
+        },
+        "optionalFilters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionSchemaFilter"
+          },
+          "title": "optional_filters defines optional filters that are applied in\nan OR fashion to the schema, before being returned"
+        }
+      }
+    },
+    "ReflectSchemaResponse": {
+      "type": "object",
+      "properties": {
+        "definitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionDefinition"
+          },
+          "description": "definitions are the definitions defined in the schema."
+        },
+        "caveats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionCaveat"
+          },
+          "description": "caveats are the caveats defined in the schema."
+        },
+        "readAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "read_at is the ZedToken at which the schema was read."
+        }
+      }
+    },
+    "ReflectionCaveat": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "description": "comment is a human-readable comments on the caveat. Will include\ndelimiter characters."
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionCaveatParameter"
+          }
+        },
+        "expression": {
+          "type": "string"
+        }
+      },
+      "description": "ReflectionCaveat is the representation of a caveat in the schema."
+    },
+    "ReflectionCaveatParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "title": "type is the type of the parameter. Will be a string representing the\ntype, e.g. `int` or `list\u003cstring\u003e`"
+        },
+        "parentCaveatName": {
+          "type": "string"
+        }
+      },
+      "description": "ReflectionCaveatParameter is the representation of a parameter in a caveat."
+    },
+    "ReflectionCaveatParameterTypeChange": {
+      "type": "object",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/ReflectionCaveatParameter"
+        },
+        "previousType": {
+          "type": "string"
+        }
+      }
+    },
+    "ReflectionDefinition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "description": "comment is a human-readable comments on the definition. Will include\ndelimiter characters."
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionRelation"
+          }
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionPermission"
+          }
+        }
+      },
+      "description": "ReflectionDefinition is the representation of a definition in the schema."
+    },
+    "ReflectionPermission": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string",
+          "description": "comment is a human-readable comments on the permission. Will include\ndelimiter characters."
+        },
+        "parentDefinitionName": {
+          "type": "string"
+        }
+      },
+      "description": "ReflectionPermission is the representation of a permission in the schema."
+    },
+    "ReflectionRelation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "parentDefinitionName": {
+          "type": "string"
+        },
+        "subjectTypes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ReflectionTypeReference"
+          }
+        }
+      },
+      "description": "ReflectionRelation is the representation of a relation in the schema."
+    },
+    "ReflectionRelationReference": {
+      "type": "object",
+      "properties": {
+        "definitionName": {
+          "type": "string"
+        },
+        "relationName": {
+          "type": "string"
+        },
+        "isPermission": {
+          "type": "boolean"
+        }
+      },
+      "description": "ReflectionRelationReference is a reference to a relation or permission in the schema."
+    },
+    "ReflectionRelationSubjectTypeChange": {
+      "type": "object",
+      "properties": {
+        "relation": {
+          "$ref": "#/definitions/ReflectionRelation"
+        },
+        "changedSubjectType": {
+          "$ref": "#/definitions/ReflectionTypeReference"
+        }
+      }
+    },
+    "ReflectionSchemaDiff": {
+      "type": "object",
+      "properties": {
+        "definitionAdded": {
+          "$ref": "#/definitions/ReflectionDefinition"
+        },
+        "definitionRemoved": {
+          "$ref": "#/definitions/ReflectionDefinition"
+        },
+        "definitionDocCommentChanged": {
+          "$ref": "#/definitions/ReflectionDefinition"
+        },
+        "relationAdded": {
+          "$ref": "#/definitions/ReflectionRelation"
+        },
+        "relationRemoved": {
+          "$ref": "#/definitions/ReflectionRelation"
+        },
+        "relationDocCommentChanged": {
+          "$ref": "#/definitions/ReflectionRelation"
+        },
+        "relationSubjectTypeAdded": {
+          "$ref": "#/definitions/ReflectionRelationSubjectTypeChange"
+        },
+        "relationSubjectTypeRemoved": {
+          "$ref": "#/definitions/ReflectionRelationSubjectTypeChange"
+        },
+        "permissionAdded": {
+          "$ref": "#/definitions/ReflectionPermission"
+        },
+        "permissionRemoved": {
+          "$ref": "#/definitions/ReflectionPermission"
+        },
+        "permissionDocCommentChanged": {
+          "$ref": "#/definitions/ReflectionPermission"
+        },
+        "permissionExprChanged": {
+          "$ref": "#/definitions/ReflectionPermission"
+        },
+        "caveatAdded": {
+          "$ref": "#/definitions/ReflectionCaveat"
+        },
+        "caveatRemoved": {
+          "$ref": "#/definitions/ReflectionCaveat"
+        },
+        "caveatDocCommentChanged": {
+          "$ref": "#/definitions/ReflectionCaveat"
+        },
+        "caveatExprChanged": {
+          "$ref": "#/definitions/ReflectionCaveat"
+        },
+        "caveatParameterAdded": {
+          "$ref": "#/definitions/ReflectionCaveatParameter"
+        },
+        "caveatParameterRemoved": {
+          "$ref": "#/definitions/ReflectionCaveatParameter"
+        },
+        "caveatParameterTypeChanged": {
+          "$ref": "#/definitions/ReflectionCaveatParameterTypeChange"
+        }
+      },
+      "description": "ReflectionSchemaDiff is the representation of a diff between two schemas."
+    },
+    "ReflectionSchemaFilter": {
+      "type": "object",
+      "properties": {
+        "optionalDefinitionNameFilter": {
+          "type": "string",
+          "description": "optional_definition_name_filter is a prefix that is matched against the definition name."
+        },
+        "optionalCaveatNameFilter": {
+          "type": "string",
+          "description": "optional_caveat_name_filter is a prefix that is matched against the caveat name."
+        },
+        "optionalRelationNameFilter": {
+          "type": "string",
+          "description": "optional_relation_name_filter is a prefix that is matched against the relation name."
+        },
+        "optionalPermissionNameFilter": {
+          "type": "string",
+          "description": "optional_permission_name_filter is a prefix that is matched against the permission name."
+        }
+      },
+      "description": "ReflectionSchemaFilter is a filter that can be applied to the schema on reflection."
+    },
+    "ReflectionTypeReference": {
+      "type": "object",
+      "properties": {
+        "subjectDefinitionName": {
+          "type": "string",
+          "description": "subject_definition_name is the name of the subject's definition."
+        },
+        "optionalCaveatName": {
+          "type": "string",
+          "description": "optional_caveat_name is the name of the caveat that is applied to the subject, if any."
+        },
+        "isTerminalSubject": {
+          "type": "boolean",
+          "description": "is_terminal_subject is true if the subject is terminal, meaning it is referenced directly vs a sub-relation."
+        },
+        "optionalRelationName": {
+          "type": "string",
+          "description": "optional_relation_name is the name of the relation that is applied to the subject, if any."
+        },
+        "isPublicWildcard": {
+          "type": "boolean",
+          "description": "is_public_wildcard is true if the subject is a public wildcard."
+        }
+      },
+      "description": "ReflectionTypeReference is the representation of a type reference in the schema."
+    },
+    "RelationFilter": {
+      "type": "object",
+      "properties": {
+        "relation": {
+          "type": "string"
+        }
+      }
+    },
+    "Relationship": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/definitions/ObjectReference",
+          "title": "resource is the resource to which the subject is related, in some manner"
+        },
+        "relation": {
+          "type": "string",
+          "description": "relation is how the resource and subject are related."
+        },
+        "subject": {
+          "$ref": "#/definitions/SubjectReference",
+          "description": "subject is the subject to which the resource is related, in some manner."
+        },
+        "optionalCaveat": {
+          "$ref": "#/definitions/ContextualizedCaveat",
+          "title": "optional_caveat is a reference to a the caveat that must be enforced over the relationship"
+        },
+        "optionalExpiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "optional_expires_at is the time at which the relationship expires, if any."
+        }
+      },
+      "description": "Relationship specifies how a resource relates to a subject. Relationships\nform the data for the graph over which all permissions questions are\nanswered."
+    },
+    "RelationshipFilter": {
+      "type": "object",
+      "properties": {
+        "resourceType": {
+          "type": "string",
+          "description": "resource_type is the *optional* resource type of the relationship.\nNOTE: It is not prefixed with \"optional_\" for legacy compatibility."
+        },
+        "optionalResourceId": {
+          "type": "string",
+          "description": "optional_resource_id is the *optional* resource ID of the relationship.\nIf specified, optional_resource_id_prefix cannot be specified."
+        },
+        "optionalResourceIdPrefix": {
+          "type": "string",
+          "description": "optional_resource_id_prefix is the *optional* prefix for the resource ID of the relationship.\nIf specified, optional_resource_id cannot be specified."
+        },
+        "optionalRelation": {
+          "type": "string",
+          "description": "relation is the *optional* relation of the relationship."
+        },
+        "optionalSubjectFilter": {
+          "$ref": "#/definitions/SubjectFilter",
+          "description": "optional_subject_filter is the optional filter for the subjects of the relationships."
+        }
+      },
+      "description": "RelationshipFilter is a collection of filters which when applied to a\nrelationship will return relationships that have exactly matching fields.\n\nAll fields are optional and if left unspecified will not filter relationships,\nbut at least one field must be specified.\n\nNOTE: The performance of the API will be affected by the selection of fields\non which to filter. If a field is not indexed, the performance of the API\ncan be significantly slower."
+    },
+    "RelationshipUpdate": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/RelationshipUpdate.Operation"
+        },
+        "relationship": {
+          "$ref": "#/definitions/Relationship"
+        }
+      },
+      "description": "RelationshipUpdate is used for mutating a single relationship within the\nservice.\n\nCREATE will create the relationship only if it doesn't exist, and error\notherwise.\n\nTOUCH will upsert the relationship, and will not error if it\nalready exists.\n\nDELETE will delete the relationship. If the relationship does not exist,\nthis operation will no-op."
+    },
+    "RelationshipUpdate.Operation": {
+      "type": "string",
+      "enum": [
+        "OPERATION_UNSPECIFIED",
+        "OPERATION_CREATE",
+        "OPERATION_TOUCH",
+        "OPERATION_DELETE"
+      ],
+      "default": "OPERATION_UNSPECIFIED"
+    },
+    "ResolvedSubject": {
+      "type": "object",
+      "properties": {
+        "subjectObjectId": {
+          "type": "string",
+          "description": "subject_object_id is the Object ID of the subject found. May be a `*` if\na wildcard was found."
+        },
+        "permissionship": {
+          "$ref": "#/definitions/LookupPermissionship",
+          "title": "permissionship indicates whether the response was partially evaluated or not"
+        },
+        "partialCaveatInfo": {
+          "$ref": "#/definitions/PartialCaveatInfo",
+          "title": "partial_caveat_info holds information of a partially-evaluated caveated response"
+        }
+      },
+      "description": "ResolvedSubject is a single subject resolved within LookupSubjects."
+    },
+    "Result": {
+      "type": "string",
+      "enum": [
+        "RESULT_UNSPECIFIED",
+        "RESULT_UNEVALUATED",
+        "RESULT_FALSE",
+        "RESULT_TRUE",
+        "RESULT_MISSING_SOME_CONTEXT"
+      ],
+      "default": "RESULT_UNSPECIFIED"
+    },
+    "SetOperation": {
+      "type": "string",
+      "enum": [
+        "SET_OPERATION_UNSPECIFIED",
+        "SET_OPERATION_ADDED",
+        "SET_OPERATION_REMOVED"
+      ],
+      "default": "SET_OPERATION_UNSPECIFIED"
+    },
+    "SetReference": {
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "type": "string",
+          "title": "object_type is the type of object in a permission set"
+        },
+        "objectId": {
+          "type": "string",
+          "title": "object_id is the ID of a permission set"
+        },
+        "permissionOrRelation": {
+          "type": "string",
+          "title": "permission_or_relation is the permission or relation referenced by this permission set"
+        }
+      }
+    },
+    "ShareResponse": {
+      "type": "object",
+      "properties": {
+        "shareReference": {
+          "type": "string"
+        }
+      }
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of\n[google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized\nby the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Any"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "SubProblems": {
+      "type": "object",
+      "properties": {
+        "traces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/CheckDebugTrace"
+          }
+        }
+      }
+    },
+    "SubjectFilter": {
+      "type": "object",
+      "properties": {
+        "subjectType": {
+          "type": "string"
+        },
+        "optionalSubjectId": {
+          "type": "string"
+        },
+        "optionalRelation": {
+          "$ref": "#/definitions/RelationFilter"
+        }
+      },
+      "description": "SubjectFilter specifies a filter on the subject of a relationship.\n\nsubject_type is required and all other fields are optional, and will not\nimpose any additional requirements if left unspecified."
+    },
+    "SubjectReference": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/ObjectReference"
+        },
+        "optionalRelation": {
+          "type": "string"
+        }
+      },
+      "title": "SubjectReference is used for referring to the subject portion of a\nRelationship. The relation component is optional and is used for defining a\nsub-relation on the subject, e.g. group:123#members"
+    },
+    "WatchKind": {
+      "type": "string",
+      "enum": [
+        "WATCH_KIND_UNSPECIFIED",
+        "WATCH_KIND_INCLUDE_RELATIONSHIP_UPDATES",
+        "WATCH_KIND_INCLUDE_SCHEMA_UPDATES",
+        "WATCH_KIND_INCLUDE_CHECKPOINTS"
+      ],
+      "default": "WATCH_KIND_UNSPECIFIED",
+      "title": "- WATCH_KIND_UNSPECIFIED: Default, just relationship updates (for backwards compatibility)"
+    },
+    "WatchPermissionSetsResponse": {
+      "type": "object",
+      "properties": {
+        "change": {
+          "$ref": "#/definitions/PermissionSetChange",
+          "description": "change is the permission set delta that has occurred as result of a mutation in origin SpiceDB.\nThe consumer should apply this change to the current state of the permission sets in their target system.\nOnce an event arrives with completed_revision instead, the consumer shall consider the set of\nchanges originating from that revision completed.\n\nThe consumer should keep track of the revision in order to resume streaming in the event of consumer restarts."
+        },
+        "completedRevision": {
+          "$ref": "#/definitions/ZedToken",
+          "title": "completed_revision is the revision token that indicates the completion of a set of changes. It may also be\nreceived without accompanying set of changes, indicating that a mutation in the origin SpiceDB cluster did\nnot yield any effective changes in the permission sets"
+        },
+        "lookupPermissionSetsRequired": {
+          "$ref": "#/definitions/LookupPermissionSetsRequired",
+          "description": "lookup_permission_sets_required is a signal that the consumer should perform a LookupPermissionSets call because\nthe permission set snapshot needs to be rebuilt from scratch. This typically happens when the origin SpiceDB\ncluster has seen its schema changed."
+        },
+        "breakingSchemaChange": {
+          "$ref": "#/definitions/BreakingSchemaChange",
+          "description": "breaking_schema_change is a signal that a breaking schema change has been written to the origin SpiceDB cluster,\nand that the consumer should expect delays in the ingestion of new changes,\nbecause the permission set snapshot needs to be rebuilt from scratch. Once the snapshot is ready, the consumer\nwill receive a LookupPermissionSetsRequired event."
+        }
+      }
+    },
+    "WatchPermissionsResponse": {
+      "type": "object",
+      "properties": {
+        "change": {
+          "$ref": "#/definitions/PermissionChange",
+          "description": "change is the computed permission delta that has occurred as result of a mutation in origin SpiceDB.\nThe consumer should apply this change to the current state of the computed permissions in their target system.\nOnce an event arrives with completed_revision instead, the consumer shall consider there are not more changes\noriginating from that revision.\n\nThe consumer should keep track of the revision in order to resume streaming in the event of consumer restarts."
+        },
+        "completedRevision": {
+          "$ref": "#/definitions/ZedToken",
+          "title": "completed_revision is the revision token that indicates all changes originating from a revision have been\nstreamed and thus the revision should be considered completed. It may also be\nreceived without accompanying set of changes, indicating that a mutation in the origin SpiceDB cluster did\nnot yield any effective changes in the computed permissions"
+        }
+      }
+    },
+    "WatchRequest": {
+      "type": "object",
+      "properties": {
+        "optionalObjectTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "optional_object_types is a filter of resource object types to watch for relationship changes.\nIf specified, only changes to the specified object types will be returned and\noptional_relationship_filters cannot be used."
+        },
+        "optionalStartCursor": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "optional_start_cursor is the ZedToken holding the point-in-time at\nwhich to start watching for changes.\nIf not specified, the watch will begin at the current head revision\nof the datastore, returning any updates that occur after the caller\nmakes the request.\nNote that if this cursor references a point-in-time containing data\nthat has been garbage collected, an error will be returned."
+        },
+        "optionalRelationshipFilters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/RelationshipFilter"
+          },
+          "description": "optional_relationship_filters, if specified, indicates the\nfilter(s) to apply to each relationship to be returned by watch.\nThe relationship will be returned as long as at least one filter matches,\nthis allows clients to match relationships on multiple filters on a single watch call.\nIf specified, optional_object_types cannot be used."
+        },
+        "optionalUpdateKinds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WatchKind"
+          },
+          "description": "optional_update_kinds, if specified, indicates what kinds of mutations to include."
+        }
+      },
+      "description": "WatchRequest specifies what mutations to watch for, and an optional start snapshot for when to start\nwatching."
+    },
+    "WatchResponse": {
+      "type": "object",
+      "properties": {
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/RelationshipUpdate"
+          },
+          "description": "updates are the RelationshipUpdate events that have occurred since the\nlast watch response."
+        },
+        "changesThrough": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "changes_through is the ZedToken that represents the point in time\nthat the watch response is current through. This token can be used\nin a subsequent WatchRequest to resume watching from this point."
+        },
+        "optionalTransactionMetadata": {
+          "type": "object",
+          "description": "optional_transaction_metadata is an optional field that returns the transaction metadata\ngiven to SpiceDB during the transaction that produced the changes in this response.\nThis field may not exist if no transaction metadata was provided."
+        },
+        "schemaUpdated": {
+          "type": "boolean",
+          "description": "schema_updated, if true, indicates that the schema was changed in this revision."
+        },
+        "isCheckpoint": {
+          "type": "boolean",
+          "description": "is_checkpoint, if true, indicates that a checkpoint was reached.\nA checkpoint indicates that the server guarantees that the client\nwill not observe any changes at a revision below or equal to the revision in this response."
+        }
+      },
+      "description": "WatchResponse contains all mutation events in ascending timestamp order,\nfrom the requested start snapshot to a snapshot\nencoded in the watch response. The client can use the snapshot to resume\nwatching where the previous watch response left off."
+    },
+    "WatchedPermission": {
+      "type": "object",
+      "properties": {
+        "resourceType": {
+          "type": "string",
+          "description": "resource_type is the type of the resource to watch for changes."
+        },
+        "permission": {
+          "type": "string",
+          "description": "permission is the permission to watch for changes."
+        },
+        "subjectType": {
+          "type": "string",
+          "description": "subject_type is the type of the subject to watch for changes."
+        },
+        "optionalSubjectRelation": {
+          "type": "string",
+          "description": "optional_subject_relation is the relation on the subject to watch for changes."
+        }
+      }
+    },
+    "WildcardOption": {
+      "type": "string",
+      "enum": [
+        "WILDCARD_OPTION_UNSPECIFIED",
+        "WILDCARD_OPTION_INCLUDE_WILDCARDS",
+        "WILDCARD_OPTION_EXCLUDE_WILDCARDS"
+      ],
+      "default": "WILDCARD_OPTION_UNSPECIFIED"
+    },
+    "WriteRelationshipsRequest": {
+      "type": "object",
+      "properties": {
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/RelationshipUpdate"
+          }
+        },
+        "optionalPreconditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Precondition"
+          },
+          "title": "To be bounded by configuration"
+        },
+        "optionalTransactionMetadata": {
+          "type": "object",
+          "description": "optional_transaction_metadata is an optional field that can be used to store metadata about the transaction.\nIf specified, this metadata will be supplied in the WatchResponse for the updates associated with this\ntransaction."
+        }
+      },
+      "description": "WriteRelationshipsRequest contains a list of Relationship mutations that\nshould be applied to the service. If the optional_preconditions parameter\nis included, all of the specified preconditions must also be satisfied before\nthe write will be committed. All updates will be applied transactionally,\nand if any preconditions fail, the entire transaction will be reverted."
+    },
+    "WriteRelationshipsResponse": {
+      "type": "object",
+      "properties": {
+        "writtenAt": {
+          "$ref": "#/definitions/ZedToken"
+        }
+      }
+    },
+    "WriteSchemaRequest": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "description": "The Schema containing one or more Object Definitions that will be written\nto the Permissions System.\n\n4MiB"
+        }
+      },
+      "description": "WriteSchemaRequest is the required data used to \"upsert\" the Schema of a\nPermissions System."
+    },
+    "WriteSchemaResponse": {
+      "type": "object",
+      "properties": {
+        "writtenAt": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "written_at is the ZedToken at which the schema was written."
+        }
+      },
+      "description": "WriteSchemaResponse is the resulting data after having written a Schema to\na Permissions System."
+    },
+    "ZedToken": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "description": "ZedToken is used to provide causality metadata between Write and Check\nrequests.\n\nSee the authzed.api.v1.Consistency message for more information."
+    },
+    "v0.Cursor": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "limit is the number of permission sets to stream over a single LookupPermissionSets call that was requested."
+        },
+        "token": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "token is the snapshot revision at which the cursor was computed."
+        },
+        "startingIndex": {
+          "type": "integer",
+          "format": "int64",
+          "title": "starting_index is an offset of the permission set represented by this cursor"
+        },
+        "completedMembers": {
+          "type": "boolean",
+          "title": "completed_members is a boolean flag that indicates that the cursor has reached the end of the permission sets"
+        },
+        "startingKey": {
+          "type": "string",
+          "description": "starting_key is a string cursor used by some backends to resume the stream from a specific point."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "cursor is a string-encoded internal materialize cursor."
+        }
+      }
+    },
+    "v1.Cursor": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "description": "Cursor is used to provide resumption of listing between calls to APIs\nsuch as LookupResources."
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "description": "SpiceDB preshared-key, prefixed by Bearer: Bearer \u003cpreshared-key\u003e",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "externalDocs": {
+    "description": "More about the Authzed API.",
+    "url": "https://docs.authzed.com/reference/api"
+  }
+}

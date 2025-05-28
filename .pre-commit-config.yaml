@@ -1,10 +1,12 @@
 ---
 repos:
   - repo: "https://github.com/bufbuild/buf"
-    rev: "v1.47.2"
+    rev: "v1.54.0"
     hooks:
+      - id: "buf-generate"
       - id: "buf-lint"
+      - id: "buf-format"
   - repo: "https://github.com/adrienverge/yamllint.git"
-    rev: "v1.29.0"
+    rev: "v1.37.1"
     hooks:
       - id: "yamllint"

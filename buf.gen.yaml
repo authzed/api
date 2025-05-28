@@ -1,0 +1,9 @@
+#!/usr/bin/env -S buf generate --template
+---
+version: "v1"
+plugins:
+  - plugin: "buf.build/grpc-ecosystem/openapiv2:v2.26.3"
+    out: "docs"
+    opt:
+      - "openapi_naming_strategy=simple"
+      - "allow_merge=true"

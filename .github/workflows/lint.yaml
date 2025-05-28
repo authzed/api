@@ -18,7 +18,6 @@ on:
       - "synchronize"
       - "reopened"
 
-
 jobs:
   lint:
     name: "Lint & Publish Draft/Branch"
