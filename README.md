@@ -8,15 +8,27 @@
 
 This project contains the definitions of [Protocol Buffers] used by Authzed.
 
-[Buf] is used to distribute these definitions and generate source code from them.
+We use [Buf] to distribute these definitions and generate source code from them. The definitions are published in [Buf Registry Authzed API repository].
 
-You can find more info on [HTTP API usage] in the [Authzed Docs].
+You can find more info on [HTTP API usage] and the [versioning and deprecation policy] in the [Authzed Docs].
 
-See [CONTRIBUTING.md] for instructions on how to contribute and perform common tasks like building the project and running tests.
+You can also use our [Postman collection] to explore the API.
+
+See [CONTRIBUTING.md] for instructions on how to contribute.
 
 [Protocol Buffers]: https://developers.google.com/protocol-buffers/
 [Buf]: https://github.com/bufbuild/buf
 [HTTP API usage]: https://authzed.com/docs/spicedb/getting-started/client-libraries#http-clients
 [Authzed Docs]: https://authzed.com/docs
+[versioning and deprecation policy]: https://authzed.com/blog/buf
+[Postman collection]: (https://www.postman.com/authzed/spicedb/collection/m26cqyc)
 [Buf Registry Authzed API repository]: https://buf.build/authzed/api/docs/main
 [CONTRIBUTING.md]: https://github.com/authzed/api/blob/main/CONTRIBUTING.md
+
+## Development
+
+You can run `mage` to see the available commands for development. We assume you have a Mac computer.
+
+## Warnings ⚠️
+
+- The `version` field found in various buf YAML configuration is actually schema of the YAML of the file and is not related to the version of the definitions.
