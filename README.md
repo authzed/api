@@ -31,4 +31,4 @@ You can run `mage` to see the available commands for development. We assume you 
 
 ## Warnings ⚠️
 
-- The `version` field found in various buf YAML configuration is actually schema of the YAML of the file and is not related to the version of the definitions.
+- The `version` field found in various buf YAML configurations is actually the version of the schema of the YAML file and is not related to the version of the definitions.
