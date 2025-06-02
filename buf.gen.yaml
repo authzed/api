@@ -7,3 +7,4 @@ plugins:
     opt:
       - "openapi_naming_strategy=simple"
       - "allow_merge=true"
+      - "disable_service_tags=true" # Hide the Materialize APIs, which aren't exposed via HTTP.

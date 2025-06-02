@@ -7,6 +7,7 @@ import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/struct.proto";
 import "google/rpc/status.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
@@ -16,38 +17,38 @@ option java_package = "com.authzed.api.v1";
 // ExperimentalService exposes a number of APIs that are currently being
 // prototyped and tested for future inclusion in the stable API.
 service ExperimentalService {
-  // BulkImportRelationships is a faster path to writing a large number of
-  // relationships at once. It is both batched and streaming. For maximum
-  // performance, the caller should attempt to write relationships in as close
-  // to relationship sort order as possible: (resource.object_type,
-  // resource.object_id, relation, subject.object.object_type,
-  // subject.object.object_id, subject.optional_relation)
-  //
-  // EXPERIMENTAL
-  // https://github.com/authzed/spicedb/issues/1303
+  // DEPRECATED: Promoted to ImportBulkRelationships in the stable API.
   rpc BulkImportRelationships(stream BulkImportRelationshipsRequest) returns (BulkImportRelationshipsResponse) {
     option (google.api.http) = {
       post: "/v1/experimental/relationships/bulkimport"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
+    };
+    option deprecated = true;
   }
 
-  // BulkExportRelationships is the fastest path available to exporting
-  // relationships from the server. It is resumable, and will return results
-  // in an order determined by the server.
+  // DEPRECATED: Promoted to ExportBulkRelationships in the stable API.
   rpc BulkExportRelationships(BulkExportRelationshipsRequest) returns (stream BulkExportRelationshipsResponse) {
     option (google.api.http) = {
       post: "/v1/experimental/relationships/bulkexport"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
+    };
+    option deprecated = true;
   }
 
-  // NOTE: BulkCheckPermission has been promoted to the stable API as "CheckBulkPermission" and the
-  // API will be removed from experimental in a future release.
+  // DEPRECATED: Promoted to CheckBulkPermission in the stable API.
   rpc BulkCheckPermission(BulkCheckPermissionRequest) returns (BulkCheckPermissionResponse) {
     option (google.api.http) = {
       post: "/v1/experimental/permissions/bulkcheckpermission"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
     };
     option deprecated = true;
   }
@@ -58,6 +59,9 @@ service ExperimentalService {
       post: "/v1/experimental/reflectschema"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
+    };
     option deprecated = true;
   }
 
@@ -66,6 +70,9 @@ service ExperimentalService {
     option (google.api.http) = {
       post: "/v1/experimental/permissions/computable"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
     };
     option deprecated = true;
   }
@@ -76,6 +83,9 @@ service ExperimentalService {
       post: "/v1/experimental/permissions/dependent"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
+    };
     option deprecated = true;
   }
 
@@ -84,6 +94,9 @@ service ExperimentalService {
     option (google.api.http) = {
       post: "/v1/experimental/diffschema"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Deprecated"]
     };
     option deprecated = true;
   }
@@ -95,6 +108,9 @@ service ExperimentalService {
       post: "/v1/experimental/registerrelationshipcounter"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Experimental"]
+    };
   }
 
   // EXPERIMENTAL: CountRelationships returns the count of relationships for *pre-registered* filter.
@@ -103,6 +119,9 @@ service ExperimentalService {
       post: "/v1/experimental/countrelationships"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Experimental"]
+    };
   }
 
   // EXPERIMENTAL: UnregisterRelationshipCounter unregisters an existing filter for counting relationships.
@@ -110,6 +129,9 @@ service ExperimentalService {
     option (google.api.http) = {
       post: "/v1/experimental/unregisterrelationshipcounter"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Experimental"]
     };
   }
 }
