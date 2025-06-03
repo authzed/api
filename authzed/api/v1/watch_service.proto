@@ -6,6 +6,7 @@ import "authzed/api/v1/permission_service.proto";
 import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/struct.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
@@ -13,10 +14,15 @@ option java_multiple_files = true;
 option java_package = "com.authzed.api.v1";
 
 service WatchService {
+  // Watch returns a stream of events that occurred in the datastore in ascending timestamp order.
+  // The events can be relationship updates, schema updates, or checkpoints.
   rpc Watch(WatchRequest) returns (stream WatchResponse) {
     option (google.api.http) = {
       post: "/v1/watch"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Watch"]
     };
   }
 }

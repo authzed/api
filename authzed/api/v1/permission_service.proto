@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "google/rpc/status.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
@@ -24,6 +25,9 @@ service PermissionsService {
       post: "/v1/relationships/read"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
+    };
   }
 
   // WriteRelationships atomically writes and/or deletes a set of specified
@@ -33,6 +37,9 @@ service PermissionsService {
     option (google.api.http) = {
       post: "/v1/relationships/write"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
     };
   }
 
@@ -45,6 +52,9 @@ service PermissionsService {
       post: "/v1/relationships/delete"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
+    };
   }
 
   // CheckPermission determines for a given resource whether a subject computes
@@ -54,6 +64,9 @@ service PermissionsService {
       post: "/v1/permissions/check"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
+    };
   }
 
   // CheckBulkPermissions evaluates the given list of permission checks
@@ -62,6 +75,9 @@ service PermissionsService {
     option (google.api.http) = {
       post: "/v1/permissions/checkbulk"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
     };
   }
 
@@ -73,6 +89,9 @@ service PermissionsService {
       post: "/v1/permissions/expand"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
+    };
   }
 
   // LookupResources returns all the resources of a given type that a subject
@@ -82,6 +101,9 @@ service PermissionsService {
       post: "/v1/permissions/resources"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
+    };
   }
 
   // LookupSubjects returns all the subjects of a given type that
@@ -90,6 +112,9 @@ service PermissionsService {
     option (google.api.http) = {
       post: "/v1/permissions/subjects"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
     };
   }
 
@@ -105,6 +130,9 @@ service PermissionsService {
       post: "/v1/relationships/importbulk"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
+    };
   }
 
   // ExportBulkRelationships is the fastest path available to exporting
@@ -114,6 +142,9 @@ service PermissionsService {
     option (google.api.http) = {
       post: "/v1/relationships/exportbulk"
       body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["Permissions"]
     };
   }
 }

@@ -13,29 +13,6 @@
       "url": "https://github.com/authzed/api/blob/main/LICENSE"
     }
   },
-  "tags": [
-    {
-      "name": "WatchPermissionsService"
-    },
-    {
-      "name": "WatchPermissionSetsService"
-    },
-    {
-      "name": "DeveloperService"
-    },
-    {
-      "name": "PermissionsService"
-    },
-    {
-      "name": "ExperimentalService"
-    },
-    {
-      "name": "SchemaService"
-    },
-    {
-      "name": "WatchService"
-    }
-  ],
   "schemes": [
     "http",
     "https",
@@ -77,7 +54,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Experimental"
         ]
       }
     },
@@ -110,13 +87,13 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
     "/v1/experimental/permissions/bulkcheckpermission": {
       "post": {
-        "summary": "NOTE: BulkCheckPermission has been promoted to the stable API as \"CheckBulkPermission\" and the\nAPI will be removed from experimental in a future release.",
+        "summary": "DEPRECATED: Promoted to CheckBulkPermission in the stable API.",
         "operationId": "ExperimentalService_BulkCheckPermission",
         "responses": {
           "200": {
@@ -144,7 +121,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
@@ -177,7 +154,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
@@ -210,7 +187,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
@@ -243,7 +220,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
@@ -276,13 +253,13 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Experimental"
         ]
       }
     },
     "/v1/experimental/relationships/bulkexport": {
       "post": {
-        "summary": "BulkExportRelationships is the fastest path available to exporting\nrelationships from the server. It is resumable, and will return results\nin an order determined by the server.",
+        "summary": "DEPRECATED: Promoted to ExportBulkRelationships in the stable API.",
         "operationId": "ExperimentalService_BulkExportRelationships",
         "responses": {
           "200": {
@@ -319,14 +296,13 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
     "/v1/experimental/relationships/bulkimport": {
       "post": {
-        "summary": "BulkImportRelationships is a faster path to writing a large number of\nrelationships at once. It is both batched and streaming. For maximum\nperformance, the caller should attempt to write relationships in as close\nto relationship sort order as possible: (resource.object_type,\nresource.object_id, relation, subject.object.object_type,\nsubject.object.object_id, subject.optional_relation)",
-        "description": "EXPERIMENTAL\nhttps://github.com/authzed/spicedb/issues/1303",
+        "summary": "DEPRECATED: Promoted to ImportBulkRelationships in the stable API.",
         "operationId": "ExperimentalService_BulkImportRelationships",
         "responses": {
           "200": {
@@ -354,7 +330,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Deprecated"
         ]
       }
     },
@@ -387,7 +363,7 @@
           }
         ],
         "tags": [
-          "ExperimentalService"
+          "Experimental"
         ]
       }
     },
@@ -421,7 +397,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -455,7 +431,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -489,7 +465,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -532,7 +508,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -575,7 +551,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -609,7 +585,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -652,7 +628,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -686,7 +662,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -729,7 +705,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -763,7 +739,7 @@
           }
         ],
         "tags": [
-          "PermissionsService"
+          "Permissions"
         ]
       }
     },
@@ -796,7 +772,7 @@
           }
         ],
         "tags": [
-          "SchemaService"
+          "Schema"
         ]
       }
     },
@@ -829,7 +805,7 @@
           }
         ],
         "tags": [
-          "SchemaService"
+          "Schema"
         ]
       }
     },
@@ -862,7 +838,7 @@
           }
         ],
         "tags": [
-          "SchemaService"
+          "Schema"
         ]
       }
     },
@@ -897,7 +873,7 @@
           }
         ],
         "tags": [
-          "SchemaService"
+          "Schema"
         ]
       }
     },
@@ -930,7 +906,7 @@
           }
         ],
         "tags": [
-          "SchemaService"
+          "Schema"
         ]
       }
     },
@@ -964,12 +940,13 @@
           }
         ],
         "tags": [
-          "SchemaService"
+          "Schema"
         ]
       }
     },
     "/v1/watch": {
       "post": {
+        "summary": "Watch returns a stream of events that occurred in the datastore in ascending timestamp order.\nThe events can be relationship updates, schema updates, or checkpoints.",
         "operationId": "WatchService_Watch",
         "responses": {
           "200": {
@@ -1006,7 +983,7 @@
           }
         ],
         "tags": [
-          "WatchService"
+          "Watch"
         ]
       }
     }
@@ -2258,36 +2235,6 @@
       },
       "description": "LookupResourcesResponse contains a single matching resource object ID for the\nrequested object type, permission, and subject."
     },
-    "LookupShareResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "$ref": "#/definitions/LookupStatus"
-        },
-        "schema": {
-          "type": "string"
-        },
-        "relationshipsYaml": {
-          "type": "string"
-        },
-        "validationYaml": {
-          "type": "string"
-        },
-        "assertionsYaml": {
-          "type": "string"
-        }
-      }
-    },
-    "LookupStatus": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN_REFERENCE",
-        "FAILED_TO_LOOKUP",
-        "VALID_REFERENCE",
-        "UPGRADED_REFERENCE"
-      ],
-      "default": "UNKNOWN_REFERENCE"
-    },
     "LookupSubjectsRequest": {
       "type": "object",
       "properties": {
@@ -3032,14 +2979,6 @@
         "permissionOrRelation": {
           "type": "string",
           "title": "permission_or_relation is the permission or relation referenced by this permission set"
-        }
-      }
-    },
-    "ShareResponse": {
-      "type": "object",
-      "properties": {
-        "shareReference": {
-          "type": "string"
         }
       }
     },
