@@ -54,6 +54,12 @@ service WatchPermissionSetsService {
   // cursor received. Once completed, the consumer may start streaming permission set changes using WatchPermissionSets
   // and the revision token from the last LookupPermissionSets response.
   rpc LookupPermissionSets(LookupPermissionSetsRequest) returns (stream LookupPermissionSetsResponse) {}
+
+  // DownloadPermissionSets returns URLs to download permission sets data as Avro files.
+  // This provides an alternative to LookupPermissionSets for customers who need to download
+  // large datasets efficiently. The returned URLs point to compressed Avro files containing
+  // the permission sets data in a normalized format.
+  rpc DownloadPermissionSets(DownloadPermissionSetsRequest) returns (DownloadPermissionSetsResponse) {}
 }
 
 message WatchPermissionSetsRequest {
@@ -185,4 +191,22 @@ message LookupPermissionSetsRequired {
 message BreakingSchemaChange {
   // change_at is the revision at which a breaking schema event has happened.
   authzed.api.v1.ZedToken change_at = 1;
+}
+
+message DownloadPermissionSetsRequest {
+  // optional_at_revision is a specific revision to download; for now this will
+  // just validate that it matches the backing store if provided.
+  authzed.api.v1.ZedToken optional_at_revision = 1;
+}
+
+message File {
+  // name is the filename of the downloadable file
+  string name = 1;
+  // url is the download URL for the file (typically a signed S3 URL)
+  string url = 2;
+}
+
+message DownloadPermissionSetsResponse {
+  // files contains the list of downloadable files with their URLs
+  repeated File files = 1;
 }
