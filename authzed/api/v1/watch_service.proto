@@ -74,6 +74,8 @@ message WatchRequest {
   repeated RelationshipFilter optional_relationship_filters = 3;
 
   // optional_update_kinds, if specified, indicates what kinds of mutations to include.
+  // If your SpiceDB instance is running behind a proxy that aborts idle connections,
+  // we recommend including Checkpoints to keep the stream alive even when there are no changes.
   repeated WatchKind optional_update_kinds = 4;
 }
 
