@@ -34,7 +34,7 @@ enum WatchKind {
   WATCH_KIND_INCLUDE_CHECKPOINTS = 3;
 }
 
-// WatchRequest specifies what mutations to watch for, and an optional start snapshot for when to start
+// WatchRequest specifies what mutations to watch for, and an optional start point for when to start
 // watching.
 message WatchRequest {
   // optional_object_types is a filter of resource object types to watch for relationship changes.
@@ -59,9 +59,7 @@ message WatchRequest {
 
   // optional_start_cursor is the ZedToken holding the point-in-time at
   // which to start watching for changes.
-  // If not specified, the watch will begin at the current head revision
-  // of the datastore, returning any updates that occur after the caller
-  // makes the request.
+  // If not specified, the watch will start from the current SpiceDB revision time of the request ("head revision").
   // Note that if this cursor references a point-in-time containing data
   // that has been garbage collected, an error will be returned.
   ZedToken optional_start_cursor = 2;
@@ -74,16 +72,18 @@ message WatchRequest {
   repeated RelationshipFilter optional_relationship_filters = 3;
 
   // optional_update_kinds, if specified, indicates what kinds of mutations to include.
+  // If your SpiceDB instance is running behind a proxy that aborts idle connections,
+  // we recommend including Checkpoints to keep the stream alive even when there are no changes.
   repeated WatchKind optional_update_kinds = 4;
 }
 
-// WatchResponse contains all mutation events in ascending timestamp order,
-// from the requested start snapshot to a snapshot
-// encoded in the watch response. The client can use the snapshot to resume
-// watching where the previous watch response left off.
+// WatchResponse contains all mutation events in ascending timestamp order.
+// This excludes relationships that were deleted because they expired.
+// The response includes a field that can be used to resume
+// watching from that point.
 message WatchResponse {
   // updates are the RelationshipUpdate events that have occurred since the
-  // last watch response.
+  // call was made, or since the point in time specified by changes_through.
   repeated RelationshipUpdate updates = 1;
 
   // changes_through is the ZedToken that represents the point in time
