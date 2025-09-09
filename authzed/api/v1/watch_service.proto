@@ -93,7 +93,8 @@ message WatchResponse {
 
   // optional_transaction_metadata is an optional field that returns the transaction metadata
   // given to SpiceDB during the transaction that produced the changes in this response.
-  // This field may not exist if no transaction metadata was provided.
+  // This field may not exist if no transaction metadata was provided, or if multiple pieces
+  // of metadata were found during the transaction (in which case it is ambiguous which to return).
   google.protobuf.Struct optional_transaction_metadata = 3;
 
   // schema_updated, if true, indicates that the schema was changed in this revision.
@@ -103,4 +104,10 @@ message WatchResponse {
   // A checkpoint indicates that the server guarantees that the client
   // will not observe any changes at a revision below or equal to the revision in this response.
   bool is_checkpoint = 5;
+
+  // full_revision_metadata contains all transaction metadata given to SpiceDB during the
+  // revision that produced the changes in this response. Some datastores (such as CockroachDB)
+  // can "merge" multiple transactions into a single revision (if the changes occurred concurrently),
+  // so this field is a list of all transaction metadata seen during the revision.
+  repeated google.protobuf.Struct full_revision_metadata = 6;
 }
