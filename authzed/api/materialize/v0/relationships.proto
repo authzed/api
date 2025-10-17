@@ -1,0 +1,35 @@
+syntax = "proto3";
+package authzed.api.materialize.v0;
+
+import "authzed/api/v1/core.proto";
+import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.materialize.v0";
+
+service RelationshipsService {
+  // EXPERIMENTAL: CountRelationships returns the count of relationships for a given filter.
+  rpc ExperimentalCountRelationshipsByFilter(ExperimentalCountRelationshipsByFilterRequest) returns (ExperimentalCountRelationshipsByFilterResponse) {}
+}
+
+message ExperimentalCountRelationshipsByFilterRequest {
+  // relationship_filter specifies the filter to apply when counting relationships.
+  authzed.api.v1.RelationshipFilter relationship_filter = 1 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
+}
+
+message ExperimentalCountRelationshipsByFilterResponse {
+  // relationship_count is the count of relationships that match the filter.
+  uint64 relationship_count = 1;
+
+  // read_at is the ZedToken at which the relationship count applies.
+  authzed.api.v1.ZedToken read_at = 2 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
+}
