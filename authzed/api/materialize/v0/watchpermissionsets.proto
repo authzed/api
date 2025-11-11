@@ -2,6 +2,7 @@ syntax = "proto3";
 package authzed.api.materialize.v0;
 
 import "authzed/api/v1/core.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
 option java_multiple_files = true;
@@ -209,4 +210,7 @@ message File {
 message DownloadPermissionSetsResponse {
   // files contains the list of downloadable files with their URLs
   repeated File files = 1;
+
+  // timestamp represents the time associated with the returned data revision.
+  google.protobuf.Timestamp timestamp = 2;
 }
