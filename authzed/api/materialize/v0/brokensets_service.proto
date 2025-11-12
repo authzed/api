@@ -21,7 +21,6 @@ message ListBrokenSetsRequest {
   // batch_size specifies the maximum number of broken sets to return in a single response.
   // If set to zero, the server will use the default batch size.
   uint32 batch_size = 1;
-
   // optional_at_revision defines the specific revision at which the broken sets should be evaluated.
   // At this time, it is only compared against the revision of the provided backing store snapshot.
   authzed.api.v1.ZedToken optional_at_revision = 2;
@@ -30,10 +29,8 @@ message ListBrokenSetsRequest {
 message BrokenSet {
   // resource_type is the type of the broken resource.
   string resource_type = 1;
-
   // resource_id is the id of the broken resource.
   string resource_id = 2;
-  
   // permission is the broken permission set.
   string permission = 3;
 }
@@ -41,7 +38,6 @@ message BrokenSet {
 message ListBrokenSetsResponse {
   // broken_sets contains the list of broken sets found for the requested revision.
   repeated BrokenSet broken_sets = 1;
-
   // read_at is the ZedToken at which the broken set applies.
   authzed.api.v1.ZedToken revision = 2;
 }
