@@ -14,7 +14,7 @@ service BrokenSetsService {
   // Each broken set represents a circular dependency in the permission
   // graph. The response includes the sets involved in each cycle,
   // along with their associated resources.
-  rpc ListBrokenSets(ListBrokenSetsRequest) returns (stream ListBrokenSetsResponse)
+  rpc ListBrokenSets(ListBrokenSetsRequest) returns (stream ListBrokenSetsResponse) {}
 }
 
 message ListBrokenSetsRequest {
