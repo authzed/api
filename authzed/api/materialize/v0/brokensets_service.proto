@@ -31,8 +31,8 @@ message BrokenSet {
   string resource_type = 1;
   // resource_id is the id of the broken resource.
   string resource_id = 2;
-  // permission is the broken permission set.
-  string permission = 3;
+  // relation is the relation of this broken resource.
+  string relation = 3;
 }
 
 message ReadBrokenSetsResponse {
