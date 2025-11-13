@@ -24,7 +24,7 @@ message ReadBrokenWatchedPermissionsRequest {
 }
 
 message ReadBrokenWatchedPermissionsResponse {
-  // revision is the ZedToken at which the response was evaluated.
+  // revision is the ZedToken at which the request was evaluated.
   authzed.api.v1.ZedToken revision = 1;
   // The watched permission that broke.
   authzed.api.materialize.v0.WatchedPermission watched_permission = 2;
