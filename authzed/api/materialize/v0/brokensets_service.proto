@@ -1,6 +1,7 @@
 syntax = "proto3";
 package authzed.api.materialize.v0;
 
+import "authzed/api/materialize/v0/watchedpermissions.proto";
 import "authzed/api/v1/core.proto";
 
 option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
@@ -26,7 +27,7 @@ message ReadBrokenWatchedPermissionsResponse {
   // revision is the ZedToken at which the response was evaluated.
   authzed.api.v1.ZedToken revision = 1;
   // The watched permission that broke.
-  WatchedPermission watched_permission = 2;
+  authzed.api.materialize.v0.WatchedPermission watched_permission = 2;
   // The resources involved in the cycle.
   repeated Resource cycle = 3;
 }
