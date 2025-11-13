@@ -28,7 +28,7 @@ message ReadBrokenWatchedPermissionsResponse {
   authzed.api.v1.ZedToken revision = 1;
   // The watched permission that broke.
   authzed.api.materialize.v0.WatchedPermission watched_permission = 2;
-  // The resources involved in the cycle.
+  // The resources involved in the cycle. The resource order does not represent the cycle traversal order
   repeated Resource cycle = 3;
 }
 
