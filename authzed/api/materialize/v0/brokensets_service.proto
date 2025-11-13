@@ -7,37 +7,35 @@ option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize
 option java_multiple_files = true;
 option java_package = "com.authzed.api.materialize.v0";
 
-service BrokenSetsService {
-  // ReadBrokenSets returns all broken sets detected during
+service BrokenPermissionsService {
+  // ReadBrokenWatchedPermissions returns all cycles detected during
   // the hydration process.
   //
-  // Each broken set represents a circular dependency in the permission
-  // graph. The response includes the sets involved in each cycle,
-  // along with their associated resources.
-  rpc ReadBrokenSets(ReadBrokenSetsRequest) returns (stream ReadBrokenSetsResponse) {}
+  // Each cycle a circular dependency in the permission graph.
+  // The response includes the broken permission, along with the resources involved in each cycle.
+  rpc ReadBrokenWatchedPermissions(ReadBrokenWatchedPermissionsRequest) returns (stream ReadBrokenWatchedPermissionsResponse) {}
 }
 
-message ReadBrokenSetsRequest {
-  // batch_size specifies the maximum number of broken sets to return in a single response.
-  // If set to zero, the server will use the default batch size.
-  uint32 batch_size = 1;
+message ReadBrokenWatchedPermissionsRequest {
   // optional_at_revision defines the specific revision at which the broken sets should be evaluated.
   // At this time, it is only compared against the revision of the provided backing store snapshot.
   authzed.api.v1.ZedToken optional_at_revision = 2;
 }
 
-message BrokenSet {
-  // resource_type is the type of the broken resource.
-  string resource_type = 1;
-  // resource_id is the id of the broken resource.
-  string resource_id = 2;
-  // relation is the relation of this broken resource.
-  string relation = 3;
+message ReadBrokenWatchedPermissionsResponse {
+  // revision is the ZedToken at which the response was evaluated.
+  authzed.api.v1.ZedToken revision = 1;
+  // The watched permission that broke.
+  WatchedPermission watched_permission = 2;
+  // The resources involved in the cycle.
+  repeated Resource cycle = 3;
 }
 
-message ReadBrokenSetsResponse {
-  // broken_sets contains the list of broken sets found for the requested revision.
-  repeated BrokenSet broken_sets = 1;
-  // read_at is the ZedToken at which the broken set applies.
-  authzed.api.v1.ZedToken revision = 2;
+message Resource {
+  // object_type is the type of the resource.
+  string object_type = 1;
+  // object_id is the id of the resource.
+  string object_id = 2;
+  // permission_or_relation is the permission/relation.
+  string permission_or_relation = 3;
 }
