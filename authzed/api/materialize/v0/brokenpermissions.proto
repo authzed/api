@@ -18,7 +18,7 @@ service BrokenPermissionsService {
 }
 
 message ReadBrokenWatchedPermissionsRequest {
-  // optional_at_revision defines the specific revision at which the broken sets should be evaluated.
+  // optional_at_revision defines the specific revision at which the broken watched permissions should be evaluated.
   // At this time, it is only compared against the revision of the provided backing store snapshot.
   authzed.api.v1.ZedToken optional_at_revision = 2;
 }
