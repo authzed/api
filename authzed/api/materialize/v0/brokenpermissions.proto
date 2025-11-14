@@ -43,6 +43,6 @@ message Resource {
   string object_type = 1;
   // object_id is the id of the resource.
   string object_id = 2;
-  // permission_or_relation is the permission/relation.
+  // permission_or_relation is the resource's permission or relation.
   string permission_or_relation = 3;
 }
