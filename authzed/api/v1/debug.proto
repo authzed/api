@@ -30,12 +30,14 @@ message DebugInformation {
 // API call.
 message CheckDebugTrace {
   enum PermissionType {
+    // Unspecified is an unused default value that should not be encountered in normal operation.
     PERMISSION_TYPE_UNSPECIFIED = 0;
     PERMISSION_TYPE_RELATION = 1;
     PERMISSION_TYPE_PERMISSION = 2;
   }
 
   enum Permissionship {
+    // Unspecified is an unused default value that should not be encountered in normal operation.
     PERMISSIONSHIP_UNSPECIFIED = 0;
     PERMISSIONSHIP_NO_PERMISSION = 1;
     PERMISSIONSHIP_HAS_PERMISSION = 2;
@@ -130,6 +132,7 @@ message CheckDebugTrace {
 // CaveatEvalInfo holds information about a caveat expression that was evaluated.
 message CaveatEvalInfo {
   enum Result {
+    // Unspecified is an unused default value that should not be encountered in normal operation.
     RESULT_UNSPECIFIED = 0;
 
     RESULT_UNEVALUATED = 1;
