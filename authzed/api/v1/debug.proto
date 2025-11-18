@@ -36,9 +36,23 @@ message CheckDebugTrace {
   }
 
   enum Permissionship {
+    // PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used.
     PERMISSIONSHIP_UNSPECIFIED = 0;
+
+    // PERMISSIONSHIP_NO_PERMISSION indicates that the subject does not have
+    // the requested permission or relationship with the resource.
     PERMISSIONSHIP_NO_PERMISSION = 1;
+
+    // PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the
+    // requested permission or relationship with the resource.
     PERMISSIONSHIP_HAS_PERMISSION = 2;
+
+    // PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject may
+    // have the requested permission or relationship with the resource, but
+    // additional context is required to make a determination. This occurs
+    // when the permission depends on caveated relationships and not all
+    // required context was provided in the request. See the caveat_evaluation_info
+    // field in CheckDebugTrace for the missing context.
     PERMISSIONSHIP_CONDITIONAL_PERMISSION = 3;
   }
 

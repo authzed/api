@@ -1340,7 +1340,8 @@
         "PERMISSIONSHIP_HAS_PERMISSION",
         "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
       ],
-      "default": "PERMISSIONSHIP_UNSPECIFIED"
+      "default": "PERMISSIONSHIP_UNSPECIFIED",
+      "description": " - PERMISSIONSHIP_UNSPECIFIED: PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used.\n - PERMISSIONSHIP_NO_PERMISSION: PERMISSIONSHIP_NO_PERMISSION indicates that the subject does not have\nthe requested permission or relationship with the resource.\n - PERMISSIONSHIP_HAS_PERMISSION: PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the\nrequested permission or relationship with the resource.\n - PERMISSIONSHIP_CONDITIONAL_PERMISSION: PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject may\nhave the requested permission or relationship with the resource, but\nadditional context is required to make a determination. This occurs\nwhen the permission depends on caveated relationships and not all\nrequired context was provided in the request. See the caveat_evaluation_info\nfield in CheckDebugTrace for the missing context."
     },
     "CheckPermissionRequest": {
       "type": "object",
@@ -1404,7 +1405,8 @@
         "PERMISSIONSHIP_HAS_PERMISSION",
         "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
       ],
-      "default": "PERMISSIONSHIP_UNSPECIFIED"
+      "default": "PERMISSIONSHIP_UNSPECIFIED",
+      "description": " - PERMISSIONSHIP_UNSPECIFIED: PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used.\n - PERMISSIONSHIP_NO_PERMISSION: PERMISSIONSHIP_NO_PERMISSION indicates that the subject does not have\nthe requested permission or relationship with the resource.\n - PERMISSIONSHIP_HAS_PERMISSION: PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the\nrequested permission or relationship with the resource.\n - PERMISSIONSHIP_CONDITIONAL_PERMISSION: PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject may\nhave the requested permission or relationship with the resource, but\nadditional context is required to make a determination. This occurs\nwhen the permission depends on caveated relationships and not all\nrequired context was provided in the request. See the partial_caveat_info\nfield in CheckPermissionResponse for the missing context."
     },
     "ComputablePermissionsRequest": {
       "type": "object",
@@ -2213,6 +2215,7 @@
         "LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION"
       ],
       "default": "LOOKUP_PERMISSIONSHIP_UNSPECIFIED",
+      "description": "- LOOKUP_PERMISSIONSHIP_UNSPECIFIED: LOOKUP_PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used.\n - LOOKUP_PERMISSIONSHIP_HAS_PERMISSION: LOOKUP_PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the\nrequested permission for the resource.\n - LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION: LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject may\nhave the requested permission for the resource, but additional context is\nrequired to make a determination. This occurs when the permission depends on\ncaveated relationships and not all required context was provided in the request.\nSee the partial_caveat_info field in LookupResourcesResponse and ResolvedSubject\nfor the missing context.",
       "title": "LookupPermissionship represents whether a Lookup response was partially evaluated or not"
     },
     "LookupResourcesRequest": {
@@ -2444,7 +2447,8 @@
         "PERMISSIONSHIP_HAS_PERMISSION",
         "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
       ],
-      "default": "PERMISSIONSHIP_UNSPECIFIED"
+      "default": "PERMISSIONSHIP_UNSPECIFIED",
+      "description": " - PERMISSIONSHIP_UNSPECIFIED: PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used.\n - PERMISSIONSHIP_NO_PERMISSION: PERMISSIONSHIP_NO_PERMISSION indicates that the subject does not have\nthe requested permission or relationship with the resource.\n - PERMISSIONSHIP_HAS_PERMISSION: PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the\nrequested permission or relationship with the resource.\n - PERMISSIONSHIP_CONDITIONAL_PERMISSION: PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject may\nhave the requested permission or relationship with the resource, but\nadditional context is required to make a determination. This occurs\nwhen the permission depends on caveated relationships. The watcher does\nnot provide caveat context details; consumers should query the resource\ndirectly via CheckPermission to obtain the partial_caveat_info."
     },
     "PermissionRelationshipTree": {
       "type": "object",

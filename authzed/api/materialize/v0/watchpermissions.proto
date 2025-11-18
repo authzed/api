@@ -66,9 +66,23 @@ message WatchPermissionsResponse {
 
 message PermissionChange {
   enum Permissionship {
+    // PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used.
     PERMISSIONSHIP_UNSPECIFIED = 0;
+
+    // PERMISSIONSHIP_NO_PERMISSION indicates that the subject does not have
+    // the requested permission or relationship with the resource.
     PERMISSIONSHIP_NO_PERMISSION = 1;
+
+    // PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the
+    // requested permission or relationship with the resource.
     PERMISSIONSHIP_HAS_PERMISSION = 2;
+
+    // PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject may
+    // have the requested permission or relationship with the resource, but
+    // additional context is required to make a determination. This occurs
+    // when the permission depends on caveated relationships. The watcher does
+    // not provide caveat context details; consumers should query the resource
+    // directly via CheckPermission to obtain the partial_caveat_info.
     PERMISSIONSHIP_CONDITIONAL_PERMISSION = 3;
   }
 
