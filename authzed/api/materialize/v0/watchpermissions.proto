@@ -66,6 +66,7 @@ message WatchPermissionsResponse {
 
 message PermissionChange {
   enum Permissionship {
+    // Unspecified is an unused default value that should not be encountered in normal operation.
     PERMISSIONSHIP_UNSPECIFIED = 0;
     PERMISSIONSHIP_NO_PERMISSION = 1;
     PERMISSIONSHIP_HAS_PERMISSION = 2;
