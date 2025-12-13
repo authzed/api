@@ -30,12 +30,14 @@ message DebugInformation {
 // API call.
 message CheckDebugTrace {
   enum PermissionType {
+    // PERMISSION_TYPE_UNSPECIFIED is not a valid type and will not be returned.
     PERMISSION_TYPE_UNSPECIFIED = 0;
     PERMISSION_TYPE_RELATION = 1;
     PERMISSION_TYPE_PERMISSION = 2;
   }
 
   enum Permissionship {
+    // PERMISSIONSHIP_UNSPECIFIED is not a valid result and will not be returned.
     PERMISSIONSHIP_UNSPECIFIED = 0;
     PERMISSIONSHIP_NO_PERMISSION = 1;
     PERMISSIONSHIP_HAS_PERMISSION = 2;
@@ -130,6 +132,7 @@ message CheckDebugTrace {
 // CaveatEvalInfo holds information about a caveat expression that was evaluated.
 message CaveatEvalInfo {
   enum Result {
+    // RESULT_UNSPECIFIED is not a valid result and will not be returned.
     RESULT_UNSPECIFIED = 0;
 
     RESULT_UNEVALUATED = 1;

@@ -1015,7 +1015,8 @@
         "OPERATION_INTERSECTION",
         "OPERATION_EXCLUSION"
       ],
-      "default": "OPERATION_UNSPECIFIED"
+      "default": "OPERATION_UNSPECIFIED",
+      "description": " - OPERATION_UNSPECIFIED: OPERATION_UNSPECIFIED is not a valid operation and will not be returned."
     },
     "Any": {
       "type": "object",
@@ -1350,7 +1351,8 @@
         "PERMISSIONSHIP_HAS_PERMISSION",
         "PERMISSIONSHIP_CONDITIONAL_PERMISSION"
       ],
-      "default": "PERMISSIONSHIP_UNSPECIFIED"
+      "default": "PERMISSIONSHIP_UNSPECIFIED",
+      "description": " - PERMISSIONSHIP_UNSPECIFIED: PERMISSIONSHIP_UNSPECIFIED is not a valid result and will not be returned."
     },
     "CheckPermissionRequest": {
       "type": "object",
@@ -1565,7 +1567,7 @@
         "DELETION_PROGRESS_PARTIAL"
       ],
       "default": "DELETION_PROGRESS_UNSPECIFIED",
-      "description": " - DELETION_PROGRESS_COMPLETE: DELETION_PROGRESS_COMPLETE indicates that all remaining relationships matching the filter\nwere deleted. Will be returned even if no relationships were deleted.\n - DELETION_PROGRESS_PARTIAL: DELETION_PROGRESS_PARTIAL indicates that a subset of the relationships matching the filter\nwere deleted. Only returned if optional_allow_partial_deletions was true, an optional_limit was\nspecified, and there existed more relationships matching the filter than optional_limit would allow.\nOnce all remaining relationships have been deleted, DELETION_PROGRESS_COMPLETE will be returned."
+      "description": " - DELETION_PROGRESS_UNSPECIFIED: DELETION_PROGRESS_UNSPECIFIED is not a valid status and will not be returned.\n - DELETION_PROGRESS_COMPLETE: DELETION_PROGRESS_COMPLETE indicates that all remaining relationships matching the filter\nwere deleted. Will be returned even if no relationships were deleted.\n - DELETION_PROGRESS_PARTIAL: DELETION_PROGRESS_PARTIAL indicates that a subset of the relationships matching the filter\nwere deleted. Only returned if optional_allow_partial_deletions was true, an optional_limit was\nspecified, and there existed more relationships matching the filter than optional_limit would allow.\nOnce all remaining relationships have been deleted, DELETION_PROGRESS_COMPLETE will be returned."
     },
     "DependentRelationsRequest": {
       "type": "object",
@@ -2548,7 +2550,8 @@
         "PERMISSION_TYPE_RELATION",
         "PERMISSION_TYPE_PERMISSION"
       ],
-      "default": "PERMISSION_TYPE_UNSPECIFIED"
+      "default": "PERMISSION_TYPE_UNSPECIFIED",
+      "description": " - PERMISSION_TYPE_UNSPECIFIED: PERMISSION_TYPE_UNSPECIFIED is not a valid type and will not be returned."
     },
     "Precondition": {
       "type": "object",
@@ -2569,7 +2572,8 @@
         "OPERATION_MUST_NOT_MATCH",
         "OPERATION_MUST_MATCH"
       ],
-      "default": "OPERATION_UNSPECIFIED"
+      "default": "OPERATION_UNSPECIFIED",
+      "description": " - OPERATION_UNSPECIFIED: OPERATION_UNSPECIFIED is not a valid operation and will be rejected."
     },
     "ReadCounterValue": {
       "type": "object",
@@ -3017,7 +3021,8 @@
         "OPERATION_TOUCH",
         "OPERATION_DELETE"
       ],
-      "default": "OPERATION_UNSPECIFIED"
+      "default": "OPERATION_UNSPECIFIED",
+      "description": " - OPERATION_UNSPECIFIED: OPERATION_UNSPECIFIED is not a valid operation and will be rejected."
     },
     "ResolvedSubject": {
       "type": "object",
@@ -3046,7 +3051,8 @@
         "RESULT_TRUE",
         "RESULT_MISSING_SOME_CONTEXT"
       ],
-      "default": "RESULT_UNSPECIFIED"
+      "default": "RESULT_UNSPECIFIED",
+      "description": " - RESULT_UNSPECIFIED: RESULT_UNSPECIFIED is not a valid result and will not be returned."
     },
     "SetOperation": {
       "type": "string",
@@ -3278,7 +3284,8 @@
         "WILDCARD_OPTION_INCLUDE_WILDCARDS",
         "WILDCARD_OPTION_EXCLUDE_WILDCARDS"
       ],
-      "default": "WILDCARD_OPTION_UNSPECIFIED"
+      "default": "WILDCARD_OPTION_UNSPECIFIED",
+      "description": " - WILDCARD_OPTION_UNSPECIFIED: WILDCARD_OPTION_UNSPECIFIED is the default and is equivalent to WILDCARD_OPTION_INCLUDE_WILDCARDS."
     },
     "WriteRelationshipsRequest": {
       "type": "object",
