@@ -413,4 +413,18 @@ enum ErrorReason {
   //       }
   //     }
   ERROR_REASON_TRANSACTION_METADATA_TOO_LARGE = 29;
+
+  // The request failed because a deprecated relation or namespace was used.
+  //
+  // Example of an ErrorInfo:
+  //
+  //     {
+  //       "reason": "ERROR_REASON_DEPRECATED_RELATION_OR_NAMESPACE",
+  //       "domain": "authzed.com",
+  //       "metadata": {
+  //         "deprecation_type": "somedeprecationtype",
+  //         "deprecation_comments": "somecomments",
+  //       }
+  //     }
+  ERROR_REASON_DEPRECATED_RELATION_OR_NAMESPACE = 30;
 }
