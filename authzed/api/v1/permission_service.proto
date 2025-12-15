@@ -250,6 +250,19 @@ message RelationshipFilter {
 
   // optional_subject_filter is the optional filter for the subjects of the relationships.
   SubjectFilter optional_subject_filter = 4;
+
+  // optional_resource_ids is the *optional* list of resource IDs for bulk operations.
+  // If specified, optional_resource_id and optional_resource_id_prefix cannot be specified.
+  // This enables efficient bulk queries using SQL IN clauses.
+  repeated string optional_resource_ids = 6 [(validate.rules).repeated = {
+    max_items: 100,
+    items: {
+      string: {
+        pattern: "^([a-zA-Z0-9/_|\\-=+]{1,})?$"
+        max_bytes: 1024
+      }
+    }
+  }];
 }
 
 // SubjectFilter specifies a filter on the subject of a relationship.
