@@ -140,11 +140,11 @@ message ExperimentalRegisterRelationshipCounterRequest {
   // name is the name of the counter being registered.
   string name = 1 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -163,11 +163,11 @@ message ExperimentalCountRelationshipsRequest {
   // name is the name of the counter whose count is being requested.
   string name = 1 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -198,11 +198,11 @@ message ExperimentalUnregisterRelationshipCounterRequest {
   // name is the name of the counter being unregistered.
   string name = 1 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -229,11 +229,11 @@ message BulkCheckPermissionRequestItem {
 
   string permission = 2 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
