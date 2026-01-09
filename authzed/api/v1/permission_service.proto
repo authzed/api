@@ -352,6 +352,7 @@ message ReadRelationshipsResponse {
 // relationships that match the filter.
 message Precondition {
   enum Operation {
+    // OPERATION_UNSPECIFIED is not a valid operation and will be rejected.
     OPERATION_UNSPECIFIED = 0;
     OPERATION_MUST_NOT_MATCH = 1;
     OPERATION_MUST_MATCH = 2;
@@ -444,6 +445,7 @@ message DeleteRelationshipsRequest {
 
 message DeleteRelationshipsResponse {
   enum DeletionProgress {
+    // DELETION_PROGRESS_UNSPECIFIED is not a valid status and will not be returned.
     DELETION_PROGRESS_UNSPECIFIED = 0;
 
     // DELETION_PROGRESS_COMPLETE indicates that all remaining relationships matching the filter
@@ -784,6 +786,7 @@ message LookupResourcesResponse {
 // which the subject exists, streaming back the IDs of those subjects.
 message LookupSubjectsRequest {
   enum WildcardOption {
+    // WILDCARD_OPTION_UNSPECIFIED is the default and is equivalent to WILDCARD_OPTION_INCLUDE_WILDCARDS.
     WILDCARD_OPTION_UNSPECIFIED = 0;
     WILDCARD_OPTION_INCLUDE_WILDCARDS = 1;
     WILDCARD_OPTION_EXCLUDE_WILDCARDS = 2;
