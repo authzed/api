@@ -140,6 +140,7 @@ message LookupPermissionSetsResponse {
 
 message PermissionSetChange {
   enum SetOperation {
+    // Unspecified is an unused default value that should not be supplied in normal operation.
     SET_OPERATION_UNSPECIFIED = 0;
     SET_OPERATION_ADDED = 1;
     SET_OPERATION_REMOVED = 2;
