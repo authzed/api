@@ -23,7 +23,9 @@ service WatchPermissionsService {
   // watched. It requires more resources and is less performant than WatchPermissionsSets. It's usage
   // is only recommended when performing the set intersections of WatchPermissionSets in the client side is not viable
   // or there is a strict application requirement to use consume the computed permissions.
-  rpc WatchPermissions(WatchPermissionsRequest) returns (stream WatchPermissionsResponse) {}
+  rpc WatchPermissions(WatchPermissionsRequest) returns (stream WatchPermissionsResponse) {
+    option deprecated = true;
+  }
 }
 
 message WatchPermissionsRequest {
