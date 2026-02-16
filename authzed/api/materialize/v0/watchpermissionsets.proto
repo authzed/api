@@ -1,6 +1,7 @@
 syntax = "proto3";
 package authzed.api.materialize.v0;
 
+import "authzed/api/materialize/v0/watchpermissions.proto";
 import "authzed/api/v1/core.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -192,6 +193,9 @@ message LookupPermissionSetsRequired {
 message BreakingSchemaChange {
   // change_at is the revision at which a breaking schema event has happened.
   authzed.api.v1.ZedToken change_at = 1;
+
+  // affected_permissions lists all the watched permissions that were directly affected by the breaking schema change.
+  repeated WatchedPermission affected_permissions = 2;
 }
 
 message DownloadPermissionSetsRequest {
