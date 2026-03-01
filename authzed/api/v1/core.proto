@@ -23,11 +23,11 @@ message Relationship {
   // relation is how the resource and subject are related.
   string relation = 2 [
     (validate.rules).string = {
-      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 64
     }
   ];
@@ -81,11 +81,11 @@ message SubjectReference {
   ];
   string optional_relation = 2 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -95,11 +95,11 @@ message SubjectReference {
 message ObjectReference {
   string object_type = 1 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     }
   ];

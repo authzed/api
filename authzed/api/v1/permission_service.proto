@@ -201,11 +201,11 @@ message RelationshipFilter {
   // NOTE: It is not prefixed with "optional_" for legacy compatibility.
   string resource_type = 1 [
     (validate.rules).string = {
-      pattern: "^(([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^(([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 128
     },
     (buf.validate.field).string = {
-      pattern: "^(([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^(([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 128
     }
   ];
@@ -239,11 +239,11 @@ message RelationshipFilter {
   // relation is the *optional* relation of the relationship.
   string optional_relation = 3 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -260,11 +260,11 @@ message SubjectFilter {
   message RelationFilter {
     string relation = 1 [
       (validate.rules).string = {
-        pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+        pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
         max_bytes: 64
       },
       (buf.validate.field).string = {
-        pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+        pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
         max_bytes: 64
       }
     ];
@@ -272,11 +272,11 @@ message SubjectFilter {
 
   string subject_type = 1 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     }
   ];
@@ -482,11 +482,11 @@ message CheckPermissionRequest {
   // the check.
   string permission = 3 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -582,11 +582,11 @@ message CheckBulkPermissionsRequestItem {
 
   string permission = 2 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -663,11 +663,11 @@ message ExpandPermissionTreeRequest {
   // expansion for the resource.
   string permission = 3 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -692,11 +692,11 @@ message LookupResourcesRequest {
   // be returned.
   string resource_object_type = 2 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     }
   ];
@@ -705,11 +705,11 @@ message LookupResourcesRequest {
   // must Check.
   string permission = 3 [
     (validate.rules).string = {
-      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 64
     }
   ];
@@ -802,11 +802,11 @@ message LookupSubjectsRequest {
   // the subjects.
   string permission = 3 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
@@ -815,11 +815,11 @@ message LookupSubjectsRequest {
   // be returned.
   string subject_object_type = 4 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      pattern: "^([a-z_][a-z0-9_]{1,61}[a-z0-9]/)*[a-z_][a-z0-9_]{1,62}[a-z0-9]$"
       max_bytes: 128
     }
   ];
@@ -827,11 +827,11 @@ message LookupSubjectsRequest {
   // optional_subject_relation is the optional relation for the subject.
   string optional_subject_relation = 5 [
     (validate.rules).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     },
     (buf.validate.field).string = {
-      pattern: "^([a-z][a-z0-9_]{1,62}[a-z0-9])?$"
+      pattern: "^([a-z_][a-z0-9_]{1,62}[a-z0-9])?$"
       max_bytes: 64
     }
   ];
