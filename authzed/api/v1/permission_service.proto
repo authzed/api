@@ -352,6 +352,7 @@ message ReadRelationshipsResponse {
 // relationships that match the filter.
 message Precondition {
   enum Operation {
+    // Unspecified is an unused default value that not be supplied in normal operation.
     OPERATION_UNSPECIFIED = 0;
     OPERATION_MUST_NOT_MATCH = 1;
     OPERATION_MUST_MATCH = 2;
@@ -444,6 +445,7 @@ message DeleteRelationshipsRequest {
 
 message DeleteRelationshipsResponse {
   enum DeletionProgress {
+    // Unspecified is an unused default value that should not be encountered in normal operation.
     DELETION_PROGRESS_UNSPECIFIED = 0;
 
     // DELETION_PROGRESS_COMPLETE indicates that all remaining relationships matching the filter
@@ -511,6 +513,7 @@ message CheckPermissionRequest {
 
 message CheckPermissionResponse {
   enum Permissionship {
+    // Unspecified is an unused default value that should not be encountered in normal operation.
     PERMISSIONSHIP_UNSPECIFIED = 0;
     PERMISSIONSHIP_NO_PERMISSION = 1;
     PERMISSIONSHIP_HAS_PERMISSION = 2;
@@ -742,6 +745,7 @@ message LookupResourcesRequest {
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
 enum LookupPermissionship {
+  // Unspecified is an unused default value that should not be encountered in normal operation.
   LOOKUP_PERMISSIONSHIP_UNSPECIFIED = 0;
   LOOKUP_PERMISSIONSHIP_HAS_PERMISSION = 1;
   LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION = 2;
@@ -784,6 +788,7 @@ message LookupResourcesResponse {
 // which the subject exists, streaming back the IDs of those subjects.
 message LookupSubjectsRequest {
   enum WildcardOption {
+    // Unspecified is an unused default value that not be supplied in normal operation.
     WILDCARD_OPTION_UNSPECIFIED = 0;
     WILDCARD_OPTION_INCLUDE_WILDCARDS = 1;
     WILDCARD_OPTION_EXCLUDE_WILDCARDS = 2;
