@@ -850,9 +850,8 @@ message LookupSubjectsRequest {
     (buf.validate.field).uint32 = {gte: 0}
   ];
 
-  // optional_cursor is currently unimplemented for LookupSubjects
-  // and will be ignored as of SpiceDB version 1.40.1. This will
-  // be implemented in a future version of SpiceDB.
+  // optional_cursor is not currently supported for LookupSubjects and this
+  // field will be ignored. Cursoring support will be added in a future version.
   Cursor optional_cursor = 8;
 
   // wildcard_option specifies whether wildcards should be returned by LookupSubjects.
