@@ -511,9 +511,22 @@ message CheckPermissionRequest {
 
 message CheckPermissionResponse {
   enum Permissionship {
+    // PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used or
+    // relied upon. Servers should not return this value.
     PERMISSIONSHIP_UNSPECIFIED = 0;
+
+    // PERMISSIONSHIP_NO_PERMISSION indicates that the subject does not have the
+    // requested permission on the resource.
     PERMISSIONSHIP_NO_PERMISSION = 1;
+
+    // PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has the requested
+    // permission on the resource.
     PERMISSIONSHIP_HAS_PERMISSION = 2;
+
+    // PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject has the
+    // requested permission on the resource, but only if a caveat condition is met.
+    // The `partial_caveat_info` field in the response should contain the missing
+    // context fields that must be provided to fully evaluate the caveat.
     PERMISSIONSHIP_CONDITIONAL_PERMISSION = 3;
   }
 
@@ -742,8 +755,18 @@ message LookupResourcesRequest {
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
 enum LookupPermissionship {
+  // LOOKUP_PERMISSIONSHIP_UNSPECIFIED is the default value and should not be used or
+  // relied upon. Servers should not return this value.
   LOOKUP_PERMISSIONSHIP_UNSPECIFIED = 0;
+
+  // LOOKUP_PERMISSIONSHIP_HAS_PERMISSION indicates that the subject has permission
+  // on the resource with no missing caveat context.
   LOOKUP_PERMISSIONSHIP_HAS_PERMISSION = 1;
+
+  // LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION indicates that the subject has
+  // permission on the resource, but only if a caveat condition is met. The
+  // `partial_caveat_info` field in the response should contain the missing context
+  // fields that must be provided to fully evaluate the caveat.
   LOOKUP_PERMISSIONSHIP_CONDITIONAL_PERMISSION = 2;
 }
 
