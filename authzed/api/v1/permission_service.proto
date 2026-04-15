@@ -3,6 +3,10 @@ package authzed.api.v1;
 
 import "authzed/api/v1/core.proto";
 import "authzed/api/v1/debug.proto";
+<<<<<<< HEAD
+=======
+import "authzed/api/v1/debug_v2.proto";
+>>>>>>> afbbe38 (feat: add DebugInformationV2 and LookupCycleAnnotation for lookup debug traces)
 import "buf/validate/validate.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/struct.proto";
@@ -800,6 +804,14 @@ message LookupResourcesResponse {
   // after_result_cursor holds a cursor that can be used to resume the LookupResources stream after this
   // result.
   Cursor after_result_cursor = 5;
+<<<<<<< HEAD
+=======
+
+  // debug_info_v2 is populated only when the x-spicedb-debug request header is set.
+  // Set on the last streamed response message only.
+  // Contains a "lookup_cycles" scope with LookupCycleAnnotation entries.
+  DebugInformationV2 debug_info_v2 = 6;
+>>>>>>> afbbe38 (feat: add DebugInformationV2 and LookupCycleAnnotation for lookup debug traces)
 }
 
 // LookupSubjectsRequest performs a lookup of all subjects of a particular
@@ -931,6 +943,14 @@ message LookupSubjectsResponse {
   // after_result_cursor holds a cursor that can be used to resume the LookupSubjects stream after this
   // result.
   Cursor after_result_cursor = 8;
+<<<<<<< HEAD
+=======
+
+  // debug_info_v2 is populated only when the x-spicedb-debug request header is set.
+  // Set on the last streamed response message only.
+  // Contains a "lookup_cycles" scope with LookupCycleAnnotation entries.
+  DebugInformationV2 debug_info_v2 = 9;
+>>>>>>> afbbe38 (feat: add DebugInformationV2 and LookupCycleAnnotation for lookup debug traces)
 }
 
 // ResolvedSubject is a single subject resolved within LookupSubjects.

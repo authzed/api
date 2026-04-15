@@ -1,0 +1,33 @@
+syntax = "proto3";
+package authzed.api.v1;
+
+import "google/protobuf/any.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/v1";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.v1";
+
+// DebugTree represents the structure of a debug tree.
+message DebugTree {
+}
+
+// DebugScope represents a scope within a debug trace.
+message DebugScope {
+  string name = 1;
+  DebugTree tree = 2;
+  map<string, google.protobuf.Any> annotations = 3;
+}
+
+// DebugInformationV2 defines the V2 debug information returned.
+message DebugInformationV2 {
+  map<string, DebugScope> scopes = 1;
+}
+
+// LookupCycleAnnotation represents an annotation for cycle detection in Lookups.
+message LookupCycleAnnotation {
+  string resource_type = 1;
+  string resource_id = 2;
+  string relation = 3;
+  uint32 traversal_count = 4;
+  bool is_cyclic = 5;
+}
