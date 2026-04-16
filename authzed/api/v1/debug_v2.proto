@@ -9,6 +9,8 @@ option java_package = "com.authzed.api.v1";
 
 // DebugTree represents the structure of a debug tree.
 message DebugTree {
+  string id = 1;
+  repeated DebugTree subtrees = 2;
 }
 
 // DebugScope represents a scope within a debug trace.
