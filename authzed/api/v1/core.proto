@@ -218,10 +218,7 @@ message AlgebraicSubjectSet {
       not_in: [0]
     }
   ];
-  repeated PermissionRelationshipTree children = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated PermissionRelationshipTree children = 2 [(validate.rules).repeated.items.message.required = true];
 }
 
 // DirectSubjectSet is a subject set which is simply a collection of subjects.

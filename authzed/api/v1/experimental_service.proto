@@ -216,7 +216,6 @@ message BulkCheckPermissionRequest {
 
   repeated BulkCheckPermissionRequestItem items = 2 [
     (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true,
     deprecated = true
   ];
 }
@@ -255,10 +254,7 @@ message BulkCheckPermissionResponse {
     (buf.validate.field).required = false
   ];
 
-  repeated BulkCheckPermissionPair pairs = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated BulkCheckPermissionPair pairs = 2 [(validate.rules).repeated.items.message.required = true];
 }
 
 message BulkCheckPermissionPair {
@@ -295,10 +291,7 @@ message BulkCheckPermissionResponseItem {
 // invocation are executed under this single transaction. If a relationship already
 // exists within the datastore, the entire transaction will fail with an error.
 message BulkImportRelationshipsRequest {
-  repeated Relationship relationships = 1 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated Relationship relationships = 1 [(validate.rules).repeated.items.message.required = true];
 }
 
 // BulkImportRelationshipsResponse is returned on successful completion of the
