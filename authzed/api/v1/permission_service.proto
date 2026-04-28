@@ -379,15 +379,9 @@ message Precondition {
 // the write will be committed. All updates will be applied transactionally,
 // and if any preconditions fail, the entire transaction will be reverted.
 message WriteRelationshipsRequest {
-  repeated RelationshipUpdate updates = 1 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated RelationshipUpdate updates = 1 [(validate.rules).repeated.items.message.required = true];
 
-  repeated Precondition optional_preconditions = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ]; // To be bounded by configuration
+  repeated Precondition optional_preconditions = 2 [(validate.rules).repeated.items.message.required = true]; // To be bounded by configuration
 
   // optional_transaction_metadata is an optional field that can be used to store metadata about the transaction.
   // If specified, this metadata will be supplied in the WatchResponse for the updates associated with this
@@ -414,10 +408,7 @@ message DeleteRelationshipsRequest {
     (buf.validate.field).required = true
   ];
 
-  repeated Precondition optional_preconditions = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ]; // To be bounded by configuration
+  repeated Precondition optional_preconditions = 2 [(validate.rules).repeated.items.message.required = true]; // To be bounded by configuration
 
   // optional_limit, if non-zero, specifies the limit on the number of relationships to be deleted.
   // If there are more matching relationships found to be deleted than the limit specified here,
@@ -576,10 +567,7 @@ message CheckPermissionResponse {
 message CheckBulkPermissionsRequest {
   Consistency consistency = 1;
 
-  repeated CheckBulkPermissionsRequestItem items = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated CheckBulkPermissionsRequestItem items = 2 [(validate.rules).repeated.items.message.required = true];
 
   // with_tracing, if true, indicates that each response should include a debug trace.
   // This can be useful for debugging and performance analysis, but adds a small amount
@@ -621,10 +609,7 @@ message CheckBulkPermissionsResponse {
     (buf.validate.field).required = false
   ];
 
-  repeated CheckBulkPermissionsPair pairs = 2 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated CheckBulkPermissionsPair pairs = 2 [(validate.rules).repeated.items.message.required = true];
 }
 
 message CheckBulkPermissionsPair {
@@ -751,6 +736,12 @@ message LookupResourcesRequest {
   // optional_cursor, if specified, indicates the cursor after which results should resume being returned.
   // The cursor can be found on the LookupResourcesResponse object.
   Cursor optional_cursor = 7;
+  //
+  // with_debug, if true, indicates that the response should return debug information
+  // if present and available. For now, ONLY enables debugging of maximum recursion depth
+  // errors, with additional context being returned in error details, but this may be
+  // extended in the future.
+  bool with_debug = 8;
 }
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
@@ -966,10 +957,7 @@ message ResolvedSubject {
 // invocation are executed under this single transaction. If a relationship already
 // exists within the datastore, the entire transaction will fail with an error.
 message ImportBulkRelationshipsRequest {
-  repeated Relationship relationships = 1 [
-    (validate.rules).repeated.items.message.required = true,
-    (buf.validate.field).repeated.items.required = true
-  ];
+  repeated Relationship relationships = 1 [(validate.rules).repeated.items.message.required = true];
 }
 
 // ImportBulkRelationshipsResponse is returned on successful completion of the
