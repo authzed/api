@@ -29,3 +29,10 @@ jobs:
         with:
           token: "${{ secrets.BUF_REGISTRY_TOKEN }}"
           breaking_against: "https://github.com/authzed/api.git#branch=main"
+      - name: "Verify generated files are up-to-date"
+        run: |
+          buf generate
+          git diff --exit-code -- docs/ || {
+            echo "::error::Generated files are out of date. Run 'buf generate' locally and commit the result."
+            exit 1
+          }
