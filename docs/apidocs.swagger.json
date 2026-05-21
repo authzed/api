@@ -1642,6 +1642,10 @@
           "type": "string",
           "format": "date-time",
           "description": "timestamp represents the time associated with the returned data revision."
+        },
+        "atRevision": {
+          "$ref": "#/definitions/ZedToken",
+          "description": "at_revision is the snapshot revision the returned files were produced at,\nencoded as a ZedToken. Consumers should pass this token to\nWatchPermissionSets as optional_starting_after to resume the stream\nimmediately after the snapshot without leaving gaps in event history."
         }
       }
     },
