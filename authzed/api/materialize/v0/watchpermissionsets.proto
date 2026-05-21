@@ -217,4 +217,10 @@ message DownloadPermissionSetsResponse {
 
   // timestamp represents the time associated with the returned data revision.
   google.protobuf.Timestamp timestamp = 2;
+
+  // at_revision is the snapshot revision the returned files were produced at,
+  // encoded as a ZedToken. Consumers should pass this token to
+  // WatchPermissionSets as optional_starting_after to resume the stream
+  // immediately after the snapshot without leaving gaps in event history.
+  authzed.api.v1.ZedToken at_revision = 3;
 }
