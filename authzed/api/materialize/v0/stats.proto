@@ -10,7 +10,7 @@ option java_package = "com.authzed.api.materialize.v0";
 
 service StatsService {
   rpc ExperimentalCountLookupResources(ExperimentalCountLookupResourcesRequest) returns (ExperimentalCountLookupResourcesResponse) {}
-  rpc ExperimentalCountLookupSubjects(ExperimentalCountLookupResourcesRequest) returns (ExperimentalCountLookupResourcesResponse) {}
+  rpc ExperimentalCountLookupSubjects(ExperimentalCountLookupSubjectsRequest) returns (ExperimentalCountLookupSubjectsResponse) {}
 }
 
 message ExperimentalCountLookupResourcesRequest {
