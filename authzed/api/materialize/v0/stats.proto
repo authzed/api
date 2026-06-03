@@ -1,0 +1,37 @@
+syntax = "proto3";
+package authzed.api.materialize.v0;
+
+import "authzed/api/v1/core.proto";
+import "authzed/api/v1/permission_service.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.materialize.v0";
+
+service StatsService {
+  rpc ExperimentalCountLookupResources(ExperimentalCountLookupResourcesRequest) returns (ExperimentalCountLookupResourcesResponse) {}
+  rpc ExperimentalCountLookupSubjects(ExperimentalCountLookupResourcesRequest) returns (ExperimentalCountLookupResourcesResponse) {}
+}
+
+message ExperimentalCountLookupResourcesRequest {
+  string resource_object_type = 1;
+  string permission = 2;
+  authzed.api.v1.SubjectReference subject = 3;
+}
+
+message ExperimentalCountLookupResourcesResponse {
+  uint64 resource_count = 1;
+  authzed.api.v1.ZedToken read_at = 2;
+}
+
+message ExperimentalCountLookupSubjectsRequest {
+  authzed.api.v1.ObjectReference resource = 1;
+  string permission = 2;
+  string subject_object_type = 3;
+  string optional_subject_relation = 4;
+}
+
+message ExperimentalCountLookupSubjectsResponse {
+  uint64 subject_count = 1;
+  authzed.api.v1.ZedToken read_at = 2;
+}
