@@ -472,6 +472,7 @@
     "/v1/permissions/resources": {
       "post": {
         "summary": "LookupResources returns all the resources of a given type that a subject\ncan access whether via a computed permission or relation membership.",
+        "description": "Results are streamed and **not guaranteed to be unique**: the same resource\nmay be returned more than once (for example via caveated/conditional\nresults, or when a limit is set), possibly with differing permissionship.\nCallers that require uniqueness should deduplicate results.",
         "operationId": "PermissionsService_LookupResources",
         "responses": {
           "200": {
@@ -515,6 +516,7 @@
     "/v1/permissions/subjects": {
       "post": {
         "summary": "LookupSubjects returns all the subjects of a given type that\nhave access whether via a computed permission or relation membership.",
+        "description": "Results are streamed and **not guaranteed to be unique**: the same subject\nmay be returned more than once, possibly with differing permissionship.\nCallers that require uniqueness should deduplicate results.",
         "operationId": "PermissionsService_LookupSubjects",
         "responses": {
           "200": {
