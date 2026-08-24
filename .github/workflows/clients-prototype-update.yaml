@@ -52,11 +52,26 @@ jobs:
               repo: context.repo.repo,
               ref: run.head_sha,
             });
-            const files = (commit.data.files || []).map(f => f.filename);
+            // The Get-a-commit API truncates `files` at 300 entries and omits the
+            // field entirely for very large commits. When we cannot see the whole
+            // list we cannot prove a commit is irrelevant, so we dispatch anyway.
+            // A needless regeneration finds no proto diff and opens no PR; a missed
+            // one leaves the clients silently stale, which is the exact failure this
+            // workflow exists to prevent. Fail open, and say so in the log.
+            const files = commit.data.files;
+            const truncated = !files || files.length >= 300;
+            if (truncated) {
+              core.info(
+                `Cannot enumerate all files for ${run.head_sha} ` +
+                `(${files ? files.length + ' files, API caps at 300' : 'file list omitted'}); ` +
+                `dispatching rather than risk a silent skip.`);
+            }
             // docs/ is buf-generated swagger, downstream of the protos -- a change
             // there alone means nothing new for the clients.
-            const relevant = files.some(f =>
-              f.startsWith('authzed/') || f === 'buf.yaml' || f === 'buf.lock');
+            const relevant = truncated || files.some(f =>
+              f.filename.startsWith('authzed/') ||
+              f.filename === 'buf.yaml' ||
+              f.filename === 'buf.lock');
             if (!relevant) {
               core.info(`No proto-relevant changes in ${run.head_sha}; skipping.`);
               core.setOutput('go', 'false');
@@ -66,7 +81,7 @@ jobs:
             core.setOutput('event', 'api_main_update');
             core.setOutput('buftag', run.head_sha);
 
-      - uses: "peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0" # v3.0.0
+      - uses: "peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0"  # v3.0.0
         name: "🧪 Update spicedb-clients-prototype"
         if: "${{ steps.decide.outputs.go == 'true' }}"
         with:
