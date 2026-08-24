@@ -1,0 +1,76 @@
+---
+name: "Client updates for the prototype monorepo"
+# Chained off Lint and Release rather than triggered directly on push/release,
+# because those workflows are what push the module to the BSR. Dispatching
+# straight from `on: push` races that upload, and BUFTAG pinning would then fail
+# on a ref that does not exist yet.
+on:
+  workflow_run:
+    workflows: ["Lint", "Release"]
+    types: ["completed"]
+permissions:
+  contents: "read"
+jobs:
+  dispatch:
+    name: "Trigger prototype client regeneration"
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 10
+    if: "${{ github.event.workflow_run.conclusion == 'success' }}"
+    steps:
+      # `on: workflow_run` supports no paths filter, so the proto-relevance check
+      # happens here against the triggering commit.
+      - name: "Decide whether this commit warrants regeneration"
+        id: "decide"
+        uses: "actions/github-script@v9"
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const isRelease = run.name === 'Release';
+
+            // A release always regenerates; the tag is the pin.
+            if (isRelease) {
+              const tag = run.head_branch;
+              if (!tag || !tag.startsWith('v')) {
+                core.info(`Release run head_branch '${tag}' is not a version tag; skipping.`);
+                core.setOutput('go', 'false');
+                return;
+              }
+              core.setOutput('go', 'true');
+              core.setOutput('event', 'api_release_update');
+              core.setOutput('buftag', tag);
+              return;
+            }
+
+            if (run.head_branch !== 'main') {
+              core.info(`Lint run was for '${run.head_branch}', not main; skipping.`);
+              core.setOutput('go', 'false');
+              return;
+            }
+
+            const commit = await github.rest.repos.getCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: run.head_sha,
+            });
+            const files = (commit.data.files || []).map(f => f.filename);
+            // docs/ is buf-generated swagger, downstream of the protos -- a change
+            // there alone means nothing new for the clients.
+            const relevant = files.some(f =>
+              f.startsWith('authzed/') || f === 'buf.yaml' || f === 'buf.lock');
+            if (!relevant) {
+              core.info(`No proto-relevant changes in ${run.head_sha}; skipping.`);
+              core.setOutput('go', 'false');
+              return;
+            }
+            core.setOutput('go', 'true');
+            core.setOutput('event', 'api_main_update');
+            core.setOutput('buftag', run.head_sha);
+
+      - uses: "peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0" # v3.0.0
+        name: "🧪 Update spicedb-clients-prototype"
+        if: "${{ steps.decide.outputs.go == 'true' }}"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/spicedb-clients-prototype"
+          event-type: "${{ steps.decide.outputs.event }}"
+          client-payload: '{"BUFTAG": "${{ steps.decide.outputs.buftag }}"}'
