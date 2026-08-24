@@ -15,7 +15,19 @@ jobs:
     name: "Trigger prototype client regeneration"
     runs-on: "ubuntu-latest"
     timeout-minutes: 10
-    if: "${{ github.event.workflow_run.conclusion == 'success' }}"
+    # Both extra clauses are load-bearing, not belt-and-braces. Lint runs on
+    # `pull_request` for every branch, so a fork PR produces a completed Lint
+    # run and fires workflow_run here -- in the BASE repo, with secrets. The
+    # script's `head_branch !== 'main'` check does not stop it: for a fork PR
+    # head_branch is the FORK's branch name, attacker-chosen and `main` by
+    # default on a fresh fork. Requiring `event == 'push'` and an in-repository
+    # head repository is what actually makes the trigger fork-unreachable. Both
+    # intended paths -- Lint on a push to main, Release on a tag push -- are
+    # push events originating here, so nothing legitimate is lost.
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success'
+          && github.event.workflow_run.event == 'push'
+          && github.event.workflow_run.head_repository.full_name == github.repository }}
     steps:
       # `on: workflow_run` supports no paths filter, so the proto-relevance check
       # happens here against the triggering commit.
