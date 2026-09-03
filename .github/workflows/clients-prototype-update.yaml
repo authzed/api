@@ -1,0 +1,103 @@
+---
+name: "Client updates for the prototype monorepo"
+# Chained off Lint and Release rather than triggered directly on push/release,
+# because those workflows are what push the module to the BSR. Dispatching
+# straight from `on: push` races that upload, and BUFTAG pinning would then fail
+# on a ref that does not exist yet.
+on:
+  workflow_run:
+    workflows: ["Lint", "Release"]
+    types: ["completed"]
+permissions:
+  contents: "read"
+jobs:
+  dispatch:
+    name: "Trigger prototype client regeneration"
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 10
+    # Both extra clauses are load-bearing, not belt-and-braces. Lint runs on
+    # `pull_request` for every branch, so a fork PR produces a completed Lint
+    # run and fires workflow_run here -- in the BASE repo, with secrets. The
+    # script's `head_branch !== 'main'` check does not stop it: for a fork PR
+    # head_branch is the FORK's branch name, attacker-chosen and `main` by
+    # default on a fresh fork. Requiring `event == 'push'` and an in-repository
+    # head repository is what actually makes the trigger fork-unreachable. Both
+    # intended paths -- Lint on a push to main, Release on a tag push -- are
+    # push events originating here, so nothing legitimate is lost.
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success'
+          && github.event.workflow_run.event == 'push'
+          && github.event.workflow_run.head_repository.full_name == github.repository }}
+    steps:
+      # `on: workflow_run` supports no paths filter, so the proto-relevance check
+      # happens here against the triggering commit.
+      - name: "Decide whether this commit warrants regeneration"
+        id: "decide"
+        uses: "actions/github-script@v9"
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const isRelease = run.name === 'Release';
+
+            // A release always regenerates; the tag is the pin.
+            if (isRelease) {
+              const tag = run.head_branch;
+              if (!tag || !tag.startsWith('v')) {
+                core.info(`Release run head_branch '${tag}' is not a version tag; skipping.`);
+                core.setOutput('go', 'false');
+                return;
+              }
+              core.setOutput('go', 'true');
+              core.setOutput('event', 'api_release_update');
+              core.setOutput('buftag', tag);
+              return;
+            }
+
+            if (run.head_branch !== 'main') {
+              core.info(`Lint run was for '${run.head_branch}', not main; skipping.`);
+              core.setOutput('go', 'false');
+              return;
+            }
+
+            const commit = await github.rest.repos.getCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: run.head_sha,
+            });
+            // The Get-a-commit API truncates `files` at 300 entries and omits the
+            // field entirely for very large commits. When we cannot see the whole
+            // list we cannot prove a commit is irrelevant, so we dispatch anyway.
+            // A needless regeneration finds no proto diff and opens no PR; a missed
+            // one leaves the clients silently stale, which is the exact failure this
+            // workflow exists to prevent. Fail open, and say so in the log.
+            const files = commit.data.files;
+            const truncated = !files || files.length >= 300;
+            if (truncated) {
+              core.info(
+                `Cannot enumerate all files for ${run.head_sha} ` +
+                `(${files ? files.length + ' files, API caps at 300' : 'file list omitted'}); ` +
+                `dispatching rather than risk a silent skip.`);
+            }
+            // docs/ is buf-generated swagger, downstream of the protos -- a change
+            // there alone means nothing new for the clients.
+            const relevant = truncated || files.some(f =>
+              f.filename.startsWith('authzed/') ||
+              f.filename === 'buf.yaml' ||
+              f.filename === 'buf.lock');
+            if (!relevant) {
+              core.info(`No proto-relevant changes in ${run.head_sha}; skipping.`);
+              core.setOutput('go', 'false');
+              return;
+            }
+            core.setOutput('go', 'true');
+            core.setOutput('event', 'api_main_update');
+            core.setOutput('buftag', run.head_sha);
+
+      - uses: "peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0"  # v3.0.0
+        name: "🧪 Update spicedb-clients-prototype"
+        if: "${{ steps.decide.outputs.go == 'true' }}"
+        with:
+          token: "${{ secrets.EXTERNAL_REPO_TOKEN }}"
+          repository: "authzed/spicedb-clients-prototype"
+          event-type: "${{ steps.decide.outputs.event }}"
+          client-payload: '{"BUFTAG": "${{ steps.decide.outputs.buftag }}"}'
