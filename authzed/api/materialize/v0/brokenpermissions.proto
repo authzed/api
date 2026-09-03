@@ -1,0 +1,48 @@
+syntax = "proto3";
+package authzed.api.materialize.v0;
+
+import "authzed/api/v1/core.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.materialize.v0";
+
+service BrokenPermissionsService {
+  // ReadBrokenWatchedPermissions returns all cycles detected during
+  // the hydration process.
+  //
+  // Each cycle a circular dependency in the permission graph.
+  // The response includes the broken permission, along with the resources involved in each cycle.
+  rpc ReadBrokenWatchedPermissions(ReadBrokenWatchedPermissionsRequest) returns (stream ReadBrokenWatchedPermissionsResponse) {}
+}
+
+message ReadBrokenWatchedPermissionsRequest {
+  // optional_at_revision defines the specific revision at which the broken watched permissions should be evaluated.
+  // At this time, it is only compared against the revision of the provided backing store snapshot.
+  authzed.api.v1.ZedToken optional_at_revision = 2;
+}
+
+message ReadBrokenWatchedPermissionsResponse {
+  // revision is the ZedToken at which the request was evaluated.
+  authzed.api.v1.ZedToken revision = 1;
+  // The watched permission that broke.
+  BrokenWatchedPermission watched_permission = 2;
+  // The resources involved in the cycle. The resource order does not represent the cycle traversal order.
+  repeated Resource cycle = 3;
+}
+
+message BrokenWatchedPermission {
+  // resource_type is the type of the resource to watch for changes.
+  string resource_type = 1;
+  // permission is the permission to watch for changes.
+  string permission = 2;
+}
+
+message Resource {
+  // object_type is the type of the resource.
+  string object_type = 1;
+  // object_id is the id of the resource.
+  string object_id = 2;
+  // permission_or_relation is the resource's permission or relation.
+  string permission_or_relation = 3;
+}
