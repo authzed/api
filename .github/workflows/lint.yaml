@@ -19,6 +19,52 @@ on:
       - "reopened"
 
 jobs:
+  # The clients-prototype-update workflow chains off THIS workflow via
+  # `on: workflow_run`, which fires in the base repository with base-repository
+  # secrets -- including when Lint ran for a pull request from a fork. Two
+  # clauses in that workflow's `if:` are what make the trigger fork-unreachable,
+  # and a plausible-looking edit could remove either without anyone noticing:
+  # the obvious `head_branch != 'main'` check reads like it does the same job
+  # and does not, because for a fork PR head_branch is the fork's branch name,
+  # attacker-chosen and `main` by default.
+  #
+  # So this asserts both clauses are still there. It lives in Lint on purpose:
+  # a failure here fails the whole Lint run, and clients-prototype-update
+  # requires `conclusion == 'success'`, so a repository whose guard has been
+  # removed stops regenerating rather than regenerating unguarded.
+  #
+  # It is a textual check, and deliberately so -- it should fail if someone
+  # reformats the condition, because a human should then confirm the rewrite
+  # still refuses fork-originated events. It is not a substitute for the
+  # end-to-end negative test, which needs a real fork PR from an account that
+  # does not own this repository.
+  regen-trigger-guard:
+    name: "Regeneration trigger stays fork-unreachable"
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 5
+    steps:
+      - uses: "actions/checkout@v4"
+      - name: "Assert the fork guards are present"
+        run: |
+          set -euo pipefail
+          f=".github/workflows/clients-prototype-update.yaml"
+          missing=0
+          while IFS= read -r clause; do
+            if ! grep -qF -- "$clause" "$f"; then
+              echo "::error file=$f::regeneration trigger lost its guard: $clause"
+              missing=1
+            fi
+          done <<'CLAUSES'
+          github.event.workflow_run.event == 'push'
+          github.event.workflow_run.head_repository.full_name == github.repository
+          CLAUSES
+          if [ "$missing" -ne 0 ]; then
+            echo "Without both clauses a pull request from a fork can trigger client" >&2
+            echo "regeneration in the base repository, with its secrets." >&2
+            exit 1
+          fi
+          echo "Both fork guards present in $f"
+
   lint:
     name: "Lint & Publish Draft/Branch"
     runs-on: "ubuntu-latest"
