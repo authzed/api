@@ -1525,6 +1525,10 @@
         "optionalTransactionMetadata": {
           "type": "object",
           "description": "optional_transaction_metadata is an optional field that can be used to store metadata about the transaction.\nIf specified, this metadata will be supplied in the WatchResponse for the deletions associated with\nthis transaction."
+        },
+        "optionalCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "optional_cursor, if specified, indicates the cursor after which deletion should resume. It is used to\ncontinue a batched, partial deletion where a previous call left off, by passing back the\nafter_result_cursor returned on the previous DeleteRelationshipsResponse.\n\nA cursor allows a large deletion to be performed as a series of calls without re-examining the\nrelationships already deleted by earlier calls. It therefore requires optional_limit and\noptional_allow_partial_deletions to be set, and is only supported by datastores whose deletion can be\nordered and resumed; datastores that do not support cursored deletion will return an error if a cursor\nis provided."
         }
       },
       "description": "DeleteRelationshipsRequest specifies which Relationships should be deleted,\nrequesting the delete of *ALL* relationships that match the specified\nfilters. If the optional_preconditions parameter is included, all of the\nspecified preconditions must also be satisfied before the delete will be\nexecuted."
@@ -1544,6 +1548,10 @@
           "type": "string",
           "format": "uint64",
           "description": "relationships_deleted_count is the number of relationships that were deleted."
+        },
+        "afterResultCursor": {
+          "$ref": "#/definitions/v1.Cursor",
+          "description": "after_result_cursor holds a cursor that can be used to resume the deletion after the relationships\ndeleted by this call, by supplying it as the optional_cursor on a subsequent DeleteRelationshipsRequest.\n\nIt is populated only when deletion_progress is DELETION_PROGRESS_PARTIAL and the datastore supports\ncursored deletion; it is unset once DELETION_PROGRESS_COMPLETE is returned."
         }
       }
     },
