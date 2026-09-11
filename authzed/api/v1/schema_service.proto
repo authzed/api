@@ -117,6 +117,10 @@ message WriteSchemaRequest {
     (validate.rules).string.max_bytes = 4194304,
     (buf.validate.field).string.max_bytes = 4194304
   ]; // 4MiB
+
+  // dry_run, if true, will validate the schema but not actually write it.
+  // This allows for testing schema changes without applying them.
+  bool dry_run = 2;
 }
 
 // WriteSchemaResponse is the resulting data after having written a Schema to
