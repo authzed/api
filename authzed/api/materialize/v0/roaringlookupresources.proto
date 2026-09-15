@@ -1,0 +1,107 @@
+syntax = "proto3";
+package authzed.api.materialize.v0;
+
+import "authzed/api/v1/core.proto";
+import "authzed/api/v1/permission_service.proto";
+import "buf/validate/validate.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/authzed/authzed-go/proto/authzed/api/materialize/v0";
+option java_multiple_files = true;
+option java_package = "com.authzed.api.materialize.v0";
+
+service RoaringLookupResourcesService {
+  // EXPERIMENTAL: RoaringLookupResources returns a roaring64 bitmap of the IDs
+  // of the resources of the given type on which the given subject has the
+  // given permission. This API is experimental and subject to change or
+  // removal.
+  //
+  // The bitmap is serialized in the RoaringFormatSpec 64-bit portable format
+  // (https://github.com/RoaringBitmap/RoaringFormatSpec#extention-for-64-bit-implementations),
+  // which OpenSearch consumes directly via a `"value_type": "bitmap"` terms
+  // query against a `long` field, once Base64-encoded.
+  //
+  // The IDs in the bitmap are the resource object IDs exactly as they appear
+  // in the relationships: no surrogate or internal ID is introduced, so the
+  // caller can use the bitmap directly against its own data (for example, a
+  // search index keyed by the same IDs).
+  //
+  // For this API to be usable, every resource object ID of the requested type
+  // must be a canonical decimal integer that fits in 44 bits -- at most
+  // 17592186044415 (2^44 - 1). Canonical means the string round-trips through
+  // uint64 formatting unchanged: `document:007` and `document:7` are distinct
+  // objects that would collide as the integer 7, so non-canonical IDs are
+  // rejected. If any resource object ID violates either rule, the call fails
+  // with FAILED_PRECONDITION rather than returning a partial bitmap, since a
+  // bitmap that is quietly too small is a wrong authorization answer. When the
+  // permission relates a type to itself (for example `group#member` looked up
+  // for a `group#member` subject), the subject is one of its own resources, so
+  // the subject's object ID is held to the same rules and can itself be the ID
+  // named in that error.
+  //
+  // Response size: the whole bitmap is returned in a single unary message, and
+  // most gRPC clients default to refusing messages larger than 4 MiB. Roaring
+  // is compact -- a million sequential IDs encode in a few hundred bytes -- but
+  // sparse IDs cost close to 10 bytes each, so a result of more than roughly
+  // 400,000 widely-spread IDs can exceed that default and fail on the CLIENT
+  // side with RESOURCE_EXHAUSTED ("received message larger than max"). This is
+  // a limit of the caller's own gRPC configuration, not of the service: raise
+  // it to match the largest result you expect (in Go,
+  // grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(n)); other languages
+  // have an equivalent channel option). The `cardinality` field is returned so
+  // callers can see how large a result is once received; no server-side result
+  // limit is applied.
+  rpc ExperimentalRoaringLookupResources(ExperimentalRoaringLookupResourcesRequest) returns (ExperimentalRoaringLookupResourcesResponse) {}
+}
+
+message ExperimentalRoaringLookupResourcesRequest {
+  // consistency selects the snapshot at which the lookup is performed. If
+  // unspecified, minimize_latency is used.
+  authzed.api.v1.Consistency consistency = 1;
+
+  // resource_object_type is the type of resource over which to look up access.
+  string resource_object_type = 2 [
+    (validate.rules).string = {
+      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    },
+    (buf.validate.field).string = {
+      pattern: "^([a-z][a-z0-9_]{1,61}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 128
+    }
+  ];
+
+  // permission is the name of the permission or relation to look up.
+  string permission = 3 [
+    (validate.rules).string = {
+      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 64
+    },
+    (buf.validate.field).string = {
+      pattern: "^[a-z][a-z0-9_]{1,62}[a-z0-9]$"
+      max_bytes: 64
+    }
+  ];
+
+  // subject is the subject for which access is being looked up.
+  authzed.api.v1.SubjectReference subject = 4 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
+}
+
+message ExperimentalRoaringLookupResourcesResponse {
+  // bitmap is the roaring64 bitmap, in RoaringFormatSpec 64-bit portable
+  // format, of the resource object IDs accessible to the subject. The IDs are
+  // the object IDs from the relationships themselves, as 44-bit integers.
+  bytes bitmap = 1;
+
+  // cardinality is the number of resource IDs in the bitmap.
+  uint64 cardinality = 2;
+
+  // at_revision is the ZedToken at which the lookup was performed.
+  authzed.api.v1.ZedToken at_revision = 3 [
+    (validate.rules).message.required = true,
+    (buf.validate.field).required = true
+  ];
+}
