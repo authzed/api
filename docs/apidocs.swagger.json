@@ -2319,7 +2319,7 @@
         "optionalResponseBatchSize": {
           "type": "integer",
           "format": "int64",
-          "description": "optional_response_batch_size, if non-zero, requests that the server return\nmultiple resources per response message (up to this many) in\nLookupResourcesResponse.batched, instead of a single resource per message.\nZero (the default) preserves one-resource-per-message streaming for\nbackward compatibility. Batching reduces per-message overhead for\nhigh-cardinality lookups."
+          "description": "optional_response_batch_size, if non-zero, requests that the server return\nmultiple resources per response message (up to this many) in\nLookupResourcesResponse.batched, instead of a single resource per message.\nZero (the default) preserves one-resource-per-message streaming for\nbackward compatibility.\n\nThe batch size trades time-to-first-result against overall throughput: a\nlarger batch size increases throughput (fewer, larger messages, less\nper-message overhead) but delays the first results, since the server\naccumulates more of them before sending a message; a smaller batch size\nreturns initial results sooner. A value around 1000 is a good default.\n\nThe maximum batch size is bounded by a server-side configuration flag;\nrequesting more than the server allows is clamped to that maximum rather\nthan rejected."
         }
       },
       "description": "LookupResourcesRequest performs a lookup of all resources of a particular\nkind on which the subject has the specified permission or the relation in\nwhich the subject exists, streaming back the IDs of those resources."
