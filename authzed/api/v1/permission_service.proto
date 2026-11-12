@@ -769,6 +769,23 @@ message LookupResourcesRequest {
   // errors, with additional context being returned in error details, but this may be
   // extended in the future.
   bool with_debug = 8;
+
+  // optional_response_batch_size, if non-zero, requests that the server return
+  // multiple resources per response message (up to this many) in
+  // LookupResourcesResponse.batched, instead of a single resource per message.
+  // Zero (the default) preserves one-resource-per-message streaming for
+  // backward compatibility.
+  //
+  // The batch size trades time-to-first-result against overall throughput: a
+  // larger batch size increases throughput (fewer, larger messages, less
+  // per-message overhead) but delays the first results, since the server
+  // accumulates more of them before sending a message; a smaller batch size
+  // returns initial results sooner. A value around 1000 is a good default.
+  //
+  // The maximum batch size is bounded by a server-side configuration flag;
+  // requesting more than the server allows is clamped to that maximum rather
+  // than rejected.
+  uint32 optional_response_batch_size = 9;
 }
 
 // LookupPermissionship represents whether a Lookup response was partially evaluated or not
@@ -816,8 +833,55 @@ message LookupResourcesResponse {
   ];
 
   // after_result_cursor holds a cursor that can be used to resume the LookupResources stream after this
-  // result.
+  // result. Used only for the singular, one-resource-per-message form.
   Cursor after_result_cursor = 5;
+
+  // batched, when set, holds multiple found resources in a single response
+  // message along with a single resume cursor for the batch. It is populated
+  // instead of the singular fields above when the request set
+  // optional_response_batch_size > 0. A response message uses either the
+  // singular fields or batched, never both.
+  LookupResourcesBatch batched = 6;
+}
+
+// LookupResourcesBatch holds multiple found resources returned in a single
+// LookupResourcesResponse, together with one cursor that resumes the stream
+// after the last result in the batch. Grouping the results with a single cursor
+// (rather than a cursor per result) keeps the response compact: a stream is
+// consumed message-by-message, so only one resume point per message is ever
+// needed.
+message LookupResourcesBatch {
+  // results holds the found resources, in stream order.
+  repeated LookupResourcesResult results = 1;
+
+  // after_cursor holds a cursor that can be used to resume the LookupResources
+  // stream after the last result in this batch.
+  Cursor after_cursor = 2;
+}
+
+// LookupResourcesResult is a single found resource within a batched
+// LookupResourcesResponse (see LookupResourcesBatch.results).
+message LookupResourcesResult {
+  // resource_object_id is the object ID of the found resource.
+  string resource_object_id = 1;
+
+  // permissionship indicates whether the result was partially evaluated or not.
+  LookupPermissionship permissionship = 2 [
+    (validate.rules).enum = {
+      defined_only: true
+      not_in: [0]
+    },
+    (buf.validate.field).enum = {
+      defined_only: true
+      not_in: [0]
+    }
+  ];
+
+  // partial_caveat_info holds information of a partially-evaluated caveated result.
+  PartialCaveatInfo partial_caveat_info = 3 [
+    (validate.rules).message.required = false,
+    (buf.validate.field).required = false
+  ];
 }
 
 // LookupSubjectsRequest performs a lookup of all subjects of a particular
