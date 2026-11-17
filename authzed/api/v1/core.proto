@@ -153,12 +153,18 @@ message Cursor {
 //
 // DELETE will delete the relationship. If the relationship does not exist,
 // this operation will no-op.
+//
+// EXPIRE is never valid in a write. It appears only in WatchResponse, which
+// reports it when a relationship was removed because its optional_expires_at
+// passed, and only if the WatchRequest asked for
+// WATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS.
 message RelationshipUpdate {
   enum Operation {
     OPERATION_UNSPECIFIED = 0;
     OPERATION_CREATE = 1;
     OPERATION_TOUCH = 2;
     OPERATION_DELETE = 3;
+    OPERATION_EXPIRE = 4;
   }
   Operation operation = 1 [
     (validate.rules).enum = {

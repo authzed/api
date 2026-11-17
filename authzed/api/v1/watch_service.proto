@@ -32,6 +32,12 @@ enum WatchKind {
   WATCH_KIND_INCLUDE_RELATIONSHIP_UPDATES = 1;
   WATCH_KIND_INCLUDE_SCHEMA_UPDATES = 2;
   WATCH_KIND_INCLUDE_CHECKPOINTS = 3;
+  // Include an OPERATION_EXPIRE update for each relationship that was removed
+  // because its optional_expires_at passed. The update is reported at the
+  // revision where the server removed the relationship, which is at or after
+  // its expiration time. Servers that do not record expirations as changes
+  // return no such updates.
+  WATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS = 4;
 }
 
 // WatchRequest specifies what mutations to watch for, and an optional start point for when to start
@@ -78,7 +84,9 @@ message WatchRequest {
 }
 
 // WatchResponse contains all mutation events in ascending timestamp order.
-// This excludes relationships that were deleted because they expired.
+// Relationships that were removed because they expired are excluded, unless
+// the request includes WATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS; then each
+// is reported as an OPERATION_EXPIRE update.
 // The response includes a field that can be used to resume
 // watching from that point.
 message WatchResponse {

@@ -3052,7 +3052,7 @@
           "$ref": "#/definitions/Relationship"
         }
       },
-      "description": "RelationshipUpdate is used for mutating a single relationship within the\nservice.\n\nCREATE will create the relationship only if it doesn't exist, and error\notherwise.\n\nTOUCH will upsert the relationship, and will not error if it\nalready exists.\n\nDELETE will delete the relationship. If the relationship does not exist,\nthis operation will no-op."
+      "description": "RelationshipUpdate is used for mutating a single relationship within the\nservice.\n\nCREATE will create the relationship only if it doesn't exist, and error\notherwise.\n\nTOUCH will upsert the relationship, and will not error if it\nalready exists.\n\nDELETE will delete the relationship. If the relationship does not exist,\nthis operation will no-op.\n\nEXPIRE is never valid in a write. It appears only in WatchResponse, which\nreports it when a relationship was removed because its optional_expires_at\npassed, and only if the WatchRequest asked for\nWATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS."
     },
     "RelationshipUpdate.Operation": {
       "type": "string",
@@ -3060,7 +3060,8 @@
         "OPERATION_UNSPECIFIED",
         "OPERATION_CREATE",
         "OPERATION_TOUCH",
-        "OPERATION_DELETE"
+        "OPERATION_DELETE",
+        "OPERATION_EXPIRE"
       ],
       "default": "OPERATION_UNSPECIFIED"
     },
@@ -3187,10 +3188,11 @@
         "WATCH_KIND_UNSPECIFIED",
         "WATCH_KIND_INCLUDE_RELATIONSHIP_UPDATES",
         "WATCH_KIND_INCLUDE_SCHEMA_UPDATES",
-        "WATCH_KIND_INCLUDE_CHECKPOINTS"
+        "WATCH_KIND_INCLUDE_CHECKPOINTS",
+        "WATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS"
       ],
       "default": "WATCH_KIND_UNSPECIFIED",
-      "title": "- WATCH_KIND_UNSPECIFIED: Default, just relationship updates (for backwards compatibility)"
+      "description": " - WATCH_KIND_UNSPECIFIED: Default, just relationship updates (for backwards compatibility)\n - WATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS: Include an OPERATION_EXPIRE update for each relationship that was removed\nbecause its optional_expires_at passed. The update is reported at the\nrevision where the server removed the relationship, which is at or after\nits expiration time. Servers that do not record expirations as changes\nreturn no such updates."
     },
     "WatchPermissionSetsResponse": {
       "type": "object",
@@ -3293,7 +3295,7 @@
           "description": "full_revision_metadata contains all transaction metadata given to SpiceDB during the\nrevision that produced the changes in this response. Some datastores (such as CockroachDB)\ncan \"merge\" multiple transactions into a single revision (if the changes occurred concurrently),\nso this field is a list of all transaction metadata seen during the revision."
         }
       },
-      "description": "WatchResponse contains all mutation events in ascending timestamp order.\nThis excludes relationships that were deleted because they expired.\nThe response includes a field that can be used to resume\nwatching from that point."
+      "description": "WatchResponse contains all mutation events in ascending timestamp order.\nRelationships that were removed because they expired are excluded, unless\nthe request includes WATCH_KIND_INCLUDE_RELATIONSHIP_EXPIRATIONS; then each\nis reported as an OPERATION_EXPIRE update.\nThe response includes a field that can be used to resume\nwatching from that point."
     },
     "WatchedPermission": {
       "type": "object",
