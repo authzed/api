@@ -388,6 +388,12 @@ message Precondition {
 // the write will be committed. All updates will be applied transactionally,
 // and if any preconditions fail, the entire transaction will be reverted.
 message WriteRelationshipsRequest {
+  option (buf.validate.message).cel = {
+    id: "write_relationships_no_expire"
+    message: "OPERATION_EXPIRE is only reported by Watch and cannot be written"
+    expression: "this.updates.all(u, u.operation != 4)"
+  };
+
   repeated RelationshipUpdate updates = 1 [(validate.rules).repeated.items.message.required = true];
 
   repeated Precondition optional_preconditions = 2 [(validate.rules).repeated.items.message.required = true]; // To be bounded by configuration
