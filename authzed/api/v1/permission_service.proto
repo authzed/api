@@ -783,8 +783,7 @@ message LookupResourcesRequest {
   // returns initial results sooner. A value around 1000 is a good default.
   //
   // The maximum batch size is bounded by a server-side configuration flag;
-  // requesting more than the server allows is clamped to that maximum rather
-  // than rejected.
+  // requesting more than the server allows is rejected.
   uint32 optional_response_batch_size = 9;
 }
 
