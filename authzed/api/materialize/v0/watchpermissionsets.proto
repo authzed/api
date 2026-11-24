@@ -57,10 +57,10 @@ service WatchPermissionSetsService {
   // and the revision token from the last LookupPermissionSets response.
   rpc LookupPermissionSets(LookupPermissionSetsRequest) returns (stream LookupPermissionSetsResponse) {}
 
-  // DownloadPermissionSets returns URLs to download permission sets data as Avro files.
+  // DownloadPermissionSets returns URLs to download permission sets data as Parquet files.
   // This provides an alternative to LookupPermissionSets for customers who need to download
-  // large datasets efficiently. The returned URLs point to compressed Avro files containing
-  // the permission sets data in a normalized format.
+  // large datasets efficiently. The returned URLs point to compressed Parquet files containing
+  // the permission sets data.
   rpc DownloadPermissionSets(DownloadPermissionSetsRequest) returns (DownloadPermissionSetsResponse) {}
 }
 
